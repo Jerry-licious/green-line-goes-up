@@ -22,12 +22,18 @@ export class Basket extends Map<Good, number> {
         return inventory;
     }
 
+    // Increments the number of goods in this basket.
+    incrementGood(good: Good) {
+        this.set(good, this.get(good) + 1);
+    }
+
     // Makes a new copy of the current basket.
-    copy() {
+    copy(): Basket {
         let copy = new Basket();
         copy.money = this.money;
         for (let good of Good.values) {
             copy.set(good, this.get(good));
         }
+        return copy;
     }
 }
