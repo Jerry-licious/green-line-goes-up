@@ -24,4 +24,7 @@ export namespace Config {
 
     // The number of actors in a given simulation.
     export const actorAmount = 10;
+
+    // The amount of money that starts off in each actor's pocket.
+    export const initialMoneyPerActor = 100;
 }

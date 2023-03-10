@@ -22,6 +22,9 @@ export class Actor {
     // How many units of each labour can an actor produce each day.
     productivity: Map<Good, number>;
 
+    // The amount of goods/services in an actor's possession.
+    inventory: Basket;
+
     personalValue: number;
     expectedMarketPrice: number;
 
@@ -29,6 +32,7 @@ export class Actor {
         this.personalValue = Math.random() * 9 + 2;
         this.expectedMarketPrice = Math.random() * 20;
 
+        // Initialise actor preferences.
         for (let good of Good.values) {
             // Randomise preferences such that each actor likes things differently.
             this.personalValues.set(good, Good.getBaseUtility(good) *
@@ -43,6 +47,7 @@ export class Actor {
                 gaussianRandom(1.0, Config.personalUtilityMultiplierStandardDeviation));
         }
 
+        // Initialise actor productivity.
         for (let labour of Good.labourTypes) {
             this.personalValues.set(labour, Config.baseLabourValue);
             this.expectedMarketPrices.set(labour, this.personalValues.get(labour));
@@ -51,6 +56,9 @@ export class Actor {
             this.productivity.set(labour, Config.baseLabourOutput * Math.min(0.1,
                 gaussianRandom(1.0, Config.labourOutputUtilityMultiplierStandardDeviation)));
         }
+
+        // Initialise actor inventory.
+        this.inventory = Basket.actorInitialInventory();
     }
 
     // Calculates the utility of a particular basket of goods.
