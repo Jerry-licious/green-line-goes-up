@@ -14,5 +14,12 @@ export class Basket extends Map<Good, number> {
         });
     }
 
-    // function changeAmount(Good, )
+    // Makes a new copy of the current basket.
+    copy() {
+        let copy = new Basket();
+        copy.money = this.money;
+        Good.values.forEach((good) => {
+            copy.set(good, this.get(good));
+        });
+    }
 }

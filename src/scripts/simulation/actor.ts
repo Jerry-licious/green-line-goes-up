@@ -5,6 +5,8 @@ import {Basket} from './basket';
 
 // Allows different actors to like each good differently.
 const personalUtilityMultiplierStandardDeviation = 0.25;
+// How much a person values a unit of money.
+const baseMoneyValue = 5.0;
 
 // The utility function of the actor, representing the amount of utility it obtains from consuming a given good.
 function utilityFunction(x: number) {
@@ -38,7 +40,7 @@ export class Actor {
             // How much a person values saving money can also be randomised.
             // The min value has to be greater than 0, otherwise a person would be indifferent towards money and go
             // into debt.
-            this.moneyValue = 5 * Math.min(0.1, gaussianRandom(1.0, personalUtilityMultiplierStandardDeviation));
+            this.moneyValue = baseMoneyValue * Math.min(0.1, gaussianRandom(1.0, personalUtilityMultiplierStandardDeviation));
         });
     }
 
@@ -51,5 +53,15 @@ export class Actor {
             // making the first of each good's worth exactly equal to the personal value.
             totalUtility += this.personalValues.get(good) * utilityFunction(basket.get(good));
         });
+    }
+
+    expectedPrice(good: Good): number {
+        return this.expectedMarketPrices.get(good);
+    }
+    setExpectedPrice(good: Good, value: number) {
+        this.expectedMarketPrices.set(good, value);
+    }
+    changeExpectedPrice(good: Good, value: number) {
+        this.setExpectedPrice(good, this.expectedPrice(good) + value);
     }
 }
