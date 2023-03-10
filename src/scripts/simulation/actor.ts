@@ -86,8 +86,6 @@ export class Actor {
         }
         let bestNextPurchase = currentPurchase;
 
-        console.log(this.personalValues);
-
         // Repeatedly consider if new goods can be bought.
         do {
             // Update the current basket to the previous basket.
@@ -97,16 +95,12 @@ export class Actor {
             // Filter only goods that the person can afford.
             bestNextPurchase = simulation.goodsSold.filter((good) => currentPurchase.basket.money > this.expectedPrice(good))
                 .map((good) => {
-                    console.log("Trying to buy " + good)
                     // Make a copy of the current basket
                     let newBasketIfBought = currentPurchase.basket.copy();
 
                     // Simulate spending the money and buying the good.
                     newBasketIfBought.incrementGood(good);
                     newBasketIfBought.money -= this.expectedPrice(good);
-
-                    console.log(newBasketIfBought);
-                    console.log(this.utilityOf(newBasketIfBought));
 
                     return {
                         basket: newBasketIfBought,
