@@ -1,9 +1,5 @@
 import {Order} from './order';
-
-// The rate at which prices converge.
-const priceVolatilityFactor = 0.2;
-// The flat expected price change when a person does not get paired.
-const unpairedPriceVolatility = 0.2;
+import {Config} from './configs';
 
 export class Market {
     buyOrders: Order[] = [];
@@ -24,7 +20,7 @@ export class Market {
         for (let i = 0; i < pairAmount; i++) {
             let buyOrder = this.buyOrders[i], sellOrder = this.sellOrders[i];
             // If the buyer is willing to pay a price higher than the seller's price, a transaction happens.
-            let priceChange = Math.abs(buyOrder.expectedPrice - sellOrder.expectedPrice) * priceVolatilityFactor;
+            let priceChange = Math.abs(buyOrder.expectedPrice - sellOrder.expectedPrice) * Config.priceVolatilityFactor;
             if (buyOrder.expectedPrice >= sellOrder.expectedPrice) {
                 // TODO: Transaction
                 // Assume that they split the difference.
@@ -49,13 +45,13 @@ export class Market {
             let buyOrder = this.buyOrders[i];
             // And increase their offer towards the average exchange price.
             buyOrder.source.changeExpectedPrice(buyOrder.good,
-                (averageExchangePrice - buyOrder.expectedPrice) * priceVolatilityFactor + unpairedPriceVolatility);
+                (averageExchangePrice - buyOrder.expectedPrice) * Config.priceVolatilityFactor + Config.unpairedPriceVolatility);
         }
         // Go through the unpaired sellers.
         for (let i = pairAmount; i < this.sellOrders.length; i++) {
             let sellOrder = this.sellOrders[i];
             sellOrder.source.changeExpectedPrice(sellOrder.good,
-                (averageExchangePrice - sellOrder.expectedPrice) * priceVolatilityFactor - unpairedPriceVolatility);
+                (averageExchangePrice - sellOrder.expectedPrice) * Config.priceVolatilityFactor - Config.unpairedPriceVolatility);
         }
 
         // TODO: Keep some kind of record after a round of market exchange.
