@@ -1,9 +1,23 @@
 import {Order} from './order';
 import {Config} from './configs';
+import {Good} from './good';
 
 export class Market {
+    good: Good;
     buyOrders: Order[] = [];
     sellOrders: Order[] = [];
+
+
+    constructor(good: Good) {
+        this.good = good;
+    }
+
+    placeBuyOrder(order: Order) {
+        this.buyOrders.push(order);
+    }
+    placeSellOrder(order: Order) {
+        this.sellOrders.push(order);
+    }
 
     process() {
         // Sort from high to low for buyers.
