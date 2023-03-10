@@ -62,6 +62,9 @@ export namespace Good {
         Good.ProcessedMeat, Good.ProcessedFruit, Good.ProcessedVegetables, Good.Dairy, Good.Baked, Good.LuxuryFood,
         Good.Furniture, Good.LuxuryFurniture, Good.Appliance, Good.SmartAppliance, Good.Electronics, Good.Automobiles];
 
+    // All 6 types of labour available in the simulation.
+    export const labourTypes: Good[] = [Good.Mining, Good.Farming, Good.Technical, Good.Forestry, Good.Artisan, Good.Assembly];
+
     export function getBaseUtility(good: string): number {
         switch (good) {
             case Good.Crop: return 10;

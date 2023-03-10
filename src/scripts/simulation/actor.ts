@@ -5,8 +5,15 @@ import {Basket} from './basket';
 
 // Allows different actors to like each good differently.
 const personalUtilityMultiplierStandardDeviation = 0.25;
+// How much a person initially values each unit of their labour. This kick-starts the market and will adjust later.
+const baseLabourValue = 10.0;
 // How much a person values a unit of money.
 const baseMoneyValue = 5.0;
+
+// The base units of labour each person can output at the start of each day.
+const baseLabourOutput = 5.0;
+// Allows different actors to produce differently.
+const labourOutputUtilityMultiplierStandardDeviation = 0.3;
 
 // The utility function of the actor, representing the amount of utility it obtains from consuming a given good.
 function utilityFunction(x: number) {
@@ -23,6 +30,9 @@ export class Actor {
     // The expected market price of each good, used to decide what stuff to buy.
     expectedMarketPrices: Map<Good, number>;
 
+    // How many units of each labour can an actor produce each day.
+    productivity: Map<Good, number>;
+
     personalValue: number;
     expectedMarketPrice: number;
 
@@ -35,12 +45,21 @@ export class Actor {
             this.personalValues.set(good, Good.getBaseUtility(good) *
                 // Make sure that negative preferences doesn't happen for some reason.
                 Math.min(0, gaussianRandom(1.0, personalUtilityMultiplierStandardDeviation)));
-            this.expectedMarketPrices.set(good, this.personalValues.get(good));
+            this.setExpectedPrice(good, this.personalValues.get(good));
 
             // How much a person values saving money can also be randomised.
             // The min value has to be greater than 0, otherwise a person would be indifferent towards money and go
             // into debt.
             this.moneyValue = baseMoneyValue * Math.min(0.1, gaussianRandom(1.0, personalUtilityMultiplierStandardDeviation));
+        });
+
+        Good.labourTypes.forEach((labour: Good) => {
+            this.personalValues.set(labour, baseLabourValue);
+            this.expectedMarketPrices.set(labour, this.personalValues.get(labour));
+
+            // Set the base productivity of each person.
+            this.productivity.set(labour, baseLabourOutput * Math.min(0.1,
+                gaussianRandom(1.0, labourOutputUtilityMultiplierStandardDeviation)));
         });
     }
 
