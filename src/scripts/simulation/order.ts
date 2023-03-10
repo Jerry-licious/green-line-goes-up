@@ -10,14 +10,11 @@ export class Order {
 
     good: Good;
     // The price that the actor expects the market to have.
-    expectedPrice: number;
-    // The value of the actual good.
-    personalValue: number;
+    offerPrice: number;
 
-    constructor(source: Actor, good: Good, expectedPrice: number, personalValue: number) {
+    constructor(source: Actor, good: Good, expectedPrice: number) {
         this.source = source;
         this.good = good;
-        this.expectedPrice = expectedPrice;
-        this.personalValue = personalValue;
+        this.offerPrice = expectedPrice;
     }
 }
