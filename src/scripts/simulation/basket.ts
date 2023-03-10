@@ -9,17 +9,17 @@ export class Basket extends Map<Good, number> {
     constructor() {
         super();
         // Initialise the basket to be empty.
-        Good.values.forEach((good) => {
+        for (let good of Good.values) {
             this.set(good, 0);
-        });
+        }
     }
 
     // Makes a new copy of the current basket.
     copy() {
         let copy = new Basket();
         copy.money = this.money;
-        Good.values.forEach((good) => {
+        for (let good of Good.values) {
             copy.set(good, this.get(good));
-        });
+        }
     }
 }

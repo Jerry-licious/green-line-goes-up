@@ -40,7 +40,7 @@ export class Actor {
         this.personalValue = Math.random() * 9 + 2;
         this.expectedMarketPrice = Math.random() * 20;
 
-        Good.values.forEach((good: Good) => {
+        for (let good of Good.values) {
             // Randomise preferences such that each actor likes things differently.
             this.personalValues.set(good, Good.getBaseUtility(good) *
                 // Make sure that negative preferences doesn't happen for some reason.
@@ -51,27 +51,31 @@ export class Actor {
             // The min value has to be greater than 0, otherwise a person would be indifferent towards money and go
             // into debt.
             this.moneyValue = baseMoneyValue * Math.min(0.1, gaussianRandom(1.0, personalUtilityMultiplierStandardDeviation));
-        });
+        }
 
-        Good.labourTypes.forEach((labour: Good) => {
+        for (let labour of Good.labourTypes) {
             this.personalValues.set(labour, baseLabourValue);
             this.expectedMarketPrices.set(labour, this.personalValues.get(labour));
 
             // Set the base productivity of each person.
             this.productivity.set(labour, baseLabourOutput * Math.min(0.1,
                 gaussianRandom(1.0, labourOutputUtilityMultiplierStandardDeviation)));
-        });
+        }
     }
 
     // Calculates the utility of a particular basket of goods.
-    utilityOf(basket: Basket) {
+    utilityOf(basket: Basket): number {
         let totalUtility = 0;
         // Loop through each item.
-        Good.values.forEach((good: Good) => {
+        for (let good of Good.values) {
             // Since u(1) = 1, the output of the utility function will be directly multiplied by the personal value,
             // making the first of each good's worth exactly equal to the personal value.
             totalUtility += this.personalValues.get(good) * utilityFunction(basket.get(good));
-        });
+        }
+
+        totalUtility += this.moneyValue * utilityFunction(basket.money);
+
+        return totalUtility;
     }
 
     expectedPrice(good: Good): number {
