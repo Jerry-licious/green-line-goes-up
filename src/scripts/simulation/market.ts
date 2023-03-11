@@ -7,6 +7,7 @@ export class Market {
     buyOrders: Order[] = [];
     sellOrders: Order[] = [];
 
+    currentExchangePrice: number;
 
     constructor(good: Good) {
         this.good = good;
@@ -37,8 +38,18 @@ export class Market {
             let priceChange = Math.abs(buyOrder.offerPrice - sellOrder.offerPrice) * Config.priceVolatilityFactor;
             if (buyOrder.offerPrice >= sellOrder.offerPrice) {
                 // TODO: Transaction
+
                 // Assume that they split the difference.
-                exchangePrices.push((buyOrder.offerPrice + sellOrder.offerPrice) / 2);
+                let exchangePrice = (buyOrder.offerPrice + sellOrder.offerPrice) / 2;
+                // Buyer gets the thing and loses the money.
+                buyOrder.source.inventory.incrementGood(buyOrder.good);
+                buyOrder.source.inventory.money -= exchangePrice;
+                // Seller gets the money.
+                sellOrder.source.inventory.money += exchangePrice;
+
+                // Track the exchange price.
+                exchangePrices.push(exchangePrice);
+
                 // A successful transaction updates the price for this good for both the buyer and the seller.
                 // The buyer expects to be able to buy for cheaper.
                 buyOrder.source.changeExpectedPrice(buyOrder.good, -priceChange);
@@ -52,20 +63,43 @@ export class Market {
             }
         }
 
-        let averageExchangePrice = exchangePrices.reduce((sum, price) => sum + price) / pairAmount;
+        // If no people get paired, there will be a divide by 0 error.
+        if (exchangePrices.length > 0) {
+            this.currentExchangePrice = exchangePrices.reduce((sum, price) => sum + price, 0) / exchangePrices.length;
+        } else {
+            // If there are buyers, set the average exchange price to be equal to the highest buying price to attract
+            // sellers.
+            if (this.buyOrders.length > 0) {
+                this.currentExchangePrice = this.buyOrders.reduce((previous, current) =>
+                    previous.offerPrice > current.offerPrice ? previous : current).offerPrice;
+            }
+            // If there are sellers, set the market exchange price to be equal to the lowest selling price to
+            // attract buyers.
+            // This doesn't have to be an else-if, but the branching is here to show that only one of these are
+            // supposed to happen when the pair amount is 0.
+            else if (this.sellOrders.length > 0) {
+                this.currentExchangePrice = this.sellOrders.reduce((previous, current) =>
+                    previous.offerPrice > current.offerPrice ? previous : current).offerPrice;
+            }
+            // If for some reason this market has no buyers nor sellers, set the exchange price to the value of
+            // money to attract some of both.
+            else {
+                this.currentExchangePrice = Config.baseMoneyValue;
+            }
+        }
 
         // Go through the unpaired buyers.
         for (let i = pairAmount; i < this.buyOrders.length; i++) {
             let buyOrder = this.buyOrders[i];
             // And increase their offer towards the average exchange price.
             buyOrder.source.changeExpectedPrice(buyOrder.good,
-                (averageExchangePrice - buyOrder.offerPrice) * Config.priceVolatilityFactor + Config.unpairedPriceVolatility);
+                (this.currentExchangePrice - buyOrder.offerPrice) * Config.priceVolatilityFactor + Config.unpairedPriceVolatility);
         }
         // Go through the unpaired sellers.
         for (let i = pairAmount; i < this.sellOrders.length; i++) {
             let sellOrder = this.sellOrders[i];
             sellOrder.source.changeExpectedPrice(sellOrder.good,
-                (averageExchangePrice - sellOrder.offerPrice) * Config.priceVolatilityFactor - Config.unpairedPriceVolatility);
+                (this.currentExchangePrice - sellOrder.offerPrice) * Config.priceVolatilityFactor - Config.unpairedPriceVolatility);
         }
 
         // TODO: Keep some kind of record after a round of market exchange.

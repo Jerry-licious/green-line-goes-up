@@ -23,7 +23,7 @@ export namespace Config {
     export const unpairedPriceVolatility = 0.2;
 
     // The number of actors in a given simulation.
-    export const actorAmount = 1;
+    export const actorAmount = 10;
 
     // The amount of money that starts off in each actor's pocket.
     export const initialMoneyPerActor = 100;

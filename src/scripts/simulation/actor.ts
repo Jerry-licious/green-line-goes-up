@@ -3,6 +3,7 @@ import {gaussianRandom} from '../util/random';
 import {Basket} from './basket';
 import {Config} from './configs';
 import {Simulation} from './simulation';
+import {Order} from './order';
 
 
 // The utility function of the actor, representing the amount of utility it obtains from consuming a given good.
@@ -44,7 +45,7 @@ export class Actor {
             // How much a person values saving money can also be randomised.
             // The min value has to be greater than 0, otherwise a person would be indifferent towards money and go
             // into debt.
-            this.moneyValue = Config.baseMoneyValue * Math.min(0.1,
+            this.moneyValue = Config.baseMoneyValue * Math.max(0.1,
                 gaussianRandom(1.0, Config.personalUtilityMultiplierStandardDeviation));
         }
 
@@ -113,6 +114,45 @@ export class Actor {
 
         // Returns the final basket.
         return currentPurchase.basket;
+    }
+
+    // Chooses the type of labour that they will produce for the day based on the expected market prices.
+    decideWork(): Good {
+        return Good.labourTypes.map((labour) =>
+            // Calculate the expected income for each type of labour.
+                { return { labour, expectedIncome: this.expectedPrice(labour) * this.productivity.get(labour) } })
+            .reduce((previous, current) =>
+                previous.expectedIncome > current.expectedIncome ? previous : current).labour;
+    }
+
+    // At the beginning of each day, an actor will pick the most profitable work and sell it for money.
+    placeSellOrders(simulation: Simulation) {
+        let work = this.decideWork();
+        // While a worker's productivity may be decimal, buy and sell orders are all done one at a time. So no
+        // fractional amount of labours will be sold.
+        // I know that you don't have to round this, but it's here to clarify the mechanic.
+        for (let i = 0; i < Math.floor(this.productivity.get(work)); i++) {
+            simulation.placeSellOrder(new Order(this, work, this.expectedPrice(work)));
+        }
+    }
+
+    // After working, an actor decides on what to spend the wage on and buys a bunch of stuff.
+    placeBuyOrders(simulation: Simulation) {
+        let basket = this.decideSpendingBasket(simulation);
+
+        basket.forEach((amount, good) => {
+            for (let i = 0; i < amount; i++) {
+                simulation.placeBuyOrder(new Order(this, good, this.expectedPrice(good)));
+            }
+        });
+    }
+
+    // At the end of each day, all actors consume what they bought.
+    consumeGoods() {
+        // TODO: Track utility?
+        for (let good of this.inventory.keys()) {
+            this.inventory.set(good, 0);
+        }
     }
 
     expectedPrice(good: Good): number {

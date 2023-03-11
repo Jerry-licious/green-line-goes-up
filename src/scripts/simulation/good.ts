@@ -53,6 +53,7 @@ export enum Good {
 
 export namespace Good {
     // Why not use Object.values? To preserve type.
+    /*
     export const values: Good[] = [Good.Coal, Good.Oil, Good.Wood, Good.Mineral, Good.PreciousMineral, Good.Rocks, Good.Crop,
         Good.Fruit, Good.Milk, Good.Wool, Good.Meat,
         Good.Mining, Good.Farming, Good.Technical, Good.Forestry, Good.Artisan, Good.Assembly,
@@ -60,10 +61,12 @@ export namespace Good {
         Good.Electricity, Good.ProcessedWood, Good.Chemicals, Good.Metal,
         Good.PreciousMetal, Good.Motor, Good.Circuit, Good.MachineParts, Good.Textile, Good.Flour, Good.Clothes,
         Good.ProcessedMeat, Good.ProcessedFruit, Good.ProcessedVegetables, Good.Dairy, Good.Baked, Good.LuxuryFood,
-        Good.Furniture, Good.LuxuryFurniture, Good.Appliance, Good.SmartAppliance, Good.Electronics, Good.Automobiles];
+        Good.Furniture, Good.LuxuryFurniture, Good.Appliance, Good.SmartAppliance, Good.Electronics,
+         Good.Automobiles];*/
 
     // All 6 types of labour available in the simulation.
     export const labourTypes: Good[] = [Good.Mining, Good.Farming, Good.Technical, Good.Forestry, Good.Artisan, Good.Assembly];
+    export const values = labourTypes;
 
     export function getBaseUtility(good: string): number {
         switch (good) {
