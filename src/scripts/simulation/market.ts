@@ -35,7 +35,6 @@ export class Market {
         for (let i = 0; i < pairAmount; i++) {
             let buyOrder = this.buyOrders[i], sellOrder = this.sellOrders[i];
             // If the buyer is willing to pay a price higher than the seller's price, a transaction happens.
-            let priceChange = Math.abs(buyOrder.offerPrice - sellOrder.offerPrice) * Config.priceVolatilityFactor;
             if (buyOrder.offerPrice >= sellOrder.offerPrice) {
                 // TODO: Transaction
 
@@ -51,6 +50,17 @@ export class Market {
 
                 // Track the exchange price.
                 exchangePrices.push(exchangePrice);
+
+                // A successful transaction updates the price for this good for both the buyer and the seller.
+                // The buyer expects to be able to buy for cheaper.
+                buyOrder.source.changeExpectedPrice(buyOrder.good, -Config.priceVolatilityFactor);
+                // The seller expects to be able to sell for more.
+                sellOrder.source.changeExpectedPrice(sellOrder.good, Config.priceVolatilityFactor);
+            } else {
+                // A failed transaction also updates the expected price, but in the opposite direction.
+                // Both actors try to offer a better deal next time.
+                buyOrder.source.changeExpectedPrice(buyOrder.good, Config.priceVolatilityFactor);
+                sellOrder.source.changeExpectedPrice(sellOrder.good, -Config.priceVolatilityFactor);
             }
         }
 
@@ -83,14 +93,12 @@ export class Market {
         for (let i = pairAmount; i < this.buyOrders.length; i++) {
             let buyOrder = this.buyOrders[i];
             // And increase their offer towards the average exchange price.
-            buyOrder.source.changeExpectedPrice(buyOrder.good,
-                (this.currentExchangePrice - buyOrder.offerPrice) * Config.priceVolatilityFactor + Config.unpairedPriceVolatility);
+            buyOrder.source.changeExpectedPrice(buyOrder.good, Config.priceVolatilityFactor);
         }
         // Go through the unpaired sellers.
         for (let i = pairAmount; i < this.sellOrders.length; i++) {
             let sellOrder = this.sellOrders[i];
-            sellOrder.source.changeExpectedPrice(sellOrder.good,
-                (this.currentExchangePrice - sellOrder.offerPrice) * Config.priceVolatilityFactor - Config.unpairedPriceVolatility);
+            sellOrder.source.changeExpectedPrice(sellOrder.good, -Config.priceVolatilityFactor);
         }
 
         // TODO: Keep some kind of record after a round of market exchange.

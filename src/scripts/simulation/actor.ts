@@ -147,6 +147,16 @@ export class Actor {
         });
     }
 
+    // When the seller successfully sells their labour, they may specialise.
+    onSuccessfulSale(good: Good) {
+        if (this.productivity.has(good)) {
+            let currentProductivity = this.productivity.get(good);
+            // They slightly increase their productivity. The more productive they already are, the less they will
+            // improve.
+            this.productivity.set(good, currentProductivity + Config.specialisationFactor / currentProductivity);
+        }
+    }
+
     // At the end of each day, all actors consume what they bought.
     consumeGoods() {
         // TODO: Track utility?
@@ -162,6 +172,10 @@ export class Actor {
         this.expectedMarketPrices.set(good, value);
     }
     changeExpectedPrice(good: Good, value: number) {
-        this.setExpectedPrice(good, this.expectedPrice(good) + value);
+        let newPrice = this.expectedPrice(good) + value;
+        if (newPrice <= 0) {
+            newPrice = Config.lowestPossiblePrice;
+        }
+        this.setExpectedPrice(good, newPrice);
     }
 }
