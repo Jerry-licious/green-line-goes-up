@@ -25,8 +25,10 @@ export namespace Config {
     // The number of actors in a given simulation.
     export const actorAmount = 100;
 
-    // The amount of money that starts off in each actor's pocket.
-    export const initialMoneyPerActor = 100;
+    // The amount of money that starts off in each individual's pocket.
+    export const initialMoneyPerIndividual = 100;
+    // The amount of money that starts off in each firm's pocket.
+    export const initialMoneyPerFirm = 1000;
 
     // The factor by which actors specialise in their respective labour tasks by getting better after successfully
     // selling their labour.

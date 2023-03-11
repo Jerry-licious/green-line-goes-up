@@ -41,7 +41,7 @@ export class Market {
                 // Assume that they split the difference.
                 let exchangePrice = (buyOrder.offerPrice + sellOrder.offerPrice) / 2;
                 // Buyer gets the thing and loses the money.
-                buyOrder.source.inventory.incrementGood(buyOrder.good);
+                buyOrder.source.inventory.addGood(buyOrder.good);
                 buyOrder.source.inventory.money -= exchangePrice;
                 // Seller gets the money.
                 sellOrder.source.inventory.money += exchangePrice;

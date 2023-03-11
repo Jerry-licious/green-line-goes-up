@@ -15,16 +15,22 @@ export class Basket extends Map<Good, number> {
         }
     }
 
-    // Creates the initial inventory for an actor.
-    static actorInitialInventory(): Basket {
+    // Creates the initial inventory for an individual.
+    static individualInitialInventory(): Basket {
         let inventory = new Basket();
-        inventory.money = Config.initialMoneyPerActor;
+        inventory.money = Config.initialMoneyPerIndividual;
+        return inventory;
+    }
+    // Creates the initial inventory for a firm.
+    static firmInitialInventory(): Basket {
+        let inventory = new Basket();
+        inventory.money = Config.initialMoneyPerFirm;
         return inventory;
     }
 
-    // Increments the number of goods in this basket.
-    incrementGood(good: Good) {
-        this.set(good, this.get(good) + 1);
+    // Changes the number of goods in this basket.
+    addGood(good: Good, amount: number = 1) {
+        this.set(good, this.get(good) + amount);
     }
 
     // Makes a new copy of the current basket.

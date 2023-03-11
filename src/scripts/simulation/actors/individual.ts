@@ -53,7 +53,7 @@ export class Individual extends EconomicActor {
         }
 
         // Initialise actor inventory.
-        this.inventory = Basket.actorInitialInventory();
+        this.inventory = Basket.individualInitialInventory();
     }
 
     // Calculates the utility of a particular basket of goods.
@@ -93,7 +93,7 @@ export class Individual extends EconomicActor {
                     let newBasketIfBought = currentPurchase.basket.copy();
 
                     // Simulate spending the money and buying the good.
-                    newBasketIfBought.incrementGood(good);
+                    newBasketIfBought.addGood(good);
                     newBasketIfBought.money -= this.expectedPrice(good);
 
                     return {
