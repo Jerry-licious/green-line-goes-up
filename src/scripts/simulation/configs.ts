@@ -17,14 +17,21 @@ export namespace Config {
 
 
     // The rate at which prices converge.
-    export const priceVolatilityFactor = 0.2;
+    export const priceVolatilityFactor = 0.1;
     // The flat expected price change when a person does not get paired. This allows them to raise higher/lower
     // prices than the market price to drive price changes.
     export const unpairedPriceVolatility = 0.2;
 
     // The number of actors in a given simulation.
-    export const actorAmount = 10;
+    export const actorAmount = 100;
 
     // The amount of money that starts off in each actor's pocket.
     export const initialMoneyPerActor = 100;
+
+    // The factor by which actors specialise in their respective labour tasks by getting better after successfully
+    // selling their labour.
+    export const specialisationFactor = 0.1;
+
+    // Floor to prevent "overflowing" expected prices into the negatives.
+    export const lowestPossiblePrice = 1.0;
 }

@@ -46,20 +46,11 @@ export class Market {
                 buyOrder.source.inventory.money -= exchangePrice;
                 // Seller gets the money.
                 sellOrder.source.inventory.money += exchangePrice;
+                // And get notified that their good got sold.
+                sellOrder.source.onSuccessfulSale(this.good);
 
                 // Track the exchange price.
                 exchangePrices.push(exchangePrice);
-
-                // A successful transaction updates the price for this good for both the buyer and the seller.
-                // The buyer expects to be able to buy for cheaper.
-                buyOrder.source.changeExpectedPrice(buyOrder.good, -priceChange);
-                // The seller expects to be able to sell for more.
-                sellOrder.source.changeExpectedPrice(sellOrder.good, priceChange);
-            } else {
-                // A failed transaction also updates the expected price, but in the opposite direction.
-                // Both actors try to offer a better deal next time.
-                buyOrder.source.changeExpectedPrice(buyOrder.good, priceChange);
-                sellOrder.source.changeExpectedPrice(sellOrder.good, -priceChange);
             }
         }
 

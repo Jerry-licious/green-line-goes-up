@@ -75,7 +75,7 @@ export class Simulation {
         for (let market of this.markets.values()) {
             for (let actor of this.actors) {
                 actor.changeExpectedPrice(market.good,
-                    (market.currentExchangePrice - actor.expectedPrice(market.good)) * Config.priceVolatilityFactor);
+                    Math.sign(market.currentExchangePrice - actor.expectedPrice(market.good)) * Config.priceVolatilityFactor);
             }
         }
 
