@@ -1,9 +1,10 @@
-import {Good} from './good';
-import {gaussianRandom} from '../util/random';
-import {Basket} from './basket';
-import {Config} from './configs';
-import {Simulation} from './simulation';
-import {Order} from './order';
+import {Good} from '../good';
+import {gaussianRandom} from '../../util/random';
+import {Basket} from '../basket';
+import {Config} from '../configs';
+import {Simulation} from '../simulation';
+import {Order} from '../order';
+import {EconomicActor} from './economic-actor';
 
 
 // The utility function of the actor, representing the amount of utility it obtains from consuming a given good.
@@ -14,25 +15,17 @@ function utilityFunction(x: number) {
     return Math.log2(x + 1);
 }
 
-export class Actor {
+export class Individual extends EconomicActor {
+    // How much the actor values money.
     moneyValue: number;
     // How much a given actor values each good, based on their utility.
     personalValues: Map<Good, number> = new Map<Good, number>();
-    // The expected market price of each good, used to decide what stuff to buy.
-    expectedMarketPrices: Map<Good, number> = new Map<Good, number>();
 
     // How many units of each labour can an actor produce each day.
     productivity: Map<Good, number> = new Map<Good, number>();
 
-    // The amount of goods/services in an actor's possession.
-    inventory: Basket;
-
-    personalValue: number;
-    expectedMarketPrice: number;
-
     constructor() {
-        this.personalValue = Math.random() * 9 + 2;
-        this.expectedMarketPrice = Math.random() * 20;
+        super();
 
         // Initialise actor preferences.
         for (let good of Good.values) {

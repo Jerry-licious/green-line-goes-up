@@ -1,20 +1,20 @@
-import {Actor} from './actor';
 import {Good} from './good';
 import {Market} from './market';
 import {Config} from './configs';
 import {Order} from './order';
+import {Individual} from './actors/individual';
 
 
 export class Simulation {
     // All individual actors in the simulation.
-    actors: Actor[] = [];
+    individuals: Individual[] = [];
     // All markets in the simulation, starts off empty and opens up as people place buy and sell orders.
     markets: Map<Good, Market> = new Map<Good, Market>();
 
     constructor() {
         // Populate the world with actors.
         for (let i = 0; i < Config.actorAmount; i++) {
-            this.actors.push(new Actor());
+            this.individuals.push(new Individual());
         }
     }
 
@@ -49,13 +49,13 @@ export class Simulation {
     // Runs one tick of the simulation.
     tick() {
         // At the beginning of each day, each actor places sell orders on their goods.
-        for (let actor of this.actors) {
-            actor.placeSellOrders(this);
+        for (let individual of this.individuals) {
+            individual.placeSellOrders(this);
         }
 
         // Then, with the money they earned from the previous day (or the ones they started with), they buy things
         // from the market.
-        for (let actor of this.actors) {
+        for (let actor of this.individuals) {
             actor.placeBuyOrders(this);
         }
 
@@ -73,14 +73,14 @@ export class Simulation {
         // As a result, all actors update their perception of price, but actors who participate in the market are
         // more influenced.
         for (let market of this.markets.values()) {
-            for (let actor of this.actors) {
+            for (let actor of this.individuals) {
                 actor.changeExpectedPrice(market.good,
                     Math.sign(market.currentExchangePrice - actor.expectedPrice(market.good)) * Config.priceVolatilityFactor);
             }
         }
 
         // When each day finishes, the actors consume their goods.
-        for (let actor of this.actors) {
+        for (let actor of this.individuals) {
             actor.consumeGoods();
         }
     }
