@@ -10,6 +10,8 @@ import {Order} from '../order';
 export class Firm extends EconomicActor {
     // The recipe that the firm uses to transform labour.
     recipe: Recipe;
+    // The maximum number of times by which the recipe can be used in a single tick.
+    maxCapacity: number = 250;
 
     constructor(recipe: Recipe) {
         super();
@@ -34,30 +36,44 @@ export class Firm extends EconomicActor {
     }
 
     // At the beginning of each day, a firm tries to buy as many things as possible for them to fill their recipe.
-    placeBuyOrders(simulation: Simulation): void {
-        // Determines the number of times to use the recipe.
-        let amount = Math.floor(this.inventory.money / this.recipeCost);
-        // Apply the recipe this many times.
-        for (let i = 0; i < amount; i++) {
-            // Place order for each of the inputs.
-            for (let input of this.recipe.inputs.entries()) {
-                for (let j = 0; j < input[1]; j++) {
-                    simulation.placeBuyOrder(new Order(this, input[0], this.expectedPrice(input[0])));
-                }
+    setBuyGoals(simulation: Simulation) {
+        // Clear the previous buy goal.
+        this.buyGoal = new Map<Good, number>();
+        for (let input of this.recipe.inputs) {
+            // Always buy to function at max capacity.
+            this.buyGoal.set(input[0], input[1] * this.maxCapacity);
+        }
+    }
+
+    placeBuyOrders(simulation: Simulation) {
+        this.setBuyGoals(simulation);
+        for (let goal of this.buyGoal) {
+            // The portion of the cost that this component represents.
+            let priceWeight = this.expectedPrice(goal[0]) / this.recipeCost;
+
+            let buyOrder = new Order(this, goal[0], this.inventory.money / this.maxCapacity * priceWeight);
+            for (let i = 0; i < goal[1]; i++) {
+                simulation.placeBuyOrder(buyOrder);
             }
         }
     }
 
-    // The firm will always try to sell off all of its outputs.
-    placeSellOrders(simulation: Simulation): void {
-        for (let output of this.recipe.outputs.keys()) {
-            for (let i = 0; i < this.inventory.get(output); i++) {
-                simulation.placeSellOrder(new Order(this, output, this.expectedPrice(output)));
-            }
+    setSellGoals(simulation: Simulation) {
+        // Clear the previous sell goal.
+        this.sellGoal = new Map<Good, number>();
+
+        // Try to sell all the outputs.
+        for (let output of this.recipe.outputs) {
+            this.sellGoal.set(output[0], this.inventory.get(output[0]));
         }
     }
 
     consumeGoods(): void {
+        // Clear off anything leftover?
+        /*
+        for (let output of this.recipe.outputs) {
+            this.inventory.set(output[0], 0);
+        }*/
         // The firm tries to execute the recipe for as many times as possible.
         while (this.recipe.canApply(this.inventory)) {
             this.recipe.apply(this.inventory);
@@ -66,6 +82,7 @@ export class Firm extends EconomicActor {
 
     // When a firm successfully sells something, it loses that item.
     onSuccessfulSale(good: Good): void {
+        super.onSuccessfulSale(good);
         this.inventory.addGood(good, -1);
     }
 }

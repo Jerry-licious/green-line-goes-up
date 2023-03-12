@@ -6,7 +6,7 @@ export namespace Config {
     // How much a person initially values each unit of their labour. This kick-starts the market and will adjust later.
     export const baseLabourValue = 10.0;
     // How much a person values a unit of money.
-    export const baseMoneyValue = 5.0;
+    export const baseMoneyValue = 1.0;
 
     // The base units of labour each person can output at the start of each day.
     export const baseLabourOutput = 5.0;
@@ -17,7 +17,7 @@ export namespace Config {
 
 
     // The rate at which prices converge.
-    export const priceVolatilityFactor = 0.1;
+    export const priceVolatilityFactor = 0.2;
     // The flat expected price change when a person does not get paired. This allows them to raise higher/lower
     // prices than the market price to drive price changes.
     export const unpairedPriceVolatility = 0.2;
@@ -28,7 +28,7 @@ export namespace Config {
     // The amount of money that starts off in each individual's pocket.
     export const initialMoneyPerIndividual = 100;
     // The amount of money that starts off in each firm's pocket.
-    export const initialMoneyPerFirm = 1000;
+    export const initialMoneyPerFirm = 5000;
 
     // The factor by which actors specialise in their respective labour tasks by getting better after successfully
     // selling their labour.

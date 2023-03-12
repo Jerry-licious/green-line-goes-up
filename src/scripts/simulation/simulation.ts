@@ -3,11 +3,16 @@ import {Market} from './market';
 import {Config} from './configs';
 import {Order} from './order';
 import {Individual} from './actors/individual';
+import {Firm} from './actors/firm';
+import {EconomicActor} from './actors/economic-actor';
+import {Recipe} from './actors/recipe';
 
 
 export class Simulation {
     // All individual actors in the simulation.
     individuals: Individual[] = [];
+    resources: Firm[] = [];
+
     // All markets in the simulation, starts off empty and opens up as people place buy and sell orders.
     markets: Map<Good, Market> = new Map<Good, Market>();
 
@@ -16,11 +21,31 @@ export class Simulation {
         for (let i = 0; i < Config.actorAmount; i++) {
             this.individuals.push(new Individual());
         }
+
+
+        this.resources.push(new Firm(new Recipe(
+            new Map([[Good.Farming, 1]]),
+            new Map([[Good.Crop, 1]])
+        )));
+        this.resources.push(new Firm(new Recipe(
+            new Map([[Good.Farming, 1]]),
+            new Map([[Good.Meat, 1]])
+        )));
+        /*
+        this.resources.push(new Firm(new Recipe(
+            new Map([[Good.Farming, 1]]),
+            new Map([[Good.Fruit, 1]])
+        )));*/
     }
 
     // A list of goods exchanged on the market.
     get goodsSold(): Good[] {
         return Array.from(this.markets.keys());
+    }
+
+    // Returns the list of *all* actors.
+    getAllActors(): EconomicActor[] {
+        return [].concat(this.individuals).concat(this.resources);
     }
 
     // Allows actors to place buy and sell orders on the market.
@@ -48,14 +73,16 @@ export class Simulation {
 
     // Runs one tick of the simulation.
     tick() {
-        // At the beginning of each day, each actor places sell orders on their goods.
-        for (let individual of this.individuals) {
-            individual.placeSellOrders(this);
+        let actors = this.getAllActors();
+
+        for (let actor of actors) {
+            // At the beginning of each day, each actor places sell orders on their goods.
+            actor.placeSellOrders(this);
         }
 
-        // Then, with the money they earned from the previous day (or the ones they started with), they buy things
-        // from the market.
-        for (let actor of this.individuals) {
+        for (let actor of actors) {
+            // Then, with the money they earned from the previous day (or the ones they started with), they buy things
+            // from the market.
             actor.placeBuyOrders(this);
         }
 
@@ -64,6 +91,16 @@ export class Simulation {
             market.process();
         }
 
+        // When each day finishes, the actors consume their goods.
+        for (let actor of actors) {
+            actor.updatePriceExpectationsBasedOnGoals();
+            actor.consumeGoods();
+        }
+
+        this.gossip();
+    }
+
+    gossip() {
         // Using the order placement system, actors will only act on their expected price and will not inform of the
         // market if they would like to buy more for cheaper, or sell more for more money.
         // With actors only updating their perception of price on the market, other people will be unnoticed even
@@ -77,11 +114,6 @@ export class Simulation {
                 actor.changeExpectedPrice(market.good,
                     Math.sign(market.currentExchangePrice - actor.expectedPrice(market.good)) * Config.priceVolatilityFactor);
             }
-        }
-
-        // When each day finishes, the actors consume their goods.
-        for (let actor of this.individuals) {
-            actor.consumeGoods();
         }
     }
 }

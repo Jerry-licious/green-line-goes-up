@@ -44,8 +44,10 @@ export class Individual extends EconomicActor {
 
         // Initialise actor productivity.
         for (let labour of Good.labourTypes) {
-            this.personalValues.set(labour, Config.baseLabourValue);
-            this.expectedMarketPrices.set(labour, this.personalValues.get(labour));
+            // this.personalValues.set(labour, Config.baseLabourValue);
+            // Individuals do not consume labour, and therefore do not value them.
+            // However, they do expect their work to be worth something.
+            this.expectedMarketPrices.set(labour, Config.baseLabourValue);
 
             // Set the base productivity of each person.
             this.productivity.set(labour, Config.baseLabourOutput * Math.max(0.1,
@@ -80,6 +82,8 @@ export class Individual extends EconomicActor {
         }
         let bestNextPurchase = currentPurchase;
 
+        let count = 0;
+
         // Repeatedly consider if new goods can be bought.
         do {
             // Update the current basket to the previous basket.
@@ -103,50 +107,51 @@ export class Individual extends EconomicActor {
                 })  // Return the basket with the largest utility
                 .reduce((previous, current) =>
                     previous.utility > current.utility ? previous : current, currentPurchase);
+
+            /*
+            count++;
+            if (count > 100) {
+                console.log("stuck");
+                console.log(this.expectedMarketPrices);
+                console.log(bestNextPurchase);
+                throw new Error();
+            }*/
         } while (bestNextPurchase.utility > currentPurchase.utility);
 
         // Returns the final basket.
         return currentPurchase.basket;
     }
 
-    // Chooses the type of labour that they will produce for the day based on the expected market prices.
-    decideWork(): Good {
-        return Good.labourTypes.map((labour) =>
+    setSellGoals(simulation: Simulation) {
+        let mostProfitableLabour = Good.labourTypes.map((labour) =>
             // Calculate the expected income for each type of labour.
                 { return { labour, expectedIncome: this.expectedPrice(labour) * this.productivity.get(labour) } })
             .reduce((previous, current) =>
                 previous.expectedIncome > current.expectedIncome ? previous : current).labour;
+
+        this.sellGoal = new Map<Good, number>([[mostProfitableLabour,
+            Math.floor(this.productivity.get(mostProfitableLabour))]]);
     }
 
-    // At the beginning of each day, an actor will pick the most profitable work and sell it for money.
-    placeSellOrders(simulation: Simulation) {
-        let work = this.decideWork();
-        // While a worker's productivity may be decimal, buy and sell orders are all done one at a time. So no
-        // fractional amount of labours will be sold.
-        // I know that you don't have to round this, but it's here to clarify the mechanic.
-        for (let i = 0; i < Math.floor(this.productivity.get(work)); i++) {
-            simulation.placeSellOrder(new Order(this, work, this.expectedPrice(work)));
-        }
-    }
-
-    // After working, an actor decides on what to spend the wage on and buys a bunch of stuff.
-    placeBuyOrders(simulation: Simulation) {
-        let basket = this.decideSpendingBasket(simulation);
-
-        basket.forEach((amount, good) => {
-            for (let i = 0; i < amount; i++) {
-                simulation.placeBuyOrder(new Order(this, good, this.expectedPrice(good)));
+    setBuyGoals(simulation: Simulation) {
+        // First clear the buy goal.
+        this.buyGoal = new Map<Good, number>();
+        for (let goal of this.decideSpendingBasket(simulation)) {
+            // If the actor wants to buy something.
+            if (goal[1] > 0) {
+                this.buyGoal.set(goal[0], goal[1]);
             }
-        });
+        }
     }
 
     // When the seller successfully sells their labour, they may specialise.
     onSuccessfulSale(good: Good) {
+        super.onSuccessfulSale(good);
         if (this.productivity.has(good)) {
             let currentProductivity = this.productivity.get(good);
             // They slightly increase their productivity. The more productive they already are, the less they will
             // improve.
-            this.productivity.set(good, currentProductivity + Config.specialisationFactor / currentProductivity);
+            // this.productivity.set(good, currentProductivity + Config.specialisationFactor / currentProductivity);
         }
     }
 
