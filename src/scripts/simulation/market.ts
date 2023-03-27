@@ -7,7 +7,7 @@ export class Market {
     buyOrders: Order[] = [];
     sellOrders: Order[] = [];
 
-    currentExchangePrice: number;
+    currentExchangePrice: number = Config.baseLabourValue;
 
     exchangeHistory: number[] = [];
 
@@ -24,10 +24,12 @@ export class Market {
 
     process() {
         // Sort from high to low for buyers.
-        this.buyOrders.sort((a, b) => b.offerPrice - a.offerPrice);
-        // And low to high for sellers.
         // Such that each buyer and seller will be matched with each other.
-        this.sellOrders.sort((a, b) => a.offerPrice - b.offerPrice);
+        this.buyOrders.sort((a, b) => b.offerPrice - a.offerPrice);
+        // Randomise the order of the sellers to smooth income.
+        this.sellOrders = this.sellOrders.map((order) => { return { order: order, value: Math.random() } })
+            .sort((a, b) => a.value - b.value)
+            .map((info) => info.order);
 
         // The amount of pairs can be made between buyers and sellers.
         let pairAmount = Math.min(this.buyOrders.length, this.sellOrders.length);
@@ -94,7 +96,7 @@ export class Market {
             // If for some reason this market has no buyers nor sellers, set the exchange price to the value of
             // money to attract some of both.
             else {
-                this.currentExchangePrice = Config.baseMoneyValue;
+                this.currentExchangePrice = 0;
             }
         }
 

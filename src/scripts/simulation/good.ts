@@ -64,28 +64,41 @@ export namespace Good {
          Good.Automobiles];
 
     // All 6 types of labour available in the simulation.
-    export const labourTypes: Good[] = [/*Good.Mining, */Good.Farming, /*Good.Technical, Good.Forestry, Good.Artisan,
-     Good.Assembly*/];
+    export const labourTypes: Good[] = [Good.Mining, Good.Farming, Good.Technical, Good.Forestry, Good.Artisan,
+     Good.Assembly];
 
     export function getBaseUtility(good: string): number {
         switch (good) {
-            case Good.Crop: return 11;
-            case Good.Fruit: return 13;
-            case Good.Milk: return 12;
-            case Good.Meat: return 20;
-            case Good.Clothes: return 25;
-            case Good.ProcessedMeat: return 15;
-            case Good.ProcessedFruit: return 8;
+            case Good.Crop: return 10;
+            case Good.Milk: return 25;
+            case Good.Meat: return 30;
+            case Good.Clothes: return 35;
+            case Good.ProcessedMeat: return 20;
             case Good.ProcessedVegetables: return 7;
-            case Good.Dairy: return 20;
-            case Good.Baked: return 15;
-            case Good.LuxuryFood: return 30;
-            case Good.LuxuryFurniture: return 50;
-            case Good.Appliance: return 40;
-            case Good.SmartAppliance: return 60;
-            case Good.Electronics: return 50;
-            case Good.Automobiles: return 80;
+            case Good.Dairy: return 60;
+            case Good.Baked: return 25;
+            case Good.LuxuryFood: return 100;
+            case Good.Furniture: return 100;
+            case Good.LuxuryFurniture: return 300;
+            case Good.Appliance: return 200;
+            case Good.SmartAppliance: return 500;
+            case Good.Electronics: return 300;
+            case Good.Automobiles: return 600;
             default: return 0;
+        }
+    }
+
+    export function isLabour(good: string) {
+        switch (good) {
+            case Good.Mining:
+            case Good.Farming:
+            case Good.Technical:
+            case Good.Forestry:
+            case Good.Artisan:
+            case Good.Assembly:
+                return true;
+            default:
+                return false;
         }
     }
 }

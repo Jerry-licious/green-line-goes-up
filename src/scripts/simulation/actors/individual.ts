@@ -3,8 +3,8 @@ import {gaussianRandom} from '../../util/random';
 import {Basket} from '../basket';
 import {Config} from '../configs';
 import {Simulation} from '../simulation';
-import {Order} from '../order';
 import {EconomicActor} from './economic-actor';
+import {FirmTier} from '../firm-tier';
 
 
 // The utility function of the actor, representing the amount of utility it obtains from consuming a given good.
@@ -73,25 +73,26 @@ export class Individual extends EconomicActor {
         return totalUtility;
     }
 
+    // If this actor wants something and can afford it.
+    willingAndAbleToBuy(simulation: Simulation, currentBasket: Basket, desiredGood: Good) {
+        return simulation.goodsSold.some((good) =>
+            good == desiredGood && this.personalValues.get(good) > 0 && currentBasket.money > this.expectedPrice(good));
+    }
+
     // The actor evaluates different consumption possibilities and creates a new basket that provides the highest
     // amount of utility.
     decideSpendingBasket(simulation: Simulation): Basket {
         let currentPurchase = {
             basket: this.inventory,
-            utility: this.utilityOf(this.inventory)
+            marginalMoneyEfficiency: this.utilityOf(this.inventory)
         }
         let bestNextPurchase = currentPurchase;
 
-        let count = 0;
-
         // Repeatedly consider if new goods can be bought.
-        do {
-            // Update the current basket to the previous basket.
-            currentPurchase = bestNextPurchase;
-
+        while (simulation.goodsSold.some((good) => this.willingAndAbleToBuy(simulation, currentPurchase.basket, good))) {
             // Update the new basket.
             // Filter only goods that the person can afford.
-            bestNextPurchase = simulation.goodsSold.filter((good) => currentPurchase.basket.money > this.expectedPrice(good))
+            bestNextPurchase = simulation.goodsSold.filter((good) => this.willingAndAbleToBuy(simulation, currentPurchase.basket, good))
                 .map((good) => {
                     // Make a copy of the current basket
                     let newBasketIfBought = currentPurchase.basket.copy();
@@ -102,21 +103,16 @@ export class Individual extends EconomicActor {
 
                     return {
                         basket: newBasketIfBought,
-                        utility: this.utilityOf(newBasketIfBought)
+                        marginalMoneyEfficiency: (this.utilityOf(newBasketIfBought) - this.utilityOf(currentPurchase.basket))
+                            / this.expectedPrice(good)
                     }
                 })  // Return the basket with the largest utility
                 .reduce((previous, current) =>
-                    previous.utility > current.utility ? previous : current, currentPurchase);
+                    previous.marginalMoneyEfficiency > current.marginalMoneyEfficiency ? previous : current);
 
-            /*
-            count++;
-            if (count > 100) {
-                console.log("stuck");
-                console.log(this.expectedMarketPrices);
-                console.log(bestNextPurchase);
-                throw new Error();
-            }*/
-        } while (bestNextPurchase.utility > currentPurchase.utility);
+            // Update the current basket to the previous basket.
+            currentPurchase = bestNextPurchase;
+        }
 
         // Returns the final basket.
         return currentPurchase.basket;
@@ -161,19 +157,5 @@ export class Individual extends EconomicActor {
         for (let good of this.inventory.keys()) {
             this.inventory.set(good, 0);
         }
-    }
-
-    expectedPrice(good: Good): number {
-        return this.expectedMarketPrices.get(good);
-    }
-    setExpectedPrice(good: Good, value: number) {
-        this.expectedMarketPrices.set(good, value);
-    }
-    changeExpectedPrice(good: Good, value: number) {
-        let newPrice = this.expectedPrice(good) + value;
-        if (newPrice <= 0) {
-            newPrice = Config.lowestPossiblePrice;
-        }
-        this.setExpectedPrice(good, newPrice);
     }
 }

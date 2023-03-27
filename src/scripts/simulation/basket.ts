@@ -15,6 +15,14 @@ export class Basket extends Map<Good, number> {
         }
     }
 
+    static withItems(items: Map<Good, number>): Basket {
+        let basket = new Basket();
+        for (let item of items) {
+            basket.set(item[0], item[1]);
+        }
+        return basket;
+    }
+
     // Creates the initial inventory for an individual.
     static individualInitialInventory(): Basket {
         let inventory = new Basket();

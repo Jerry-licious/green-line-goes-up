@@ -98,7 +98,7 @@ export abstract class EconomicActor {
     }
     changeExpectedPrice(good: Good, value: number) {
         let newPrice = this.expectedPrice(good) + value;
-        if (newPrice <= 0) {
+        if (newPrice <= Config.lowestPossiblePrice) {
             newPrice = Config.lowestPossiblePrice;
         }
         this.setExpectedPrice(good, newPrice);

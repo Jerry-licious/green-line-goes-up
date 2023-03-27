@@ -9,18 +9,17 @@ export namespace Config {
     export const baseMoneyValue = 1.0;
 
     // The base units of labour each person can output at the start of each day.
-    export const baseLabourOutput = 5.0;
+    export const baseLabourOutput = 10.0;
     // The base productivity of each actor will be multiplied by a random number, whose mean will be 1 and whose SD will
     // be equal to this.
     // Allows different actors to produce differently.
-    export const labourOutputUtilityMultiplierStandardDeviation = 0.3;
+    export const labourOutputUtilityMultiplierStandardDeviation = 0.1;
 
 
     // The rate at which prices converge.
     export const priceVolatilityFactor = 0.2;
-    // The flat expected price change when a person does not get paired. This allows them to raise higher/lower
-    // prices than the market price to drive price changes.
-    export const unpairedPriceVolatility = 0.2;
+    // The effect of gossipping on the expected prices.
+    export const gossipInfluence = 0.1;
 
     // The number of actors in a given simulation.
     export const actorAmount = 100;
@@ -28,12 +27,21 @@ export namespace Config {
     // The amount of money that starts off in each individual's pocket.
     export const initialMoneyPerIndividual = 100;
     // The amount of money that starts off in each firm's pocket.
-    export const initialMoneyPerFirm = 5000;
+    export const initialMoneyPerFirm = 0;
 
     // The factor by which actors specialise in their respective labour tasks by getting better after successfully
     // selling their labour.
     export const specialisationFactor = 0.1;
 
     // Floor to prevent "overflowing" expected prices into the negatives.
-    export const lowestPossiblePrice = 1.0;
+    export const lowestPossiblePrice = 0;
+
+    // The amount that the production goal gets changed by upon successful or unsuccessful sale.
+    export const productionGoalVolatility = 2;
+
+    // The number of days for which the firm remembers its sales records.
+    export const firmTrackDays = 5;
+
+    // Every tier of upgrade increases the amount of product produced, and reduces the amount of labour consumed.
+    export const upgradeMultiplier = 1.58;
 }

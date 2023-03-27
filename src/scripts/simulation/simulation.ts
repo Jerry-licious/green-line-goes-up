@@ -6,6 +6,7 @@ import {Individual} from './actors/individual';
 import {Firm} from './actors/firm';
 import {EconomicActor} from './actors/economic-actor';
 import {Recipe} from './actors/recipe';
+import {FirmTier} from './firm-tier';
 
 
 export class Simulation {
@@ -23,19 +24,14 @@ export class Simulation {
         }
 
 
-        this.resources.push(new Firm(new Recipe(
+        this.resources.push(new Firm("", new Recipe(
             new Map([[Good.Farming, 1]]),
-            new Map([[Good.Crop, 1]])
-        )));
-        this.resources.push(new Firm(new Recipe(
-            new Map([[Good.Farming, 1]]),
+            new Map([[Good.Crop, 5]])
+        ), FirmTier.Manual, FirmTier.Advanced));
+        this.resources.push(new Firm("", new Recipe(
+            new Map([[Good.Farming, 1], [Good.Farming, 1]]),
             new Map([[Good.Meat, 1]])
-        )));
-        /*
-        this.resources.push(new Firm(new Recipe(
-            new Map([[Good.Farming, 1]]),
-            new Map([[Good.Fruit, 1]])
-        )));*/
+        ), FirmTier.Manual, FirmTier.Advanced));
     }
 
     // A list of goods exchanged on the market.
@@ -111,8 +107,19 @@ export class Simulation {
         // more influenced.
         for (let market of this.markets.values()) {
             for (let actor of this.individuals) {
+                if (Good.isLabour(market.good)) {
+                    actor.changeExpectedPrice(market.good,
+                        Math.sign(market.currentExchangePrice - actor.expectedPrice(market.good)) * Config.gossipInfluence * 2);
+                } else {
+                    actor.changeExpectedPrice(market.good,
+                        Math.sign(market.currentExchangePrice - actor.expectedPrice(market.good)) * Config.gossipInfluence);
+                }
+            }
+            // Firms take stronger influence from the market price, but only for labour. This makes them price
+            // takers of labour rather than price setters.
+            for (let actor of this.resources) {
                 actor.changeExpectedPrice(market.good,
-                    Math.sign(market.currentExchangePrice - actor.expectedPrice(market.good)) * Config.priceVolatilityFactor);
+                    Math.sign(market.currentExchangePrice - actor.expectedPrice(market.good)) * Config.priceVolatilityFactor * 2);
             }
         }
     }
