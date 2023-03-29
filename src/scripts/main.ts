@@ -1,5 +1,5 @@
 import {Simulation} from './simulation/simulation';
-import {NavigationBar} from './widget/widgets/nav/navigation-bar';
+import {Game} from './widget/widgets/game/game';
 
 let simulation = new Simulation();
 console.log(simulation);
@@ -13,11 +13,8 @@ for (let i = 0; i < 200; i++) {
 console.log(simulation);
 */
 
-let navigationBar = new NavigationBar();
-let topBar = document.querySelector('.game .top-bar')
-
-topBar.insertBefore(navigationBar.domElement, topBar.firstElementChild);
-navigationBar.rerender();
+let navigationBar = new Game();
+document.body.append(navigationBar.domElement);
 
 // @ts-ignore
 window["simulation"] = simulation;

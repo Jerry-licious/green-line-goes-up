@@ -7,9 +7,10 @@ import {Firm} from './actors/firm';
 import {EconomicActor} from './actors/economic-actor';
 import {Recipe} from './actors/recipe';
 import {FirmTier} from './firm-tier';
+import {Widget} from '../widget/widgets/widget';
 
 
-export class Simulation {
+export class Simulation extends Widget<any>{
     // All individual actors in the simulation.
     individuals: Individual[] = [];
     resources: Firm[] = [];
@@ -18,6 +19,8 @@ export class Simulation {
     markets: Map<Good, Market> = new Map<Good, Market>();
 
     constructor() {
+        super('div');
+
         // Populate the world with actors.
         for (let i = 0; i < Config.actorAmount; i++) {
             this.individuals.push(new Individual());
@@ -27,11 +30,11 @@ export class Simulation {
         this.resources.push(new Firm("", new Recipe(
             new Map([[Good.Farming, 1]]),
             new Map([[Good.Crop, 5]])
-        ), FirmTier.Manual, FirmTier.Advanced));
+        ), FirmTier.Manual, FirmTier.Advanced, false, false, 250));
         this.resources.push(new Firm("", new Recipe(
             new Map([[Good.Farming, 1], [Good.Farming, 1]]),
             new Map([[Good.Meat, 1]])
-        ), FirmTier.Manual, FirmTier.Advanced));
+        ), FirmTier.Manual, FirmTier.Advanced, false, false, 250));
     }
 
     // A list of goods exchanged on the market.
@@ -122,5 +125,9 @@ export class Simulation {
                     Math.sign(market.currentExchangePrice - actor.expectedPrice(market.good)) * Config.priceVolatilityFactor * 2);
             }
         }
+    }
+
+    updateElement(state?: any): void {
+        throw new Error("Method not implemented.");
     }
 }
