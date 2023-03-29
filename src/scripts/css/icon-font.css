@@ -1,0 +1,186 @@
+@font-face {
+    font-family: 'green-line';
+    src:
+            url('./fonts/green-line.ttf?aey1uo') format('truetype'),
+            url('./fonts/green-line.woff?aey1uo') format('woff'),
+            url('./fonts/green-line.svg?aey1uo#green-line') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+[class^="green-line"], [class*=" green-line"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'green-line' !important;
+    speak: never;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Enable Ligatures ================ */
+    letter-spacing: 0;
+    -webkit-font-feature-settings: "liga";
+    -moz-font-feature-settings: "liga=1";
+    -moz-font-feature-settings: "liga";
+    -ms-font-feature-settings: "liga" 1;
+    font-feature-settings: "liga";
+    -webkit-font-variant-ligatures: discretionary-ligatures;
+    font-variant-ligatures: discretionary-ligatures;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.green-lineadvanced_tools:before {
+    content: "\e900";
+}
+.green-lineappliance:before {
+    content: "\e901";
+}
+.green-lineartisan:before {
+    content: "\e902";
+}
+.green-lineassembly:before {
+    content: "\e903";
+}
+.green-lineautomobile:before {
+    content: "\e904";
+}
+.green-linebaked:before {
+    content: "\e905";
+}
+.green-linebasic_tools:before {
+    content: "\e906";
+}
+.green-linechemicals:before {
+    content: "\e907";
+}
+.green-linecircuit:before {
+    content: "\e908";
+}
+.green-linecloth:before {
+    content: "\e909";
+}
+.green-lineclothes:before {
+    content: "\e90a";
+}
+.green-linecoal:before {
+    content: "\e90b";
+}
+.green-linecrop:before {
+    content: "\e90c";
+}
+.green-linedairy:before {
+    content: "\e90d";
+}
+.green-lineelectricity:before {
+    content: "\e90e";
+}
+.green-lineelectronic:before {
+    content: "\e90f";
+}
+.green-linefactories:before {
+    content: "\e910";
+}
+.green-linefarming:before {
+    content: "\e911";
+}
+.green-lineflour:before {
+    content: "\e912";
+}
+.green-lineforestry:before {
+    content: "\e913";
+}
+.green-linefruit:before {
+    content: "\e914";
+}
+.green-linefurniture:before {
+    content: "\e915";
+}
+.green-linegovernment:before {
+    content: "\e916";
+}
+.green-lineindustrial_tools:before {
+    content: "\e917";
+}
+.green-lineluxury_food:before {
+    content: "\e918";
+}
+.green-lineluxury_furniture:before {
+    content: "\e919";
+}
+.green-linemachine_part:before {
+    content: "\e91a";
+}
+.green-linemarkets:before {
+    content: "\e91b";
+}
+.green-linemeat:before {
+    content: "\e91c";
+}
+.green-linemetal:before {
+    content: "\e91d";
+}
+.green-linemilk:before {
+    content: "\e91e";
+}
+.green-linemineral:before {
+    content: "\e91f";
+}
+.green-linemining:before {
+    content: "\e920";
+}
+.green-linemobile_tools:before {
+    content: "\e921";
+}
+.green-linemotor:before {
+    content: "\e922";
+}
+.green-lineoil:before {
+    content: "\e923";
+}
+.green-linepopulation:before {
+    content: "\e924";
+}
+.green-lineprecious_metal:before {
+    content: "\e925";
+}
+.green-lineprecious_mineral:before {
+    content: "\e926";
+}
+.green-lineprocessed_fruit:before {
+    content: "\e927";
+}
+.green-lineprocessed_meat:before {
+    content: "\e928";
+}
+.green-lineprocessed_vegetables:before {
+    content: "\e929";
+}
+.green-lineprocessed_wood:before {
+    content: "\e92a";
+}
+.green-lineresources:before {
+    content: "\e92b";
+}
+.green-linerock:before {
+    content: "\e92c";
+}
+.green-linesmart_appliance:before {
+    content: "\e92d";
+}
+.green-linetechnical:before {
+    content: "\e92e";
+}
+.green-linetechnology:before {
+    content: "\e92f";
+}
+.green-linewood:before {
+    content: "\e930";
+}
+.green-linewool:before {
+    content: "\e931";
+}
