@@ -21,7 +21,6 @@ export abstract class Widget<S> {
     render(state?: S): Element {
         this.lastState = state;
 
-        this.clearElement();
         this.updateElement(state);
 
         return this.domElement;
