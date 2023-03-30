@@ -5,7 +5,7 @@ export enum Good {
     Wood = 'wood',
     Mineral = 'mineral',
     PreciousMineral = 'precious_mineral',
-    Rocks = 'rocks',
+    Rocks = 'rock',
     Crop = 'crop',
     Fruit = 'fruit',
     Milk = 'milk',
@@ -19,10 +19,10 @@ export enum Good {
     Artisan = 'artisan',
     Assembly = 'assembly',
     // Equipment
-    BasicEquipment = 'basic_eq',
-    IndustrialEquipment = 'industrial_eq',
-    AdvancedEquipment = 'advanced_eq',
-    MobileEquipment = 'mobile_eq',
+    BasicEquipment = 'basic_tools',
+    IndustrialEquipment = 'industrial_tools',
+    AdvancedEquipment = 'advanced_tools',
+    MobileEquipment = 'mobile_tools',
     Fertilizer = 'fertilizer',
     // Intermediate Goods
     Electricity = 'electricity',
