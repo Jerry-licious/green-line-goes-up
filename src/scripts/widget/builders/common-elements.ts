@@ -45,7 +45,7 @@ export class GameIcon extends ElementBuilder {
         href?: string,
         title?: string,
         onclick?: EventListener
-    }) {
+    } = {}) {
         super({
             tag: 'div', styleClasses: ['green-line', ...styleClasses], children, text: icon, href, title, onclick
         });
@@ -58,7 +58,7 @@ export class GameIconButton extends ElementBuilder {
         href?: string,
         title?: string,
         onclick?: EventListener
-    }) {
+    } = {}) {
         super({
             tag: 'button', styleClasses: ['green-line', ...styleClasses], children, text: icon, href, title, onclick
         });
@@ -71,7 +71,7 @@ export class MaterialIcon extends ElementBuilder {
         href?: string,
         title?: string,
         onclick?: EventListener
-    }) {
+    } = {}) {
         super({
             tag: 'div', styleClasses: ['material-icons', ...styleClasses], children, text: icon, href, title, onclick
         });
