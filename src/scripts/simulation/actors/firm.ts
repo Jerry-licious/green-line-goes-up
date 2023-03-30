@@ -14,6 +14,8 @@ export class Firm extends EconomicActor {
     recipe: Recipe;
     // The maximum number of times by which the recipe can be used in a single tick.
     maxCapacity: number = 250;
+    // How many times was the recipe used in the previous round.
+    lastProduction: number = 0;
     id: string;
 
     // If this firm is industrial, does it consume coal?
@@ -34,6 +36,8 @@ export class Firm extends EconomicActor {
             // orders. Over time they will adjust to the market price.
             this.setExpectedPrice(good, Config.baseLabourValue);
         }
+
+        this.id = id;
 
         this.inventory = Basket.firmInitialInventory();
         this.baseRecipe = recipe;
@@ -113,6 +117,7 @@ export class Firm extends EconomicActor {
     }
 
     consumeGoods(): void {
+        this.lastProduction = 0;
         // Clear off anything leftover?
         /*
         for (let output of this.recipe.outputs) {
@@ -121,6 +126,7 @@ export class Firm extends EconomicActor {
         // The firm tries to execute the recipe for as many times as possible.
         while (this.recipe.canApply(this.inventory)) {
             this.recipe.apply(this.inventory);
+            this.lastProduction++;
         }
     }
 
