@@ -36,5 +36,11 @@ export abstract class Widget<S> {
             .forEach(element => this.domElement.append(element));
     }
 
+    removeChildren(element: Element) {
+        while (element.hasChildNodes()) {
+            element.removeChild(element.firstChild);
+        }
+    }
+
     abstract updateElement(state?: S): void;
 }
