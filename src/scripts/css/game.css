@@ -12,6 +12,77 @@
     align-content: stretch;
 
     --top-bar-size: 80px;
+
+    --factory-width: 400px;
+    --factory-height: 180px;
+
+    --factory-border-radius: 20px;
+    --factory-icon-size: 35px;
+
+    --factory-title-size: 24px;
+
+    --factory-upgrade-size: 50px;
+
+    --factory-capacity-height: 50px;
+
+    --button-height: 40px;
+}
+
+.game button {
+    height: var(--button-height);
+    font-size: calc(var(--button-height) * 0.5);
+
+    border-radius: 10px;
+    border: none;
+
+    animation-duration: 0.3s;
+
+    flex-grow: 0;
+    flex-shrink: 0;
+
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.game button.green-line, .game button.material-icons {
+    font-size: calc(var(--button-height) * 0.75);
+    width: var(--button-height);
+    padding: 0;
+}
+
+.game button.primary {
+    background: var(--primary);
+    color: var(--on-primary);
+}
+.game button.primary:hover {
+    background: var(--primary-hover);
+}
+.game button.primary:active {
+    background: var(--primary-light);
+}
+.game button.primary-container {
+    background: var(--primary-container);
+    color: var(--on-primary-container);
+}
+.game button.primary-container:hover {
+    background: var(--primary-hover);
+}
+.game button.primary-container:active {
+    background: var(--primary-light);
+}
+.game button.secondary {
+    background: var(--secondary);
+    color: var(--on-secondary);
+}
+.game button.secondary:hover {
+    background: var(--secondary-hover);
+}
+.game button.secondary:active {
+    background: var(--secondary-light);
+}
+.game button.error {
+    background: var(--error);
+    color: var(--on-error);
 }
 
 .game .top-bar {
@@ -24,6 +95,10 @@
     height: var(--top-bar-size);
     flex-grow: 0;
     flex-shrink: 0;
+
+    background: var(--surface-highest);
+
+    padding-left: 10px;
 }
 
 .game .top-bar .navigation {
@@ -45,8 +120,6 @@
     flex-direction: column;
     justify-content: center;
     align-content: center;
-
-    border-radius: 8px;
 
     transition-duration: 0.3s;
 
@@ -78,4 +151,154 @@
     display: flex;
     align-content: center;
     justify-content: center;
+}
+
+.game .display {
+    flex-grow: 1;
+}
+
+.game .display .factories {
+    width: 100%;
+    height: 100%;
+
+    padding: 10px;
+
+    /* Horizontal flexbox */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.game .factory {
+    flex-grow: 0;
+    flex-shrink: 0;
+
+    width: var(--factory-width);
+    height: var(--factory-height);
+
+    border-radius: var(--factory-border-radius);
+
+    position: relative;
+}
+
+.game .factory .background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    border-radius: var(--factory-border-radius);
+
+    background-image: url(https://upload.wikimedia.org/wikipedia/commons/7/71/Wolfsburg_VW-Werk.jpg);
+    filter: grayscale(80%);
+}
+
+.game .factory .overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    border-radius: var(--factory-border-radius);
+
+    background-color: rgba(var(--surface-rgb), 0.85);
+
+    /* Vertical flexbox */
+    display: flex;
+    flex-direction: column;
+    align-content: stretch;
+}
+
+.game .factory .content {
+    width: 100%;
+
+    flex-grow: 1;
+    padding-top: var(--factory-border-radius);
+    padding-bottom: var(--factory-border-radius);
+
+    /* Horizontal flexbox */
+    display: flex;
+    flex-direction: row;
+    align-content: stretch;
+
+    gap: 15px;
+}
+
+.game .factory .content .io {
+    /* Vertical flexbox */
+    display: flex;
+    flex-direction: column;
+    align-content: stretch;
+    justify-content: center;
+    gap: 5px;
+}
+
+.game .factory .io .green-line {
+    width: var(--factory-icon-size);
+    height: var(--factory-icon-size);
+
+    flex-grow: 0;
+    flex-shrink: 0;
+
+    background: var(--primary);
+    color: var(--on-primary);
+
+    font-size: var(--factory-icon-size);
+}
+
+.game .factory .info {
+    /* Vertical flexbox */
+    display: flex;
+    flex-direction: column;
+    align-content: stretch;
+    gap: 10px;
+}
+
+.game .factory .top {
+    /* Horizontal flexbox */
+    display: flex;
+    flex-direction: row;
+    align-content: stretch;
+}
+
+.game .factory .name {
+    font-weight: bold;
+    font-size: var(--factory-title-size);
+}
+
+/* Represents an upgrade */
+.game .factory .top .green-line {
+    width: var(--factory-icon-size);
+    height: var(--factory-icon-size);
+    font-size: calc(var(--factory-icon-size) * 0.8);
+
+    background: var(--tertiary);
+    color: var(--on-tertiary);
+
+    border-radius: calc(var(--factory-icon-size) * 0.5);
+}
+
+.game .factory .capacity {
+    flex-grow: 0;
+    flex-shrink: 0;
+
+    height: var(--factory-capacity-height);
+    border-radius: 10px;
+
+    background: var(--surface-high);
+}
+
+.game .factory .capacity .capacity-bar {
+    height: 100%;
+    width: 50%;
+
+    border-radius: 10px;
+
+    background: var(--primary);
+}
+
+.game .factory .actions {
+    /* Horizontal flexbox */
+    display: flex;
+    flex-direction: row;
+
+    gap: 10px;
 }

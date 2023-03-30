@@ -1,6 +1,7 @@
 @import url("./icon-font.css");
 @import url("./game.css");
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
 h1 {
     color: white;
@@ -12,6 +13,8 @@ body {
 
     background: var(--background);
     color: var(--on-background);
+
+    margin: 0;
 }
 
 /* Define the colours here. */
@@ -22,6 +25,7 @@ body {
 
     --surface-low: #191d14;
     --surface: #1d2118;
+    --surface-rgb: 29, 33, 24;
     --surface-high: #272b21;
     --surface-highest: #32362c;
     --surface-bright: #373b30;
@@ -32,6 +36,7 @@ body {
     --primary-hover: #a3dd60;
     --on-primary: #1e3700;
     --primary-container: #2e4f00;
+    --primary-container-rgb: 46, 79, 0;
     --primary-container-hover: #335405;
     --on-primary-container: #b9f474;
 
@@ -43,6 +48,7 @@ body {
 
     /* Blue for technology! */
     --secondary: #0288d1;
+    --secondary-hover: #108dd1;
     --on-secondary: #003353;
     --secondary-container: #004a75;
     --on-secondary-container: #cee5ff;
@@ -52,9 +58,15 @@ body {
     --secondary-dark: #005b9f;
     --secondary-darker: #003270;
 
+    --tertiary: #a0d0cc;
+    --on-tertiary: #003735;
+    --tertiary-container: #1f4e4b;
+    --on-tertiary-container: #bbece8;
 
-
-    --error: #b00020;
+    --error: #F2B8B5;
+    --on-error: #601410;
+    --error-container: #8C1D18;
+    --on-error-container: #F9DEDC;
 
     /* Greyscales */
     --grey-100: #f5f5f5;
@@ -71,4 +83,13 @@ body {
 .primary-container {
     background: var(--primary-container);
     color: var(--on-primary-container);
+}
+
+.green-line {
+    /* Align the icon to the centre */
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
 }
