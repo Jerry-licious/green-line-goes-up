@@ -1,4 +1,5 @@
 import {Config} from './configs';
+import {Good} from './good';
 
 // Firms can be upgraded. Every tier of upgrade dramatically increases their productivity.
 export enum FirmTier {
@@ -29,6 +30,19 @@ export namespace FirmTier {
                 return 2;
             case FirmTier.Advanced:
                 return 3;
+        }
+    }
+
+    export function icon(upgrade: FirmTier): Good {
+        switch (upgrade) {
+            case FirmTier.Manual:
+                return Good.Assembly;
+            case FirmTier.Basic:
+                return Good.BasicEquipment;
+            case FirmTier.Industrial:
+                return Good.IndustrialEquipment;
+            case FirmTier.Advanced:
+                return Good.AdvancedEquipment;
         }
     }
 
