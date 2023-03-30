@@ -48,10 +48,7 @@ export class Firm extends EconomicActor {
 
         this.maxCapacity = capacity;
 
-        // Start with a full stock.
-        for (let output of this.recipe.outputs) {
-            this.inventory.set(output[0], output[1] * this.maxCapacity);
-        }
+        this.inventory.set(this.recipe.output, this.recipe.outputQuantity * this.maxCapacity);
     }
 
     // Calculates the cost of buying materials required for one recipe.
@@ -65,14 +62,7 @@ export class Firm extends EconomicActor {
 
     // A firm always tries to have a full stockpile, but nothing more.
     calculateProductionGoal(): number {
-        let expectedGoal = this.maxCapacity;
-        for (let output of this.recipe.outputs) {
-            let neededProduction = this.maxCapacity - this.inventory.get(output[0]) / output[1];
-            if (neededProduction < expectedGoal) {
-                expectedGoal = neededProduction;
-            }
-        }
-        return this.maxCapacity;
+        return Math.max(0, this.maxCapacity - this.inventory.get(this.recipe.output) / this.recipe.outputQuantity);
     }
 
     // At the beginning of each day, a firm tries to buy as many things as possible for them to fill their recipe.
@@ -118,10 +108,8 @@ export class Firm extends EconomicActor {
         this.sellGoal = new Map<Good, number>();
 
         // Try to sell all the outputs.
-        for (let output of this.recipe.outputs) {
-            // Round down to avoid decimal madness.
-            this.sellGoal.set(output[0], Math.floor(this.inventory.get(output[0])));
-        }
+        // Round down to avoid decimal madness.
+        this.sellGoal.set(this.recipe.output, Math.floor(this.inventory.get(this.recipe.output)));
     }
 
     consumeGoods(): void {
@@ -152,9 +140,7 @@ export class Firm extends EconomicActor {
                 this.recipe.inputs.set(input[0], input[1] / FirmTier.efficiencyMultiplier(tier));
             }
         }
-        for (let output of this.recipe.outputs) {
-            this.recipe.outputs.set(output[0], output[1] * FirmTier.efficiencyMultiplier(tier));
-        }
+        this.recipe.outputQuantity *= FirmTier.efficiencyMultiplier(tier);
 
         // If the factory is at industrial tier and consumes coal, then add it to the set of inputs.
         if (this.tier == FirmTier.Industrial && this.consumesCoal) {

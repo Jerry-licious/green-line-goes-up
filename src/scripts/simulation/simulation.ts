@@ -28,12 +28,10 @@ export class Simulation extends Widget<any>{
 
 
         this.resources.push(new Firm("", new Recipe(
-            new Map([[Good.Farming, 1]]),
-            new Map([[Good.Crop, 5]])
+            new Map([[Good.Farming, 1]]), Good.Crop,  5
         ), FirmTier.Manual, FirmTier.Advanced, false, false, 250));
         this.resources.push(new Firm("", new Recipe(
-            new Map([[Good.Farming, 1], [Good.Farming, 1]]),
-            new Map([[Good.Meat, 1]])
+            new Map([[Good.Farming, 1], [Good.Farming, 1]]), Good.Meat, 1
         ), FirmTier.Manual, FirmTier.Advanced, false, false, 250));
     }
 

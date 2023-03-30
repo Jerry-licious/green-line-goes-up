@@ -5,15 +5,18 @@ import {Basket} from '../basket';
 // The key to transforming labour into goods.
 export class Recipe {
     inputs: Map<Good, number> = new Map<Good, number>();
-    outputs: Map<Good, number> = new Map<Good, number>();
+    output: Good;
+    outputQuantity: number;
 
-    constructor(inputs: Map<Good, number>, outputs: Map<Good, number>) {
+    constructor(inputs: Map<Good, number>, output: Good, outputQuantity: number) {
         this.inputs = inputs;
-        this.outputs = outputs;
+
+        this.output = output;
+        this.outputQuantity = outputQuantity;
     }
 
     copy(): Recipe {
-        return new Recipe(this.inputs, this.outputs);
+        return new Recipe(this.inputs, this.output, this.outputQuantity);
     }
 
     // Check if the basket has enough things to apply a given recipe.
@@ -26,8 +29,6 @@ export class Recipe {
         for (let input of this.inputs) {
             basket.addGood(input[0], -input[1]);
         }
-        for (let output of this.outputs) {
-            basket.addGood(output[0], output[1]);
-        }
+        basket.addGood(this.output, this.outputQuantity);
     }
 }
