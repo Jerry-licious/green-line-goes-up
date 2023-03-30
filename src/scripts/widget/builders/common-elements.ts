@@ -37,3 +37,43 @@ export class Span extends ElementBuilder {
         });
     }
 }
+
+export class GameIcon extends ElementBuilder {
+    constructor(icon: string, { styleClasses = [], children = [], href = '', title = '', onclick }: {
+        styleClasses?: string[],
+        children?: ElementBuilder[],
+        href?: string,
+        title?: string,
+        onclick?: EventListener
+    }) {
+        super({
+            tag: 'div', styleClasses: ['green-line', ...styleClasses], children, text: icon, href, title, onclick
+        });
+    }
+}
+export class GameIconButton extends ElementBuilder {
+    constructor(icon: string, { styleClasses = [], children = [], href = '', title = '', onclick }: {
+        styleClasses?: string[],
+        children?: ElementBuilder[],
+        href?: string,
+        title?: string,
+        onclick?: EventListener
+    }) {
+        super({
+            tag: 'button', styleClasses: ['green-line', ...styleClasses], children, text: icon, href, title, onclick
+        });
+    }
+}
+export class MaterialIcon extends ElementBuilder {
+    constructor(icon: string, { styleClasses = [], children = [], href = '', title = '', onclick }: {
+        styleClasses?: string[],
+        children?: ElementBuilder[],
+        href?: string,
+        title?: string,
+        onclick?: EventListener
+    }) {
+        super({
+            tag: 'div', styleClasses: ['material-icons', ...styleClasses], children, text: icon, href, title, onclick
+        });
+    }
+}
