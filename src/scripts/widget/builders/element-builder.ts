@@ -3,7 +3,7 @@ export class ElementBuilder {
     tag: string;
     namespace: string;
     styleClasses: string[];
-    children: ElementBuilder[];
+    children: Element[];
     text: string;
 
     // Href and title are attributes that are used very often, so it is added to the constructor despite having a
@@ -25,7 +25,7 @@ export class ElementBuilder {
         tag: string,
         namespace?: string,
         styleClasses?: string[],
-        children?: ElementBuilder[],
+        children?: Element[],
         text?: string,
         href?: string,
         title?: string,
@@ -60,7 +60,7 @@ export class ElementBuilder {
     build(): Element {
         const element = document.createElementNS(this.namespace, this.tag);
         this.styleClasses.forEach((styleClass) => element.classList.add(styleClass));
-        this.children.forEach((child) => element.appendChild(child.build()));
+        this.children.forEach((child) => { element.appendChild(child) });
 
         if (this.text) {
             element.appendChild(document.createTextNode(this.text));

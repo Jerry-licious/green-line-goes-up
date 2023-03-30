@@ -7,7 +7,7 @@ export class Div extends ElementBuilder {
 
     constructor({ styleClasses = [], children = [], text = '', href = '', title = '', onclick }: {
         styleClasses?: string[],
-        children?: ElementBuilder[],
+        children?: Element[],
         text?: string,
         href?: string,
         title?: string,
@@ -26,7 +26,7 @@ export class Span extends ElementBuilder {
 
     constructor({ styleClasses = [], children = [], text = '', href = '', title = '', onclick }: {
         styleClasses?: string[],
-        children?: ElementBuilder[],
+        children?: Element[],
         text?: string,
         href?: string,
         title?: string,
@@ -41,7 +41,7 @@ export class Span extends ElementBuilder {
 export class GameIcon extends ElementBuilder {
     constructor(icon: string, { styleClasses = [], children = [], href = '', title = '', onclick }: {
         styleClasses?: string[],
-        children?: ElementBuilder[],
+        children?: Element[],
         href?: string,
         title?: string,
         onclick?: EventListener
@@ -54,7 +54,7 @@ export class GameIcon extends ElementBuilder {
 export class GameIconButton extends ElementBuilder {
     constructor(icon: string, { styleClasses = [], children = [], href = '', title = '', onclick }: {
         styleClasses?: string[],
-        children?: ElementBuilder[],
+        children?: Element[],
         href?: string,
         title?: string,
         onclick?: EventListener
@@ -67,7 +67,7 @@ export class GameIconButton extends ElementBuilder {
 export class MaterialIcon extends ElementBuilder {
     constructor(icon: string, { styleClasses = [], children = [], href = '', title = '', onclick }: {
         styleClasses?: string[],
-        children?: ElementBuilder[],
+        children?: Element[],
         href?: string,
         title?: string,
         onclick?: EventListener
