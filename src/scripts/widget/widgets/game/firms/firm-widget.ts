@@ -3,9 +3,11 @@ import {Firm} from '../../../../simulation/actors/firm';
 import {Div, GameIcon} from '../../../builders/common-elements';
 import {FirmTier} from '../../../../simulation/firm-tier';
 import {ElementBuilder} from '../../../builders/element-builder';
+import {Game} from '../game';
 
 export class FirmWidget extends Widget<null> {
     firm: Firm;
+    game: Game;
 
     // Inputs and Outputs
     inputs: Element = Div.simple('', ['io']).build();
@@ -16,10 +18,11 @@ export class FirmWidget extends Widget<null> {
 
     errorButton: Element = Div.simple('', ['error', 'material-icons']).build();
 
-    constructor(firm: Firm) {
+    constructor(firm: Firm, game: Game) {
         super('div', 'factory');
 
         this.firm = firm;
+        this.game = game;
 
         this.domElement.append(
             Div.simple('', ['background']).build(),
@@ -49,12 +52,12 @@ export class FirmWidget extends Widget<null> {
                                     children: [
                                         new ElementBuilder({
                                             tag: 'button',
-                                            styleClasses: ['primary'],
+                                            styleClasses: ['tertiary'],
                                             text: 'Subsidise'
                                         }).build(),
                                         new ElementBuilder({
                                             tag: 'button',
-                                            styleClasses: ['primary'],
+                                            styleClasses: ['tertiary'],
                                             text: 'Upgrade'
                                         }).build(),
                                         Div.simple('', ['fill']).build(),
