@@ -59,6 +59,8 @@ body {
     --secondary-darker: #003270;
 
     --tertiary: #a0d0cc;
+    --tertiary-hover: #a9ccc9;
+    --tertiary-active: #b3ccca;
     --on-tertiary: #003735;
     --tertiary-container: #1f4e4b;
     --on-tertiary-container: #bbece8;

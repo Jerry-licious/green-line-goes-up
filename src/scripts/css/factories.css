@@ -1,0 +1,171 @@
+.game .display .factories-container {
+    flex-grow: 1;
+
+    margin: 10px;
+
+    /* Stacking */
+    position: relative;
+}
+
+
+.game .display .factories-container .add {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+
+    width: calc(var(--button-height) * 1.5);
+    height: calc(var(--button-height) * 1.5);
+    font-size: calc(var(--button-height) * 1.2);
+}
+
+
+.game .display .factories {
+    /* Stacking */
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    /* Horizontal flexbox */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    overflow-y: scroll;
+
+    gap: 20px;
+}
+
+.game .factory {
+    flex-grow: 0;
+    flex-shrink: 0;
+
+    width: var(--factory-width);
+    height: var(--factory-height);
+
+    border-radius: var(--factory-border-radius);
+
+    position: relative;
+}
+
+.game .factory .background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    border-radius: var(--factory-border-radius);
+
+    background-image: url(https://upload.wikimedia.org/wikipedia/commons/7/71/Wolfsburg_VW-Werk.jpg);
+    filter: grayscale(80%);
+}
+
+.game .factory .overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    border-radius: var(--factory-border-radius);
+
+    background-color: rgba(var(--surface-rgb), 0.85);
+
+    /* Vertical flexbox */
+    display: flex;
+    flex-direction: column;
+    align-content: stretch;
+}
+
+.game .factory .content {
+    width: 100%;
+
+    flex-grow: 1;
+    padding-top: var(--factory-border-radius);
+    padding-bottom: var(--factory-border-radius);
+
+    /* Horizontal flexbox */
+    display: flex;
+    flex-direction: row;
+    align-content: stretch;
+
+    gap: 15px;
+}
+
+.game .factory .content .io {
+    /* Vertical flexbox */
+    display: flex;
+    flex-direction: column;
+    align-content: stretch;
+    justify-content: center;
+    gap: 5px;
+}
+
+.game .factory .io .green-line {
+    width: var(--factory-icon-size);
+    height: var(--factory-icon-size);
+
+    flex-grow: 0;
+    flex-shrink: 0;
+
+    background: var(--primary-container);
+    color: var(--on-primary-container);
+
+    font-size: var(--factory-icon-size);
+}
+
+.game .factory .info {
+    /* Vertical flexbox */
+    display: flex;
+    flex-direction: column;
+    align-content: stretch;
+    gap: 10px;
+}
+
+.game .factory .top {
+    /* Horizontal flexbox */
+    display: flex;
+    flex-direction: row;
+    align-content: stretch;
+}
+
+.game .factory .name {
+    font-weight: bold;
+    font-size: var(--factory-title-size);
+}
+
+/* Represents an upgrade */
+.game .factory .top .green-line {
+    width: var(--factory-icon-size);
+    height: var(--factory-icon-size);
+    font-size: calc(var(--factory-icon-size) * 0.8);
+
+    background: var(--secondary-container);
+    color: var(--on-secondary-container);
+
+    border-radius: calc(var(--factory-icon-size) * 0.5);
+}
+
+.game .factory .capacity {
+    flex-grow: 0;
+    flex-shrink: 0;
+
+    height: var(--factory-capacity-height);
+    border-radius: 10px;
+
+    background: var(--surface-high);
+}
+
+.game .factory .capacity .capacity-bar {
+    height: 100%;
+    width: 50%;
+
+    border-radius: 10px;
+
+    background: var(--primary);
+}
+
+.game .factory .actions {
+    /* Horizontal flexbox */
+    display: flex;
+    flex-direction: row;
+
+    gap: 10px;
+}
