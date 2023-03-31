@@ -2,10 +2,15 @@ import {Widget} from '../widget';
 import {Simulation} from '../../../simulation/simulation';
 import {TopBar} from './topbar/top-bar';
 import {Div} from '../../builders/common-elements';
+import {FirmsContainer} from './firms/firms-container';
 
-export class Game extends Widget<Simulation> {
+export class Game extends Widget<null> {
+    simulation = new Simulation();
+
     topBar = new TopBar(this);
     display = new Div({styleClasses: ['display']}).build();
+
+    resources = new FirmsContainer(this, this.simulation.resources, false);
 
     constructor() {
         super('div', 'game');
@@ -28,22 +33,22 @@ export class Game extends Widget<Simulation> {
         this.clearDisplay();
         switch (selection) {
             case 0:
-                this.display.append("Overview")
+                this.display.append("Overview");
                 return;
             case 1:
-                this.display.append("Population")
+                this.display.append("Population");
                 return;
             case 2:
-                this.display.append("Markets")
+                this.display.append("Markets");
                 return;
             case 3:
-                this.display.append("Resources")
+                this.display.append(this.resources.domElement);
                 return;
             case 4:
-                this.display.append("Factories")
+                this.display.append("Factories");
                 return;
             case 5:
-                this.display.append("Technology")
+                this.display.append("Technology");
                 return;
         }
     }

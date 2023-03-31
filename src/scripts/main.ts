@@ -15,14 +15,8 @@ for (let i = 0; i < 200; i++) {
 console.log(simulation);
 */
 
-let navigationBar = new Game();
-document.body.append(navigationBar.domElement);
-
-let factory = FirmBlueprint.blueprints[0].createFirm();
-let factoryWidget = new FirmWidget(factory);
-
-document.querySelector('.display')
-    .append(factoryWidget.domElement);
+let game = new Game();
+document.body.append(game.domElement);
 
 // @ts-ignore
 window["simulation"] = simulation;

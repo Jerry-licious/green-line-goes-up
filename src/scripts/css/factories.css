@@ -109,6 +109,8 @@
     color: var(--on-primary-container);
 
     font-size: var(--factory-icon-size);
+
+    border-radius: 8px;
 }
 
 .game .factory .info {
