@@ -38,6 +38,7 @@ body {
     --primary-container: #2e4f00;
     --primary-container-rgb: 46, 79, 0;
     --primary-container-hover: #335405;
+    --primary-container-active: #4a7809;
     --on-primary-container: #b9f474;
 
     --primary-opaque: rgba(139, 195, 74, 0.5);

@@ -1,4 +1,5 @@
 @import "factories.css";
+@import "top-bar.css";
 
 .fill {
     flex-grow: 1;
@@ -29,6 +30,10 @@
     --factory-capacity-height: 50px;
 
     --button-height: 40px;
+
+    --top-bar-info-font-size: 20px;
+
+    --top-bar-button-height: 30px;
 }
 
 .game button {
@@ -70,10 +75,10 @@
     color: var(--on-primary-container);
 }
 .game button.primary-container:hover {
-    background: var(--primary-hover);
+    background: var(--primary-container-hover);
 }
 .game button.primary-container:active {
-    background: var(--primary-light);
+    background: var(--primary-container-active);
 }
 .game button.secondary {
     background: var(--secondary);
@@ -98,74 +103,6 @@
 .game button.error {
     background: var(--error);
     color: var(--on-error);
-}
-
-.game .top-bar {
-    /* Horizontal flexbox */
-    display: flex;
-    flex-direction: row;
-    align-content: stretch;
-
-    /* Constant size */
-    height: var(--top-bar-size);
-    flex-grow: 0;
-    flex-shrink: 0;
-
-    background: var(--surface-highest);
-
-    padding-left: 10px;
-}
-
-.game .top-bar .navigation {
-    /* Horizontal flexbox */
-    display: flex;
-    flex-direction: row;
-
-    gap: 5px;
-}
-
-.game .top-bar .navigation .option {
-    /* Constant size */
-    width: var(--top-bar-size);
-    flex-grow: 0;
-    flex-shrink: 0;
-
-    /* Vertical flexbox */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-content: center;
-
-    transition-duration: 0.3s;
-
-    cursor: pointer;
-}
-.game .top-bar .navigation .option:hover {
-    background: var(--surface-bright);
-}
-.game .top-bar .navigation .option.selected {
-    background: var(--primary-container);
-    color: var(--on-primary-container);
-}
-.game .top-bar .navigation .option.selected:hover {
-    background: var(--primary-container-hover);
-}
-
-
-.game .top-bar .navigation .green-line {
-    font-size: calc(var(--top-bar-size) * 0.6);
-
-    display: flex;
-    align-content: center;
-    justify-content: center;
-}
-
-.game .top-bar .navigation .description {
-    font-size: 12px;
-
-    display: flex;
-    align-content: center;
-    justify-content: center;
 }
 
 .game .display {

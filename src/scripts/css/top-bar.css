@@ -1,0 +1,128 @@
+.game .top-bar {
+    /* Horizontal flexbox */
+    display: flex;
+    flex-direction: row;
+    align-content: stretch;
+
+    /* Constant size */
+    height: var(--top-bar-size);
+    flex-grow: 0;
+    flex-shrink: 0;
+
+    background: var(--surface-highest);
+
+    padding-left: 10px;
+    padding-right: 10px;
+
+    gap: 30px;
+}
+
+.game .top-bar .navigation {
+    /* Horizontal flexbox */
+    display: flex;
+    flex-direction: row;
+
+    gap: 10px;
+}
+
+.game .top-bar .navigation .option {
+    /* Constant size */
+    width: var(--top-bar-size);
+    flex-grow: 0;
+    flex-shrink: 0;
+
+    /* Vertical flexbox */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+
+    transition-duration: 0.3s;
+
+    cursor: pointer;
+}
+.game .top-bar .navigation .option:hover {
+    background: var(--surface-bright);
+}
+.game .top-bar .navigation .option.selected {
+    background: var(--primary-container);
+    color: var(--on-primary-container);
+}
+.game .top-bar .navigation .option.selected:hover {
+    background: var(--primary-container-hover);
+}
+
+
+.game .top-bar .navigation .green-line {
+    font-size: calc(var(--top-bar-size) * 0.6);
+
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.game .top-bar .navigation .description {
+    font-size: 12px;
+
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.game .top-bar .info {
+    /* Vertical flexbox */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.game .top-bar .info div {
+    /* Horizontal flexbox */
+    display: flex;
+    flex-direction: row;
+
+    gap: 5px;
+    font-size: var(--top-bar-info-font-size);
+}
+
+.game .top-bar .info div span {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.game .top-bar .info div .material-icons {
+    font-size: calc(var(--top-bar-info-font-size) * 1.2);
+}
+
+.game .top-bar .time {
+    /* Vertical flexbox */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    gap: 5px;
+}
+
+.game .top-bar .time .control {
+    /* Horizontal flexbox */
+    display: flex;
+    flex-direction: row;
+    align-content: stretch;
+
+    gap: 5px;
+}
+
+.game .top-bar .time .current-time {
+    display: flex;
+    justify-content: center;
+    font-size: var(--top-bar-info-font-size);
+}
+
+.game .top-bar .time .control button {
+    height: var(--top-bar-button-height);
+    width: var(--top-bar-button-height);
+    font-size: calc(var(--top-bar-button-height) * 0.8);
+
+    border-radius: 8px;
+}
