@@ -101,4 +101,99 @@ export namespace Good {
                 return false;
         }
     }
+
+    export function name(good: Good) {
+        switch (good) {
+            case Good.Coal:
+                return 'Coal';
+            case Good.Oil:
+                return 'Oil';
+            case Good.Wood:
+                return 'Wood';
+            case Good.Mineral:
+                return 'Mineral';
+            case Good.PreciousMineral:
+                return 'Precious Mineral';
+            case Good.Rocks:
+                return 'Rock';
+            case Good.Crop:
+                return 'Crop';
+            case Good.Fruit:
+                return 'Fruit';
+            case Good.Milk:
+                return 'Milk';
+            case Good.Wool:
+                return 'Wool';
+            case Good.Meat:
+                return 'Meat';
+            case Good.Mining:
+                return 'Mining';
+            case Good.Farming:
+                return 'Farming';
+            case Good.Technical:
+                return 'Technical';
+            case Good.Forestry:
+                return 'Forestry';
+            case Good.Artisan:
+                return 'Artisan';
+            case Good.Assembly:
+                return 'Assembly';
+            case Good.BasicEquipment:
+                return 'Basic Equipment';
+            case Good.IndustrialEquipment:
+                return 'Industrial Equipment';
+            case Good.AdvancedEquipment:
+                return 'Advanced Equipment';
+            case Good.MobileEquipment:
+                return 'Mobile Equipment';
+            case Good.Fertilizer:
+                return 'Fertilizer';
+            case Good.Electricity:
+                return 'Electricity';
+            case Good.ProcessedWood:
+                return 'Processed Wood';
+            case Good.Chemicals:
+                return 'Chemicals';
+            case Good.Metal:
+                return 'Metal';
+            case Good.PreciousMetal:
+                return 'Precious Metal';
+            case Good.Motor:
+                return 'Motor';
+            case Good.Circuit:
+                return 'Circuit';
+            case Good.MachineParts:
+                return 'Machine Parts';
+            case Good.Textile:
+                return 'Textile';
+            case Good.Flour:
+                return 'Flour';
+            case Good.Clothes:
+                return 'Clothes';
+            case Good.ProcessedMeat:
+                return 'Processed Meat';
+            case Good.ProcessedFruit:
+                return 'Processed Fruit';
+            case Good.ProcessedVegetables:
+                return 'Processed Vegetables';
+            case Good.Dairy:
+                return 'Dairy';
+            case Good.Baked:
+                return 'Baked';
+            case Good.LuxuryFood:
+                return 'Luxury Food';
+            case Good.Furniture:
+                return 'Furniture';
+            case Good.LuxuryFurniture:
+                return 'Luxury Furniture';
+            case Good.Appliance:
+                return 'Appliance';
+            case Good.SmartAppliance:
+                return 'Smart Appliance';
+            case Good.Electronics:
+                return 'Electronics';
+            case Good.Automobiles:
+                return 'Automobiles';
+        }
+    }
 }
