@@ -3,6 +3,7 @@ import {Simulation} from '../../../simulation/simulation';
 import {TopBar} from './topbar/top-bar';
 import {Div} from '../../builders/common-elements';
 import {FirmsContainer} from './firms/firms-container';
+import {PopulationWidget} from './population/population';
 
 export class Game extends Widget<null> {
     simulation = new Simulation();
@@ -11,6 +12,7 @@ export class Game extends Widget<null> {
     display = new Div({styleClasses: ['display']}).build();
 
     resources = new FirmsContainer(this, this.simulation.resources, false);
+    population = new PopulationWidget(this);
 
     timeSinceLastUpdate = 0.0;
     updateInterval = 0.0;
@@ -41,6 +43,7 @@ export class Game extends Widget<null> {
 
                 this.topBar.gameTick();
                 this.resources.gameTick();
+                this.population.gameTick();
 
                 this.timeSinceLastUpdate = 0;
             }
@@ -66,7 +69,7 @@ export class Game extends Widget<null> {
                 this.display.append("Overview");
                 return;
             case 1:
-                this.display.append("Population");
+                this.display.append(this.population.domElement);
                 return;
             case 2:
                 this.display.append("Markets");

@@ -66,7 +66,7 @@ export class Firm extends EconomicActor {
 
     // A firm always tries to have a full stockpile, but nothing more.
     calculateProductionGoal(): number {
-        return Math.max(0, this.maxCapacity - this.inventory.get(this.recipe.output) / this.recipe.outputQuantity);
+        return this.maxCapacity;
     }
 
     // At the beginning of each day, a firm tries to buy as many things as possible for them to fill their recipe.

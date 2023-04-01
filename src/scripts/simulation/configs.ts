@@ -9,7 +9,7 @@ export namespace Config {
     export const baseMoneyValue = 1.0;
 
     // The base units of labour each person can output at the start of each day.
-    export const baseLabourOutput = 10.0;
+    export const baseLabourOutput = 5.0;
     // The base productivity of each actor will be multiplied by a random number, whose mean will be 1 and whose SD will
     // be equal to this.
     // Allows different actors to produce differently.

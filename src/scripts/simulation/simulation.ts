@@ -33,7 +33,7 @@ export class Simulation extends Widget<any>{
             new Map([[Good.Farming, 1]]), Good.Crop,  5
         ), FirmTier.Manual, FirmTier.Advanced, false, false, 250));
         this.resources.push(new Firm("", new Recipe(
-            new Map([[Good.Farming, 1], [Good.Crop, 1]]), Good.Meat, 1
+            new Map([[Good.Crop, 1], [Good.Farming, 1]]), Good.Meat, 1
         ), FirmTier.Manual, FirmTier.Advanced, false, false, 250));
     }
 
@@ -124,7 +124,8 @@ export class Simulation extends Widget<any>{
             // takers of labour rather than price setters.
             for (let actor of this.resources) {
                 actor.changeExpectedPrice(market.good,
-                    Math.sign(market.currentExchangePrice - actor.expectedPrice(market.good)) * Config.priceVolatilityFactor * 2);
+                    Math.sign(market.currentExchangePrice - actor.expectedPrice(market.good)) *
+                     Config.priceVolatilityFactor * 2);
             }
         }
     }

@@ -3,9 +3,6 @@ import {Game} from './widget/widgets/game/game';
 import {FirmBlueprint} from './simulation/templates/firm-blueprint';
 import {FirmWidget} from './widget/widgets/game/firms/firm-widget';
 
-let simulation = new Simulation();
-console.log(simulation);
-
 /*
 for (let i = 0; i < 200; i++) {
     simulation.tick();
@@ -19,4 +16,4 @@ let game = new Game();
 document.body.append(game.domElement);
 
 // @ts-ignore
-window["simulation"] = simulation;
+window["simulation"] = game.simulation;

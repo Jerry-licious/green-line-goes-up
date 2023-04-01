@@ -4,7 +4,6 @@ import {Basket} from '../basket';
 import {Config} from '../configs';
 import {Simulation} from '../simulation';
 import {EconomicActor} from './economic-actor';
-import {FirmTier} from '../firm-tier';
 
 
 // The utility function of the actor, representing the amount of utility it obtains from consuming a given good.
@@ -23,6 +22,13 @@ export class Individual extends EconomicActor {
 
     // How many units of each labour can an actor produce each day.
     productivity: Map<Good, number> = new Map<Good, number>();
+
+    preferences: Good[] = [];
+    // The type of labour that the individual is best at.
+    mostProductiveLabour: Good = Good.Farming;
+    // The type of labour that the individual actually produces.
+    job: Good = Good.Farming;
+    lastUtility: number = 50;
 
     constructor() {
         super();
@@ -114,6 +120,21 @@ export class Individual extends EconomicActor {
             currentPurchase = bestNextPurchase;
         }
 
+        // Sort for the goods that provide the most utility.
+        let preferences = Array.from(currentPurchase.basket.keys()).map(
+            (good) => {
+                return {
+                    good,
+                    utility: utilityFunction(currentPurchase.basket.get(good)) * this.personalValues.get(good)
+                }
+            })
+            .sort((a, b) => b.utility - a.utility)
+            .filter((good) => good.utility > 0)
+            .map((good) => good.good);
+
+        // Pick the top 3.
+        this.preferences = preferences.slice(0, Math.min(3, preferences.length));
+
         // Returns the final basket.
         return currentPurchase.basket;
     }
@@ -127,6 +148,10 @@ export class Individual extends EconomicActor {
 
         this.sellGoal = new Map<Good, number>([[mostProfitableLabour,
             Math.floor(this.productivity.get(mostProfitableLabour))]]);
+
+        this.mostProductiveLabour = Array.from(this.productivity.keys())
+            .reduce((prev, curr) => this.productivity.get(prev) > this.productivity.get(curr) ? prev : curr);
+        this.job = mostProfitableLabour;
     }
 
     setBuyGoals(simulation: Simulation) {
@@ -153,6 +178,8 @@ export class Individual extends EconomicActor {
 
     // At the end of each day, all actors consume what they bought.
     consumeGoods() {
+        this.lastUtility = this.utilityOf(this.inventory);
+
         // TODO: Track utility?
         for (let good of this.inventory.keys()) {
             this.inventory.set(good, 0);
