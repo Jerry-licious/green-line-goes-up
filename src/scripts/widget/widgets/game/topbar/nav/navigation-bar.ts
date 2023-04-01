@@ -1,17 +1,17 @@
 import {Widget} from '../../../widget';
-import {NavigationBarButtons} from './navigation-bar-buttons';
+import {NavigationBarButton} from './navigation-bar-button';
 import {Game} from '../../game';
 
 // A navigation rail, the number determines which one gets selected.
 export class NavigationBar extends Widget<number> {
     game: Game;
-    buttons: NavigationBarButtons[] = [
-        new NavigationBarButtons('government', 'Overview', 0, this),
-        new NavigationBarButtons('population', 'Population', 1, this),
-        new NavigationBarButtons('markets', 'Markets', 2, this),
-        new NavigationBarButtons('resources', 'Resources', 3, this),
-        new NavigationBarButtons('factory', 'Factories', 4, this),
-        new NavigationBarButtons('technology', 'Technology', 5, this),
+    buttons: NavigationBarButton[] = [
+        new NavigationBarButton('government', 'Overview', 0, this),
+        new NavigationBarButton('population', 'Population', 1, this),
+        new NavigationBarButton('markets', 'Markets', 2, this),
+        new NavigationBarButton('resources', 'Resources', 3, this),
+        new NavigationBarButton('factory', 'Factories', 4, this),
+        new NavigationBarButton('technology', 'Technology', 5, this),
     ]
 
     constructor(game: Game) {

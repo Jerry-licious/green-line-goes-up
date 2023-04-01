@@ -4,7 +4,7 @@ import {Div} from '../../../../builders/common-elements';
 import {NavigationBar} from './navigation-bar';
 
 // State represents whether it's selected.
-export class NavigationBarButtons extends Widget<boolean> {
+export class NavigationBarButton extends Widget<boolean> {
     icon: string;
     text: string;
     index: number;
