@@ -1,12 +1,11 @@
-import {Widget} from '../../widget';
 import {Game} from '../game';
 import {Firm} from '../../../../simulation/actors/firm';
 import {FirmWidget} from './firm-widget';
 import {Div} from '../../../builders/common-elements';
 import {ElementBuilder} from '../../../builders/element-builder';
+import {GameWidget} from '../game-widget';
 
-export class FirmsContainer extends Widget<null>{
-    game: Game;
+export class FirmsContainer extends GameWidget<null>{
     firms: Firm[];
     firmWidgets: FirmWidget[] = [];
 
@@ -15,9 +14,8 @@ export class FirmsContainer extends Widget<null>{
     constructor(game: Game, firms: Firm[],
                 // Whether new firms can be created within this container.
                 addButton: boolean) {
-        super('div', 'factories-container');
+        super(game, 'div', 'factories-container');
 
-        this.game = game;
         this.firms = firms;
 
         this.domElement.append(
@@ -46,4 +44,10 @@ export class FirmsContainer extends Widget<null>{
     }
 
     updateElement(state: null | undefined): void {}
+
+    gameTick() {
+        for (let widget of this.firmWidgets) {
+            widget.gameTick();
+        }
+    }
 }

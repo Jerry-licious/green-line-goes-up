@@ -1,12 +1,11 @@
-import {Widget} from '../../widget';
 import {NavigationBar} from './nav/navigation-bar';
 import {Div, Span} from '../../../builders/common-elements';
 import {Game} from '../game';
 import {TimeControl} from './time/time-control';
+import {GameWidget} from '../game-widget';
 
 
-export class TopBar extends Widget<null> {
-    game: Game;
+export class TopBar extends GameWidget<null> {
     navigationBar: NavigationBar;
     timeControl: TimeControl;
 
@@ -14,9 +13,8 @@ export class TopBar extends Widget<null> {
     moneyDisplay = Span.simple('0', []).build();
 
     constructor(game: Game) {
-        super('div', 'top-bar');
+        super(game, 'div', 'top-bar');
 
-        this.game = game;
         this.navigationBar = new NavigationBar(game);
         this.timeControl = new TimeControl(game);
 
@@ -46,4 +44,14 @@ export class TopBar extends Widget<null> {
     }
 
     updateElement(): void {}
+
+    // TODO: update info
+    updateInfo() {
+
+    }
+
+    gameTick() {
+        this.updateInfo();
+        this.timeControl.gameTick();
+    }
 }

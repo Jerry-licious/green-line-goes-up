@@ -1,11 +1,11 @@
-import {Widget} from '../../widget';
 import {Firm} from '../../../../simulation/actors/firm';
 import {Div, GameIcon} from '../../../builders/common-elements';
 import {FirmTier} from '../../../../simulation/firm-tier';
 import {ElementBuilder} from '../../../builders/element-builder';
 import {Game} from '../game';
+import {GameWidget} from '../game-widget';
 
-export class FirmWidget extends Widget<null> {
+export class FirmWidget extends GameWidget<null> {
     firm: Firm;
     game: Game;
 
@@ -19,7 +19,7 @@ export class FirmWidget extends Widget<null> {
     errorButton: Element = Div.simple('', ['error', 'material-icons']).build();
 
     constructor(firm: Firm, game: Game) {
-        super('div', 'factory');
+        super(game, 'div', 'factory');
 
         this.firm = firm;
         this.game = game;
@@ -120,4 +120,8 @@ export class FirmWidget extends Widget<null> {
     updateElement(state: null | undefined): void {
     }
 
+    gameTick() {
+        this.updateCapacityBar();
+        this.updateError();
+    }
 }

@@ -1,10 +1,9 @@
-import {Widget} from '../../../widget';
 import {Game} from '../../game';
 import {TimeControlButton} from './time-control-button';
 import {Div} from '../../../../builders/common-elements';
+import {GameWidget} from '../../game-widget';
 
-export class TimeControl extends Widget<number> {
-    game: Game;
+export class TimeControl extends GameWidget<number> {
     buttons: TimeControlButton[] = [
         new TimeControlButton('pause', 0, this),
         new TimeControlButton('play_arrow', 1, this),
@@ -15,9 +14,7 @@ export class TimeControl extends Widget<number> {
     timeDisplay = Div.simple('Cycle 0', ['current-time']).build();
 
     constructor(game: Game) {
-        super('div', 'time');
-
-        this.game = game;
+        super(game, 'div', 'time');
 
         // Start with the game paused.
         this.lastState = 0;
@@ -41,5 +38,9 @@ export class TimeControl extends Widget<number> {
             // Set the button to be selected if it matches the index.
             this.buttons[i].updateElement(i == state);
         }
+    }
+
+    gameTick() {
+        this.updateTime();
     }
 }
