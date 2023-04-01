@@ -12,6 +12,9 @@ export class Game extends Widget<null> {
 
     resources = new FirmsContainer(this, this.simulation.resources, false);
 
+    timeSinceLastUpdate = 0.0;
+    updateInterval = 0.0;
+
     constructor() {
         super('div', 'game');
 
@@ -19,6 +22,33 @@ export class Game extends Widget<null> {
             this.topBar.domElement,
             this.display
         );
+
+
+        window.requestAnimationFrame((t) => this.update(t));
+    }
+
+    previousTime: number = 0;
+
+    update(currentTime: number) {
+        // Only update the simulation when the game isn't paused.
+        if (this.updateInterval != 0) {
+            let deltaT = currentTime - this.previousTime;
+
+            this.timeSinceLastUpdate += deltaT;
+
+            if (this.timeSinceLastUpdate >= this.updateInterval) {
+                this.simulation.tick();
+
+                this.topBar.gameTick();
+                this.resources.gameTick();
+
+                this.timeSinceLastUpdate = 0;
+            }
+        }
+
+        this.previousTime = currentTime;
+
+        window.requestAnimationFrame((t) => this.update(t));
     }
 
     // Removes everything in the display section.
@@ -50,6 +80,27 @@ export class Game extends Widget<null> {
             case 5:
                 this.display.append("Technology");
                 return;
+        }
+    }
+    
+    updateTimeControl(speed: number) {
+        switch (speed) {
+            // Pause
+            case 0:
+                this.updateInterval = 0;
+                break;
+            // Base speed, two cycles per second.
+            case 1:
+                this.updateInterval = 450; // ms
+                break;
+            // Two speed, seven cycles per second.
+            case 2:
+                this.updateInterval = 150; // ms
+                break;
+            // Three speed, twenty cycles per second.
+            case 3:
+                this.updateInterval = 50; // ms
+                break;
         }
     }
 

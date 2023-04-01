@@ -30,7 +30,7 @@ export class TimeControl extends GameWidget<number> {
     }
 
     updateTime() {
-        this.timeDisplay.innerHTML = `Cycle ${0}`;
+        this.timeDisplay.innerHTML = `Cycle ${this.game.simulation.timeElapsed}`;
     }
 
     updateElement(state: number) {
@@ -38,6 +38,8 @@ export class TimeControl extends GameWidget<number> {
             // Set the button to be selected if it matches the index.
             this.buttons[i].updateElement(i == state);
         }
+
+        this.game.updateTimeControl(state);
     }
 
     gameTick() {

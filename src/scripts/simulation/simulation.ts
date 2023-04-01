@@ -18,6 +18,8 @@ export class Simulation extends Widget<any>{
     // All markets in the simulation, starts off empty and opens up as people place buy and sell orders.
     markets: Map<Good, Market> = new Map<Good, Market>();
 
+    timeElapsed = 0;
+
     constructor() {
         super('div');
 
@@ -95,6 +97,8 @@ export class Simulation extends Widget<any>{
         }
 
         this.gossip();
+
+        this.timeElapsed++;
     }
 
     gossip() {
