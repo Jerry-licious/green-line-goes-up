@@ -5,8 +5,6 @@ import {NavigationBar} from './navigation-bar';
 
 // State represents whether it's selected.
 export class NavigationBarButton extends Widget<boolean> {
-    icon: string;
-    text: string;
     index: number;
     // The owner of the button.
     rail: NavigationBar;
@@ -14,8 +12,6 @@ export class NavigationBarButton extends Widget<boolean> {
     constructor(icon: string, text: string, index: number, rail: NavigationBar) {
         super('div', 'option');
 
-        this.icon = icon;
-        this.text = text;
         this.index = index;
         this.rail = rail;
 

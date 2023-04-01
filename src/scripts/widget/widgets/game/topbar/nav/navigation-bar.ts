@@ -21,6 +21,7 @@ export class NavigationBar extends Widget<number> {
 
         // Start with the first one selected.
         this.lastState = 0;
+        this.buttons[0].updateElement(true);
 
         // Add the buttons to the dom element.
         this.buttons.forEach((button) => this.domElement.append(button.domElement));
