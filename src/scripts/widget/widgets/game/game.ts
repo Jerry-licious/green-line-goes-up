@@ -9,6 +9,7 @@ import {Overview} from './overview/overview';
 import {OverlayActionMenu} from './overlay-action-menu';
 import {FirmConstructionMenu} from './build-overlay/firm-construction-menu';
 import {FirmBlueprint} from '../../../simulation/templates/firm-blueprint';
+import {TechnologyWidget} from './technology/technology-widget';
 
 export class Game extends Widget<null> {
     simulation = new Simulation();
@@ -26,6 +27,7 @@ export class Game extends Widget<null> {
     factories = new FirmsContainer(this, this.simulation.factories, true, FirmBlueprint.factoryBlueprints);
     population = new PopulationWidget(this);
     markets = new MarketsWidget(this);
+    technology = new TechnologyWidget(this);
 
     timeSinceLastUpdate = 0.0;
     updateInterval = 0.0;
@@ -82,6 +84,7 @@ export class Game extends Widget<null> {
         this.resources.gameTick();
         this.population.gameTick();
         this.markets.gameTick();
+        this.technology.gameTick();
     }
 
     // Removes everything in the display section.
@@ -117,7 +120,8 @@ export class Game extends Widget<null> {
                 this.factories.gameTick();
                 return;
             case 5:
-                this.display.append("Technology");
+                this.display.append(this.technology.domElement);
+                this.technology.gameTick();
                 return;
         }
     }

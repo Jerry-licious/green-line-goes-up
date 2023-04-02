@@ -58,7 +58,7 @@ export namespace Good {
     export const values: Good[] = [Good.Coal, Good.Oil, Good.Wood, Good.Mineral, Good.PreciousMineral, Good.Rocks, Good.Crop,
         Good.Fruit, Good.Milk, Good.Wool, Good.Meat,
         Good.Mining, Good.Farming, Good.Technical, Good.Forestry, Good.Artisan, Good.Assembly,
-        Good.BasicEquipment, Good.IndustrialEquipment, Good.AdvancedEquipment, Good.MobileEquipment, Good.Fertilizer,
+        Good.BasicEquipment, Good.IndustrialEquipment, Good.AdvancedEquipment, Good.MobileEquipment, /*Good.Fertilizer,*/
         Good.Electricity, Good.ProcessedWood, Good.Chemicals, Good.Metal,
         Good.PreciousMetal, Good.Motor, Good.Circuit, Good.MachineParts, Good.Textile, Good.Flour, Good.Clothes,
         Good.ProcessedMeat, Good.ProcessedFruit, Good.ProcessedVegetables, Good.Dairy, Good.Baked, Good.LuxuryFood,

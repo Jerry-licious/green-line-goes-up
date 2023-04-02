@@ -8,6 +8,8 @@ export enum FirmTier {
 }
 
 export namespace FirmTier {
+    export const values: FirmTier[] = [FirmTier.Manual, FirmTier.Basic, FirmTier.Industrial, FirmTier.Advanced];
+
     export function next(upgrade: FirmTier): FirmTier {
         switch (upgrade) {
             case FirmTier.Manual:
@@ -61,6 +63,19 @@ export namespace FirmTier {
                 return Basket.withItems(new Map<Good, number>([[Good.IndustrialEquipment, 250]]));
             case FirmTier.Advanced:
                 return Basket.withItems(new Map<Good, number>([[Good.AdvancedEquipment, 250]]));
+        }
+    }
+
+    export function name(upgrade: FirmTier) {
+        switch (upgrade) {
+            case FirmTier.Manual:
+                return 'Manual';
+            case FirmTier.Basic:
+                return 'Basic';
+            case FirmTier.Industrial:
+                return 'Industrial';
+            case FirmTier.Advanced:
+                return 'Advanced';
         }
     }
 }

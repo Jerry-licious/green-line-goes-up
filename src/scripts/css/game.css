@@ -4,6 +4,7 @@
 @import "markets.css";
 @import "charts.css";
 @import "overview.css";
+@import "technology.css";
 
 .fill {
     flex-grow: 1;
@@ -39,7 +40,9 @@
     --order-menu-width: 200px;
 
     --overview-info-height: 250px;
-    --item-list-width: 150px
+    --item-list-width: 150px;
+
+    --technology-icon-size: 50px;
 }
 
 .game .main {
