@@ -27,6 +27,9 @@ export class Firm extends EconomicActor {
     tier: FirmTier;
     finalTier: FirmTier;
 
+    // Additional production attempts based on how successful the firm has been doing.
+    productionOffset: number = 0;
+
     constructor(id: string, recipe: Recipe, startingTier: FirmTier, finalTier: FirmTier,
                 consumesCoal: boolean, consumesElectricity: boolean, capacity: number) {
         super();

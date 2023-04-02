@@ -4,6 +4,7 @@ import {Basket} from '../basket';
 import {Config} from '../configs';
 import {Simulation} from '../simulation';
 import {EconomicActor} from './economic-actor';
+import {Order} from '../order';
 
 
 // The utility function of the actor, representing the amount of utility it obtains from consuming a given good.
@@ -152,6 +153,18 @@ export class Individual extends EconomicActor {
         this.mostProductiveLabour = Array.from(this.productivity.keys())
             .reduce((prev, curr) => this.productivity.get(prev) > this.productivity.get(curr) ? prev : curr);
         this.job = mostProfitableLabour;
+    }
+
+    placeSellOrders(simulation: Simulation) {
+        this.setSellGoals(simulation);
+        for (let goal of this.sellGoal) {
+            // Individuals will sell things at an expected price based on their productivity. This isn't the actual
+            // expected price, but is used to sort out the most productive people.
+            let sellOrder = new Order(this, goal[0], 1 / this.productivity.get(goal[0]));
+            for (let i = 0; i < goal[1]; i++) {
+                simulation.placeSellOrder(sellOrder);
+            }
+        }
     }
 
     setBuyGoals(simulation: Simulation) {

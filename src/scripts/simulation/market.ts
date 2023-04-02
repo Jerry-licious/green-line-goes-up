@@ -29,10 +29,8 @@ export class Market {
         // Sort from high to low for buyers.
         // Such that each buyer and seller will be matched with each other.
         this.buyOrders.sort((a, b) => b.offerPrice - a.offerPrice);
-        // Randomise the order of the sellers to smooth income.
-        this.sellOrders = this.sellOrders.map((order) => { return { order: order, value: Math.random() } })
-            .sort((a, b) => a.value - b.value)
-            .map((info) => info.order);
+        // Sort from low to high for sellers.
+        this.sellOrders.sort((a, b) => a.offerPrice - b.offerPrice);
 
         // The amount of pairs can be made between buyers and sellers.
         let pairAmount = Math.min(this.buyOrders.length, this.sellOrders.length);
@@ -42,24 +40,22 @@ export class Market {
         for (let i = 0; i < pairAmount; i++) {
             let buyOrder = this.buyOrders[i], sellOrder = this.sellOrders[i];
             // If the buyer is willing to pay a price higher than the seller's price, a transaction happens.
-            if (buyOrder.offerPrice >= sellOrder.offerPrice) {
-                // TODO: Transaction
 
-                // Assume that they don't split any differences and buyer just pays.
-                let exchangePrice = buyOrder.offerPrice;
-                // Buyer gets the thing and loses the money.
-                buyOrder.source.inventory.addGood(buyOrder.good);
-                buyOrder.source.inventory.money -= exchangePrice;
-                // Seller gets the money.
-                sellOrder.source.inventory.money += exchangePrice;
+            // TODO: Transaction
+            // Assume that they don't split any differences and buyer just pays.
+            let exchangePrice = buyOrder.offerPrice;
+            // Buyer gets the thing and loses the money.
+            buyOrder.source.inventory.addGood(buyOrder.good);
+            buyOrder.source.inventory.money -= exchangePrice;
+            // Seller gets the money.
+            sellOrder.source.inventory.money += exchangePrice;
 
-                // And get notified that their good got sold.
-                sellOrder.source.onSuccessfulSale(this.good);
-                buyOrder.source.onSuccessfulBuy(this.good);
+            // And get notified that their good got sold.
+            sellOrder.source.onSuccessfulSale(this.good);
+            buyOrder.source.onSuccessfulBuy(this.good);
 
-                // Track the exchange price.
-                exchangePrices.push(exchangePrice);
-            }
+            // Track the exchange price.
+            exchangePrices.push(exchangePrice);
         }
 
         this.currentExchangeQuantity = exchangePrices.length;
