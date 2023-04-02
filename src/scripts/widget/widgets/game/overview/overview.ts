@@ -4,10 +4,12 @@ import {ItemList} from '../item-list/item-list';
 import {Div} from '../../../builders/common-elements';
 import {LineChart} from 'chartist';
 import {Config} from '../../../../simulation/configs';
+import {FactorsOfProductionWidget} from './factors-of-production-widget';
 
 export class Overview extends GameWidget<null> {
     inventory: ItemList;
     orders: ItemList;
+    factors: FactorsOfProductionWidget;
 
     chartElement: Element = Div.simple('', ['ct-chart']).build();
     chart: LineChart;
@@ -17,6 +19,7 @@ export class Overview extends GameWidget<null> {
 
         this.inventory = new ItemList(game.simulation.government.inventory, 'Inventory', false);
         this.orders = new ItemList(game.simulation.government.buyGoal, 'Orders', true);
+        this.factors = new FactorsOfProductionWidget(game);
 
         this.domElement.append(
             new Div({
@@ -30,7 +33,8 @@ export class Overview extends GameWidget<null> {
                 styleClasses: ['info'],
                 children: [
                     this.inventory.domElement,
-                    this.orders.domElement
+                    this.orders.domElement,
+                    this.factors.domElement
                 ]
             }).build()
         );
@@ -44,6 +48,7 @@ export class Overview extends GameWidget<null> {
         this.inventory.updateElement();
         this.orders.updateElement();
         this.chart.update();
+        this.factors.gameTick();
     }
 
     updateElement(state: null | undefined): void {}

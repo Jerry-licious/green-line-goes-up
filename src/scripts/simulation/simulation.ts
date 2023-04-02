@@ -11,13 +11,13 @@ import {Widget} from '../widget/widgets/widget';
 import {Government} from './actors/government';
 
 
-
 export class Simulation extends Widget<number>{
     government: Government = new Government();
 
     // All individual actors in the simulation.
     individuals: Individual[] = [];
     resources: Firm[] = [];
+    factories: Firm[] = [];
 
     // All markets in the simulation, starts off empty and opens up as people place buy and sell orders.
     markets: Map<Good, Market> = new Map<Good, Market>();
@@ -26,6 +26,12 @@ export class Simulation extends Widget<number>{
 
     currentRealGDP: number = 0;
     realGDPHistory: number[] = [];
+
+    labourFactor = 1;
+    resourcesFactor = 0;
+    physicalCapitalFactor = 0;
+    humanCapitalFactor = 0;
+    technologyFactor = 0;
 
     constructor() {
         super('div');
@@ -51,7 +57,11 @@ export class Simulation extends Widget<number>{
 
     // Returns the list of *all* actors.
     getAllActors(): EconomicActor[] {
-        return [].concat(this.individuals).concat(this.resources);
+        return [].concat(this.individuals).concat(this.resources).concat(this.factories);
+    }
+    // Returns just firms.
+    getAllFirms(): Firm[] {
+        return [].concat(this.resources).concat(this.factories);
     }
 
     // Allows actors to place buy and sell orders on the market.
@@ -100,6 +110,7 @@ export class Simulation extends Widget<number>{
 
         this.recordGDP();
         this.awardMoney();
+        this.determineFactorsOfProduction();
 
         // When each day finishes, the actors consume their goods.
         for (let actor of actors) {
@@ -127,6 +138,26 @@ export class Simulation extends Widget<number>{
         this.government.inventory.money += this.currentRealGDP / Config.actorAmount * Config.governmentIncomeModifier;
     }
 
+    determineFactorsOfProduction() {
+        // Labour is constant.
+        this.labourFactor = 1;
+
+        // 11 is the total amount of resource sites.
+        this.resourcesFactor = this.resources.length / 11;
+
+        // 152 is the total possible amount of firms and upgrades.
+        this.physicalCapitalFactor = this.getAllFirms().map((firm) => FirmTier.tier(firm.tier) + 1)
+            .reduce((a, b) => a + b, 0) / 152;
+
+        this.humanCapitalFactor = Math.min(1, this.individuals
+            .map((individual) => individual.productivity.get(individual.mostProductiveLabour) - Config.baseLabourOutput)
+            .reduce((a, b) => a + b, 0) / (Config.actorAmount * Config.baseLabourOutput));
+
+        this.technologyFactor = FirmTier.tier(Array.from(this.markets.keys())
+            .map((good) => Good.getTier(good))
+            .reduce((a, b) => FirmTier.tier(a) > FirmTier.tier(b) ? a : b, FirmTier.Manual)) / 3;
+    }
+
     gossip() {
         // Using the order placement system, actors will only act on their expected price and will not inform of the
         // market if they would like to buy more for cheaper, or sell more for more money.
@@ -148,7 +179,7 @@ export class Simulation extends Widget<number>{
             }
             // Firms take stronger influence from the market price, but only for labour. This makes them price
             // takers of labour rather than price setters.
-            for (let actor of this.resources) {
+            for (let actor of this.getAllFirms()) {
                 actor.changeExpectedPrice(market.good,
                     Math.sign(market.currentExchangePrice - actor.expectedPrice(market.good)) *
                      Config.priceVolatilityFactor * 2);

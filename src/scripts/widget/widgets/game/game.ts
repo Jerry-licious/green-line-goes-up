@@ -78,20 +78,20 @@ export class Game extends Widget<null> {
         switch (selection) {
             case 0:
                 // Extra updates to make sure that all information is accurate.
-                this.overview.gameTick();
                 this.display.append(this.overview.domElement);
+                this.overview.gameTick();
                 return;
             case 1:
-                this.population.gameTick();
                 this.display.append(this.population.domElement);
+                this.population.gameTick();
                 return;
             case 2:
-                this.markets.gameTick();
                 this.display.append(this.markets.domElement);
+                this.markets.gameTick();
                 return;
             case 3:
-                this.resources.gameTick();
                 this.display.append(this.resources.domElement);
+                this.resources.gameTick();
                 return;
             case 4:
                 this.display.append("Factories");

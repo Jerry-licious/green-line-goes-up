@@ -238,8 +238,8 @@ export class FirmBlueprint {
                 new Map([[Good.Assembly, 1], [Good.Metal, 3]]),
                 Good.MachineParts, 5
             ),
-            startingTier: FirmTier.Industrial,
-            cost: FirmBlueprint.factorySetupCost
+            startingTier: FirmTier.Basic,
+            cost: FirmBlueprint.basicSetupCost
         }),
         new FirmBlueprint({
             id: "textile_factory",

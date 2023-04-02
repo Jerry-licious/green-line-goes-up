@@ -47,3 +47,63 @@
 
     gap: 10px;
 }
+
+.game .overview .factors {
+    width: var(--overview-info-height);
+    padding: 20px;
+    border-radius: 20px;
+
+    background: var(--surface);
+
+    /* Vertical flexbox */
+    display: flex;
+    flex-direction: column;
+    align-content: stretch;
+
+    gap: 10px;
+}
+
+.game .factors .title {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.game .factors .list {
+    flex-grow: 1;
+
+    /* Vertical flexbox */
+    display: flex;
+    flex-direction: column;
+    align-content: stretch;
+
+    gap: 5px;
+}
+
+.game .factors .list .entry {
+    font-size: 30px;
+
+    /* Horizontal flexbox */
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+
+    gap: 5px;
+}
+
+.game .factors .list .entry .progress-bar {
+    flex-grow: 1;
+    background: var(--surface-high);
+    border-radius: 5px;
+
+    /* Horizontal flexbox */
+    display: flex;
+    flex-direction: row;
+    align-content: stretch;
+}
+
+.game .factors .list .entry .progress-bar .progress {
+    width: 50%;
+    background: var(--primary);
+    border-radius: 5px;
+}

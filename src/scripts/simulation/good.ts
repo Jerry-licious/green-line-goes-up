@@ -1,3 +1,5 @@
+import {FirmTier} from './firm-tier';
+
 export enum Good {
     // Resources
     Coal = 'coal',
@@ -194,6 +196,64 @@ export namespace Good {
                 return 'Electronics';
             case Good.Automobiles:
                 return 'Automobiles';
+        }
+    }
+
+    // Tier
+    export function getTier(good: Good): FirmTier {
+        switch (good) {
+            case Good.Coal:
+            case Good.Oil:
+            case Good.Wood:
+            case Good.Mineral:
+            case Good.PreciousMineral:
+            case Good.Rocks:
+            case Good.Crop:
+            case Good.Fruit:
+            case Good.Milk:
+            case Good.Wool:
+            case Good.Meat:
+            case Good.Mining:
+            case Good.Farming:
+            case Good.Technical:
+            case Good.Forestry:
+            case Good.Artisan:
+            case Good.Assembly:
+            case Good.BasicEquipment:
+            case Good.ProcessedWood:
+            case Good.Dairy:
+            case Good.Baked:
+            case Good.Flour:
+            case Good.LuxuryFood:
+            case Good.LuxuryFurniture:
+                return FirmTier.Manual;
+
+            case Good.Electricity:
+            case Good.IndustrialEquipment:
+            case Good.Metal:
+            case Good.MachineParts:
+            case Good.Textile:
+            case Good.Clothes:
+            case Good.Furniture:
+                return FirmTier.Basic;
+
+            case Good.Chemicals:
+            case Good.PreciousMetal:
+            case Good.Motor:
+            case Good.Circuit:
+            case Good.Fertilizer:
+            case Good.AdvancedEquipment:
+            case Good.ProcessedMeat:
+            case Good.ProcessedFruit:
+            case Good.ProcessedVegetables:
+            case Good.Appliance:
+                return FirmTier.Industrial;
+
+            case Good.SmartAppliance:
+            case Good.Electronics:
+            case Good.Automobiles:
+            case Good.MobileEquipment:
+                return FirmTier.Advanced;
         }
     }
 }
