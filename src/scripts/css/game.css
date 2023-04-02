@@ -3,6 +3,7 @@
 @import "population.css";
 @import "markets.css";
 @import "charts.css";
+@import "overview.css";
 
 .fill {
     flex-grow: 1;
@@ -39,6 +40,9 @@
     --market-height: 80px;
 
     --order-menu-width: 200px;
+
+    --overview-info-height: 250px;
+    --item-list-width: 150px
 }
 
 .game button {
@@ -110,6 +114,11 @@
     color: var(--on-error);
 }
 
+.game button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .game .display {
     min-height: 0;
     flex-grow: 1;
@@ -117,4 +126,72 @@
     display: flex;
     align-content: stretch;
     justify-content: stretch;
+}
+
+.game .item-list {
+    width: var(--item-list-width);
+    background: var(--surface);
+
+    padding: 20px;
+    border-radius: 20px;
+
+    /* Vertical flexbox */
+    display: flex;
+    flex-direction: column;
+    align-content: stretch;
+
+    gap: 10px;
+}
+
+.game .item-list .title {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.game .item-list .list {
+    flex-grow: 1;
+
+    /* Vertical flexbox */
+    display: flex;
+    flex-direction: column;
+    align-content: stretch;
+
+    gap: 5px;
+
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.game .item-list .list .entry {
+    font-size: 20px;
+
+    /* Horizontal flexbox */
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+
+    gap: 5px;
+}
+
+.game .item-list .list .entry div {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    line-height: 30px;
+}
+
+.game .item-list .list .entry .green-line {
+    font-size: 30px;
+}
+
+.game .item-list .list .entry button {
+    width: 30px;
+    height: 30px;
+
+    font-size: 20px;
+}
+
+.game .item-list .list .entry.error {
+    color: var(--error);
 }

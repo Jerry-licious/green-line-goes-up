@@ -5,6 +5,7 @@ import {Div} from '../../builders/common-elements';
 import {FirmsContainer} from './firms/firms-container';
 import {PopulationWidget} from './population/population';
 import {MarketsWidget} from './markets/markets-widget';
+import {Overview} from './overview/overview';
 
 export class Game extends Widget<null> {
     simulation = new Simulation();
@@ -12,6 +13,7 @@ export class Game extends Widget<null> {
     topBar = new TopBar(this);
     display = new Div({styleClasses: ['display']}).build();
 
+    overview = new Overview(this);
     resources = new FirmsContainer(this, this.simulation.resources, false);
     population = new PopulationWidget(this);
     markets = new MarketsWidget(this);
@@ -56,6 +58,7 @@ export class Game extends Widget<null> {
     tick() {
         this.simulation.tick();
 
+        this.overview.gameTick();
         this.topBar.gameTick();
         this.resources.gameTick();
         this.population.gameTick();
@@ -74,15 +77,20 @@ export class Game extends Widget<null> {
         this.clearDisplay();
         switch (selection) {
             case 0:
-                this.display.append("Overview");
+                // Extra updates to make sure that all information is accurate.
+                this.overview.gameTick();
+                this.display.append(this.overview.domElement);
                 return;
             case 1:
+                this.population.gameTick();
                 this.display.append(this.population.domElement);
                 return;
             case 2:
+                this.markets.gameTick();
                 this.display.append(this.markets.domElement);
                 return;
             case 3:
+                this.resources.gameTick();
                 this.display.append(this.resources.domElement);
                 return;
             case 4:
