@@ -45,9 +45,9 @@ export class TopBar extends GameWidget<null> {
 
     updateElement(): void {}
 
-    // TODO: update info
     updateInfo() {
-
+        this.gdpDisplay.innerHTML = this.game.simulation.currentRealGDP.toString();
+        this.moneyDisplay.innerHTML = (Math.round(this.game.simulation.government.inventory.money * 100) / 100).toString();
     }
 
     gameTick() {

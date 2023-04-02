@@ -185,4 +185,11 @@ export class Individual extends EconomicActor {
             this.inventory.set(good, 0);
         }
     }
+
+    // Used for the real GDP.
+    calculateInventoryValue(): number {
+        return Array.from(this.inventory.entries())
+            .map((entry) => Good.getBaseUtility(entry[0]) * entry[1])
+            .reduce((a, b) => a + b, 0)
+    }
 }

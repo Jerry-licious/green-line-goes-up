@@ -69,6 +69,8 @@ export class MarketOrderMenu extends GameWidget<null> {
         this.orderButton.addEventListener('click', () => {
             this.game.simulation.government.addBuyGoal(this.market.good, this.intendedAmount);
 
+            (this.amount as HTMLInputElement).value = '0';
+
             // Update the numbers.
             this.gameTick();
         });
@@ -89,11 +91,7 @@ export class MarketOrderMenu extends GameWidget<null> {
 
         this.cost.innerHTML = (Math.round(amount * this.market.currentExchangePrice * 100) / 100).toString();
 
-        if (amount > 0) {
-            this.orderButton.setAttribute('disabled', 'false');
-        } else {
-            this.orderButton.setAttribute('disabled', 'true');
-        }
+        (this.orderButton as HTMLButtonElement).disabled = amount == 0;
     }
 
 

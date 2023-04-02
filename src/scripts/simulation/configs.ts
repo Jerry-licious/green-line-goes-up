@@ -54,4 +54,6 @@ export namespace Config {
             showGrid: false
         }
     }
+
+    export const governmentIncomeModifier = 0.2;
 }

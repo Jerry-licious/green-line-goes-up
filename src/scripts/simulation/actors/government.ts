@@ -2,8 +2,18 @@ import {EconomicActor} from './economic-actor';
 import {Simulation} from '../simulation';
 import {Good} from '../good';
 import {Order} from '../order';
+import {Config} from '../configs';
 
 export class Government extends EconomicActor {
+    constructor() {
+        super();
+
+        // Initialise expected prices.
+        for (let good of Good.values) {
+            this.setExpectedPrice(good, Config.baseLabourValue);
+        }
+    }
+
     // Governments by themselves, does not have any goals.
     consumeGoods(): void {}
     setBuyGoals(simulation: Simulation): void {}

@@ -22,7 +22,10 @@ export class Simulation extends Widget<number>{
     // All markets in the simulation, starts off empty and opens up as people place buy and sell orders.
     markets: Map<Good, Market> = new Map<Good, Market>();
 
-    timeElapsed = 0;
+    timeElapsed: number = 0;
+
+    currentRealGDP: number = 0;
+    realGDPHistory: number[] = [];
 
     constructor() {
         super('div');
@@ -95,6 +98,9 @@ export class Simulation extends Widget<number>{
             market.process();
         }
 
+        this.recordGDP();
+        this.awardMoney();
+
         // When each day finishes, the actors consume their goods.
         for (let actor of actors) {
             actor.updatePriceExpectationsBasedOnGoals();
@@ -105,6 +111,20 @@ export class Simulation extends Widget<number>{
         this.gossip();
 
         this.timeElapsed++;
+    }
+
+    recordGDP() {
+        this.currentRealGDP = this.individuals.map((individual) => individual.calculateInventoryValue())
+            .reduce((a, b) => a + b, 0);
+
+        this.realGDPHistory.push(this.currentRealGDP);
+        if (this.realGDPHistory.length > Config.dataMemory) {
+            this.realGDPHistory.shift();
+        }
+    }
+
+    awardMoney() {
+        this.government.inventory.money += this.currentRealGDP / Config.actorAmount * Config.governmentIncomeModifier;
     }
 
     gossip() {
