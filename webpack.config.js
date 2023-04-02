@@ -36,25 +36,19 @@ module.exports = {
                 test: /\.js$/,
                 use: 'source-map-loader'
             },
-            {
-                enforce: 'pre',
-                test: /\.ts$/,
-                exclude: /node_modules/,
-                use: 'tslint-loader'
-            },
 
             /****************
             * LOADERS
             *****************/
             {
-                test: /\.ts$/,
-                exclude: [ /node_modules/ ],
-                use: 'awesome-typescript-loader'
-            },
-            {
                 test: /\.css$/,
                 use: [ 'style-loader', 'css-loader' ]
-            }
+            },
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },
         ]
     },
 
@@ -62,16 +56,18 @@ module.exports = {
         new HTMLWebpackPlugin({
             template: "./scripts/index.html"
         }),
-        new CopyWebpackPlugin([
-            {
-                from: './scripts/css',
-                to: 'css'
-            },
-            {
-                from: './scripts/img',
-                to: 'img'
-            }
-        ])
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: './scripts/css',
+                    to: 'css'
+                },
+                {
+                    from: './scripts/img',
+                    to: 'img'
+                }
+            ]
+        })
     ],
 
     devtool: 'cheap-module-source-map',

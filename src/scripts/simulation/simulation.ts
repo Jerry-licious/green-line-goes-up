@@ -10,7 +10,7 @@ import {FirmTier} from './firm-tier';
 import {Widget} from '../widget/widgets/widget';
 
 
-export class Simulation extends Widget<any>{
+export class Simulation extends Widget<number>{
     // All individual actors in the simulation.
     individuals: Individual[] = [];
     resources: Firm[] = [];

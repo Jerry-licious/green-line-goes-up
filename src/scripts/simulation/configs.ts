@@ -44,4 +44,14 @@ export namespace Config {
 
     // Every tier of upgrade increases the amount of product produced, and reduces the amount of labour consumed.
     export const upgradeMultiplier = 1.58;
+
+    export const dataMemory = 300;
+
+    export const graphConfigs = {
+        showPoint: false,
+        lineSmooth: false,
+        axisX: {
+            showGrid: false
+        }
+    }
 }

@@ -4,6 +4,7 @@ import {TopBar} from './topbar/top-bar';
 import {Div} from '../../builders/common-elements';
 import {FirmsContainer} from './firms/firms-container';
 import {PopulationWidget} from './population/population';
+import {MarketsWidget} from './markets/markets-widget';
 
 export class Game extends Widget<null> {
     simulation = new Simulation();
@@ -13,6 +14,7 @@ export class Game extends Widget<null> {
 
     resources = new FirmsContainer(this, this.simulation.resources, false);
     population = new PopulationWidget(this);
+    markets = new MarketsWidget(this);
 
     timeSinceLastUpdate = 0.0;
     updateInterval = 0.0;
@@ -25,6 +27,7 @@ export class Game extends Widget<null> {
             this.display
         );
 
+        this.tick();
 
         window.requestAnimationFrame((t) => this.update(t));
     }
@@ -39,11 +42,7 @@ export class Game extends Widget<null> {
             this.timeSinceLastUpdate += deltaT;
 
             if (this.timeSinceLastUpdate >= this.updateInterval) {
-                this.simulation.tick();
-
-                this.topBar.gameTick();
-                this.resources.gameTick();
-                this.population.gameTick();
+                this.tick();
 
                 this.timeSinceLastUpdate = 0;
             }
@@ -52,6 +51,15 @@ export class Game extends Widget<null> {
         this.previousTime = currentTime;
 
         window.requestAnimationFrame((t) => this.update(t));
+    }
+
+    tick() {
+        this.simulation.tick();
+
+        this.topBar.gameTick();
+        this.resources.gameTick();
+        this.population.gameTick();
+        this.markets.gameTick();
     }
 
     // Removes everything in the display section.
@@ -72,7 +80,7 @@ export class Game extends Widget<null> {
                 this.display.append(this.population.domElement);
                 return;
             case 2:
-                this.display.append("Markets");
+                this.display.append(this.markets.domElement);
                 return;
             case 3:
                 this.display.append(this.resources.domElement);

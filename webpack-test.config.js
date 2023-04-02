@@ -22,13 +22,6 @@ module.exports = {
                 enforce: 'pre',
                 test: /\.js$/,
                 use: 'source-map-loader'
-            },
-
-            // LOADERS
-            {
-                test: /\.ts$/,
-                exclude: [ /node_modules/ ],
-                use: 'awesome-typescript-loader'
             }
         ]
     },

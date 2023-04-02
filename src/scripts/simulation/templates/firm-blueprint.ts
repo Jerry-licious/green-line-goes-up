@@ -6,7 +6,7 @@ import {Firm} from '../actors/firm';
 import {Good} from '../good';
 
 export class FirmBlueprint {
-    id: string;
+    firmID: string;
     // The initial tier of the firm.
     startingTier: FirmTier;
     // The highest upgrade level.
@@ -29,7 +29,7 @@ export class FirmBlueprint {
         cost: Basket,
         capacity?: number
     }) {
-        this.id = id;
+        this.firmID = id;
         this.startingTier = startingTier;
         this.finalTier = finalTier;
         this.recipe = recipe;
@@ -40,7 +40,7 @@ export class FirmBlueprint {
     }
 
     createFirm(): Firm {
-        return new Firm(this.id, this.recipe.copy(), this.startingTier, this.finalTier, this.consumesCoal,
+        return new Firm(this.firmID, this.recipe.copy(), this.startingTier, this.finalTier, this.consumesCoal,
             this.consumesElectricity, this.capacity);
     }
 

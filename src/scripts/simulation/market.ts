@@ -1,6 +1,7 @@
 import {Order} from './order';
 import {Config} from './configs';
 import {Good} from './good';
+import dataMemory = Config.dataMemory;
 
 export class Market {
     good: Good;
@@ -8,8 +9,10 @@ export class Market {
     sellOrders: Order[] = [];
 
     currentExchangePrice: number = Config.baseLabourValue;
+    currentExchangeQuantity: number = 0;
 
-    exchangeHistory: number[] = [];
+    exchangeQuantityHistory: number[] = [];
+    exchangePriceHistory: number[] = [];
 
     constructor(good: Good) {
         this.good = good;
@@ -59,7 +62,7 @@ export class Market {
             }
         }
 
-        this.exchangeHistory.push(exchangePrices.length);
+        this.currentExchangeQuantity = exchangePrices.length;
 
         if (this.good == Good.Farming || this.good == Good.Crop || this.good == Good.Meat || this.good == Good.Fruit) {
             console.log(`${this.good} exchanged: ${exchangePrices.length}`);
@@ -100,8 +103,22 @@ export class Market {
             }
         }
 
+        this.recordData();
+
         // TODO: Keep some kind of record after a round of market exchange.
         this.buyOrders = [];
         this.sellOrders = [];
+    }
+
+    recordData() {
+        this.exchangeQuantityHistory.push(this.currentExchangeQuantity);
+        if (this.exchangeQuantityHistory.length > dataMemory) {
+            this.exchangeQuantityHistory.shift();
+        }
+
+        this.exchangePriceHistory.push(this.currentExchangePrice);
+        if (this.exchangePriceHistory.length > dataMemory) {
+            this.exchangePriceHistory.shift();
+        }
     }
 }

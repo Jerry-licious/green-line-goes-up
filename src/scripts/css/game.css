@@ -1,6 +1,8 @@
 @import "factories.css";
 @import "top-bar.css";
 @import "population.css";
+@import "markets.css";
+@import "charts.css";
 
 .fill {
     flex-grow: 1;
@@ -17,27 +19,24 @@
     align-content: stretch;
 
     --top-bar-size: 80px;
+    --top-bar-info-font-size: 20px;
+    --top-bar-button-height: 30px;
 
     --factory-width: 400px;
     --factory-height: 180px;
-
     --factory-border-radius: 20px;
     --factory-icon-size: 35px;
-
     --factory-title-size: 24px;
-
     --factory-upgrade-size: 50px;
-
     --factory-capacity-height: 50px;
 
     --button-height: 40px;
 
-    --top-bar-info-font-size: 20px;
-
-    --top-bar-button-height: 30px;
-
     --fruit-of-labour-size: 100px;
     --fruit-icon-size: 25px;
+
+    --market-list-width: 250px;
+    --market-height: 80px;
 }
 
 .game button {

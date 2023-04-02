@@ -1,0 +1,16 @@
+/* Use this selector to override the line style on a given series */
+.ct-series-a .ct-line {
+    /* Set the colour of this series line */
+    stroke: var(--primary) !important;
+}
+.ct-series-a .ct-point {
+    /* Colour of your points */
+    stroke: var(--primary) !important;
+}
+.ct-label {
+    color: var(--on-background) !important;
+    font-family: Roboto;
+}
+.ct-grid {
+    stroke: rgba(var(--on-background-rgb), 0.5) !important;
+}

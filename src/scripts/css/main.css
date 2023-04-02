@@ -22,6 +22,7 @@ body {
 body {
     --background: #1b1c18;
     --on-background: #e3e3db;
+    --on-background-rgb: 227, 227, 219;
 
     --surface-low: #191d14;
     --surface: #1d2118;

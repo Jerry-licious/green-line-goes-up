@@ -1,6 +1,7 @@
 <html>
 <head>
 <link rel="stylesheet" href="./css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
 </head>
 <body>
 <div class="game">
@@ -55,22 +56,35 @@
         </div>
     </div>
     <div class="display">
-        <div class="population">
-            <div class="fruit">
-                <div class="io">
-                    <div class="green-line">artisan</div>
-                </div>
-                <div class="avatar">
-                    <img src="img/fruit_of_labour_struggling.svg">
-                    <img class="labour-blue" src="img/fruit_of_labour_labour.svg">
-                    <img src="img/fruit_of_labour_strokes.svg">
-                </div>
-                <div class="io">
-                    <div class="green-line">artisan</div>
+        <div class="markets">
+            <div class="list">
+                <a class="market selected">
+                    <div class="green-line">farming</div>
+                    <div class="info">
+                        <div class="name">Machine Parts</div>
+                        <div class="data">
+                            <div>
+                                <span class="material-icons">sell</span>
+                                <span>100</span>
+                            </div>
+                            <div>
+                                <span class="material-icons">swap_horiz</span>
+                                <span>100</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="details-container">
+                <div class="details">
+                    <div class="chart">
+                        <div class="ct-chart"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
 </body>
 </html>
