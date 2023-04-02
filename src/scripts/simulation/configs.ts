@@ -37,7 +37,7 @@ export namespace Config {
     export const lowestPossiblePrice = 0;
 
     // The amount that the production goal gets changed by upon successful or unsuccessful sale.
-    export const productionGoalVolatility = 2;
+    export const productionGoalVolatility = 5;
 
     // The number of days for which the firm remembers its sales records.
     export const firmTrackDays = 5;

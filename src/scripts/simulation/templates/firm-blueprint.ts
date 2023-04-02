@@ -56,11 +56,11 @@ export class FirmBlueprint {
     ));
     // The cost to create a basic tier firm.
     static basicSetupCost: Basket = Basket.withItems(new Map<Good, number>(
-        [[Good.BasicEquipment, 250], [Good.Assembly, 1000], [Good.Wood, 1000], [Good.Rocks, 1000]]
+        [[Good.BasicEquipment, 250], [Good.Assembly, 1000], [Good.Wood, 1000]]
     ));
     // The cost to create an industrial tier firm.
     static factorySetupCost: Basket = Basket.withItems(new Map<Good, number>(
-        [[Good.IndustrialEquipment, 250], [Good.Assembly, 1000], [Good.Wood, 2000], [Good.Rocks, 2000]]
+        [[Good.IndustrialEquipment, 250], [Good.Assembly, 1000], [Good.Wood, 2000]]
     ));
     // The cost to create an industrial tier firm.
     static advancedFactorySetupCost: Basket = Basket.withItems(new Map<Good, number>(
@@ -125,7 +125,7 @@ export class FirmBlueprint {
         new FirmBlueprint({
             id: "equipment_workshop",
             recipe: new Recipe(
-                new Map([[Good.Assembly, 1], [Good.ProcessedWood, 5], [Good.Rocks, 5]]),
+                new Map([[Good.Assembly, 1], [Good.ProcessedWood, 5]]),
                 Good.BasicEquipment, 1
             ),
             cost: FirmBlueprint.workshopSetupCost

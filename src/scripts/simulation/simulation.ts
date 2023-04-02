@@ -180,8 +180,10 @@ export class Simulation extends Widget<number>{
             // Firms take stronger influence from the market price, but only for labour. This makes them price
             // takers of labour rather than price setters.
             for (let actor of this.getAllFirms()) {
+                let expectationDifference = market.currentExchangePrice - actor.expectedPrice(market.good);
+
                 actor.changeExpectedPrice(market.good,
-                    Math.sign(market.currentExchangePrice - actor.expectedPrice(market.good)) *
+                    (market.currentExchangePrice - actor.expectedPrice(market.good)) *
                      Config.priceVolatilityFactor * 2);
             }
             this.government.changeExpectedPrice(market.good,

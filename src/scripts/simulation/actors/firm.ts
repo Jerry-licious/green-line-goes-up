@@ -7,6 +7,10 @@ import {Config} from '../configs';
 import {Order} from '../order';
 import {FirmTier} from '../firm-tier';
 
+function clamp(x: number, min: number, max: number): number {
+    return Math.min(Math.max(x, min), max);
+}
+
 // A firm is a type of actor that takes in some goods and output different goods.
 export class Firm extends EconomicActor {
     baseRecipe: Recipe;
@@ -69,13 +73,16 @@ export class Firm extends EconomicActor {
 
     // A firm always tries to have a full stockpile, but nothing more.
     calculateProductionGoal(): number {
-        return this.maxCapacity;
+        return clamp(this.maxCapacity - this.inventory.get(this.recipe.output) / this.recipe.outputQuantity + this.productionOffset, 0, this.maxCapacity);
     }
 
     // At the beginning of each day, a firm tries to buy as many things as possible for them to fill their recipe.
     setBuyGoals(simulation: Simulation) {
         // Clear the previous buy goal.
-        this.buyGoal = new Map<Good, number>();
+        // Keep the keys for price considerations.
+        for (let key of this.buyGoal.keys()) {
+            this.buyGoal.set(key, 0);
+        }
 
         // Don't buy anything unless the market can actually provide those goods.
         if (!Array.from(this.recipe.inputs.keys()).every((input) => simulation.markets.has(input))) {
@@ -88,6 +95,7 @@ export class Firm extends EconomicActor {
             // Always buy to function at max capacity, but no need to buy extra if there are already stuff in the
             // inventory.
             // Round down on the purchase goal.
+            // Try to make up for previous missed purchases AND buy new things for today.
             this.buyGoal.set(input[0], Math.floor(input[1] * productionGoal) - this.inventory.get(input[0]));
         }
     }
@@ -137,6 +145,39 @@ export class Firm extends EconomicActor {
     onSuccessfulSale(good: Good): void {
         super.onSuccessfulSale(good);
         this.inventory.addGood(good, -1);
+    }
+
+    updatePriceExpectationsBasedOnGoals() {/*
+        for (let goal of this.buyGoal) {
+            // If the goal has not been met (cleared),
+            if (goal[1] > 0) {
+                // Only raise expected prices, since only weight matters anyways.
+                this.changeExpectedPrice(goal[0], Config.priceVolatilityFactor);
+            }
+        }*/
+        for (let goal of this.sellGoal) {
+            // If the goal has not been met (cleared),
+            if (goal[1] > 0) {
+                // Try to produce less to save money.
+                this.productionOffset -= Config.productionGoalVolatility;
+            } else {
+                // If the goal has been cleared, try to make more next time!
+                this.productionOffset += Config.productionGoalVolatility;
+            }
+        }
+
+        // this.normalisePriceExpectations();
+    }
+
+    // Scale down the price expectations to a maximum of 10 so the price volatility can react fast enough.
+    normalisePriceExpectations() {
+        if (Array.from(this.buyGoal.keys())
+            .map((good) => this.expectedPrice(good))
+            .some((price) => price > 20)) {
+            Array.from(this.buyGoal.keys()).forEach((good) => {
+                this.setExpectedPrice(good, this.expectedPrice(good) * 0.5);
+            });
+        }
     }
 
     // Updates the firm's tier and recipe.
