@@ -7,6 +7,8 @@ import {PopulationWidget} from './population/population';
 import {MarketsWidget} from './markets/markets-widget';
 import {Overview} from './overview/overview';
 import {OverlayActionMenu} from './overlay-action-menu';
+import {FirmConstructionMenu} from './build-overlay/firm-construction-menu';
+import {FirmBlueprint} from '../../../simulation/templates/firm-blueprint';
 
 export class Game extends Widget<null> {
     simulation = new Simulation();
@@ -16,11 +18,12 @@ export class Game extends Widget<null> {
 
     topBar = new TopBar(this);
     display = new Div({styleClasses: ['display']}).build();
-    actionOverlay = new Div({styleClasses: ['spend-overlay']}).build() as HTMLDivElement;
+    actionOverlayContainer = new Div({styleClasses: ['spend-overlay']}).build() as HTMLDivElement;
+    constructionOverlayContainer = new Div({styleClasses: ['construct-overlay']}).build() as HTMLDivElement;
 
     overview = new Overview(this);
-    resources = new FirmsContainer(this, this.simulation.resources, true);
-    factories = new FirmsContainer(this, this.simulation.factories, true);
+    resources = new FirmsContainer(this, this.simulation.resources, true, FirmBlueprint.resourcesBlueprints);
+    factories = new FirmsContainer(this, this.simulation.factories, true, FirmBlueprint.factoryBlueprints);
     population = new PopulationWidget(this);
     markets = new MarketsWidget(this);
 
@@ -38,7 +41,8 @@ export class Game extends Widget<null> {
                     this.display
                 ]
             }).build(),
-            this.actionOverlay
+            this.constructionOverlayContainer,
+            this.actionOverlayContainer
         );
 
         this.tick();
@@ -69,7 +73,10 @@ export class Game extends Widget<null> {
 
     tick() {
         this.simulation.tick();
+        this.updateChildren();
+    }
 
+    updateChildren() {
         this.overview.gameTick();
         this.topBar.gameTick();
         this.resources.gameTick();
@@ -138,16 +145,29 @@ export class Game extends Widget<null> {
 
     openActionMenu(menu: OverlayActionMenu) {
         this.actionMenuOpened = true;
-        this.actionOverlay.style.display = 'block';
-        this.actionOverlay.append(menu.domElement);
+        this.actionOverlayContainer.style.display = 'block';
+        this.actionOverlayContainer.append(menu.domElement);
     }
 
     dismissActionMenu() {
         this.actionMenuOpened = false;
-        this.actionOverlay.style.display = 'none';
-        this.removeChildren(this.actionOverlay);
+        this.actionOverlayContainer.style.display = 'none';
+        this.removeChildren(this.actionOverlayContainer);
     }
 
-    updateElement(state: Simulation | undefined): void {
+    openConstructionMenu(menu: FirmConstructionMenu) {
+        this.firmsMenuOpened = true;
+        this.constructionOverlayContainer.style.display = 'flex';
+        this.constructionOverlayContainer.append(menu.domElement);
     }
+
+    dismissConstructionMenu() {
+        this.firmsMenuOpened = false;
+        this.constructionOverlayContainer.style.display = 'none';
+        this.removeChildren(this.constructionOverlayContainer);
+        // Update the list of firms.
+        this.updateChildren();
+    }
+
+    updateElement(state: Simulation | undefined): void {}
 }

@@ -4,6 +4,8 @@ import {FirmWidget} from './firm-widget';
 import {Div} from '../../../builders/common-elements';
 import {ElementBuilder} from '../../../builders/element-builder';
 import {GameWidget} from '../game-widget';
+import {FirmBlueprint} from '../../../../simulation/templates/firm-blueprint';
+import {FirmConstructionMenu} from '../build-overlay/firm-construction-menu';
 
 export class FirmsContainer extends GameWidget<null>{
     firms: Firm[];
@@ -11,18 +13,25 @@ export class FirmsContainer extends GameWidget<null>{
 
     firmContainer: Element = Div.simple('', ['factories']).build();
 
+    constructionMenu: FirmConstructionMenu;
+
     constructor(game: Game, firms: Firm[],
                 // Whether new firms can be created within this container.
-                addButton: boolean) {
+                addButton: boolean, blueprints: FirmBlueprint[]) {
         super(game, 'div', 'factories-container');
 
         this.firms = firms;
+        this.constructionMenu = new FirmConstructionMenu(game, blueprints, firms);
 
         this.domElement.append(
             this.firmContainer,
             ...addButton ? [new ElementBuilder({
                 tag: 'button',
-                styleClasses: ['add', 'primary', 'material-icons']
+                styleClasses: ['add', 'primary', 'material-icons'],
+                text: 'add',
+                onclick: () => {
+                    game.openConstructionMenu(this.constructionMenu);
+                }
             }).build()] : []
         );
 
@@ -46,6 +55,7 @@ export class FirmsContainer extends GameWidget<null>{
     updateElement(state: null | undefined): void {}
 
     gameTick() {
+        this.updateWidgetList();
         for (let widget of this.firmWidgets) {
             widget.gameTick();
         }

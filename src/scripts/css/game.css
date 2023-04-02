@@ -276,10 +276,9 @@
     width: 100%;
     height: 100%;
 
-    /*display: none;*/
 
     /* Vertical flexbox */
-    display: flex;
+    display: none;
     flex-direction: column;
     align-content: stretch;
     justify-content: stretch;
@@ -348,7 +347,6 @@
 
 .game .construct .factory {
     height: calc(var(--factory-height) * 0.9);
-    width: calc(var(--factory-width) * 0.9);
 }
 
 .game .construct .factory .top {

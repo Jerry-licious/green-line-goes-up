@@ -67,7 +67,7 @@ export class FirmBlueprint {
         [[Good.AdvancedEquipment, 250], [Good.Assembly, 1000], [Good.Wood, 3000], [Good.Rocks, 3000]]
     ));
 
-    static blueprints: FirmBlueprint[] = [
+    static resourcesBlueprints: FirmBlueprint[] = [
         // Buildable resource sites.
         new FirmBlueprint({
             id: "coal_mine",
@@ -117,7 +117,10 @@ export class FirmBlueprint {
                 new Map([[Good.Forestry, 1]]), Good.Wood, 5
             ),
             cost: FirmBlueprint.farmSetupCost
-        }),
+        })
+    ]
+
+    static factoryBlueprints: FirmBlueprint[] = [
         // Heavy industry
         new FirmBlueprint({
             id: "equipment_workshop",
