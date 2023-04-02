@@ -88,6 +88,7 @@ export class Simulation extends Widget<number>{
             // from the market.
             actor.placeBuyOrders(this);
         }
+        this.government.placeBuyOrders(this);
 
         // Each market then makes the transactions, updating price expectations and so on.
         for (let market of this.markets.values()) {
@@ -99,6 +100,7 @@ export class Simulation extends Widget<number>{
             actor.updatePriceExpectationsBasedOnGoals();
             actor.consumeGoods();
         }
+        this.government.updatePriceExpectationsBasedOnGoals();
 
         this.gossip();
 
@@ -131,6 +133,8 @@ export class Simulation extends Widget<number>{
                     Math.sign(market.currentExchangePrice - actor.expectedPrice(market.good)) *
                      Config.priceVolatilityFactor * 2);
             }
+            this.government.changeExpectedPrice(market.good,
+                Math.sign(market.currentExchangePrice - this.government.expectedPrice(market.good)) * Config.gossipInfluence);
         }
     }
 
