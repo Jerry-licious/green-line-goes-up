@@ -8,9 +8,13 @@ import {EconomicActor} from './actors/economic-actor';
 import {Recipe} from './actors/recipe';
 import {FirmTier} from './firm-tier';
 import {Widget} from '../widget/widgets/widget';
+import {Government} from './actors/government';
+
 
 
 export class Simulation extends Widget<number>{
+    government: Government = new Government();
+
     // All individual actors in the simulation.
     individuals: Individual[] = [];
     resources: Firm[] = [];
