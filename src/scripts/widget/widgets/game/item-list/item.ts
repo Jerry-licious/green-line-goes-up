@@ -38,10 +38,10 @@ export class Item extends Widget<number> {
         this.amountElement.innerHTML = state.toString();
 
         // Display an error.
-        if (state >= 0 && this.amountElement.classList.contains('error')) {
-            this.amountElement.classList.remove('error');
-        } else if (state < 0 && !this.amountElement.classList.contains('error')) {
-            this.amountElement.classList.add('error');
+        if (state >= 0 && this.domElement.classList.contains('error')) {
+            this.domElement.classList.remove('error');
+        } else if (state < 0 && !this.domElement.classList.contains('error')) {
+            this.domElement.classList.add('error');
         }
     }
 }

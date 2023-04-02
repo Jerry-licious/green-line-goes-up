@@ -4,6 +4,7 @@ import {FirmTier} from '../../../../simulation/firm-tier';
 import {ElementBuilder} from '../../../builders/element-builder';
 import {Game} from '../game';
 import {GameWidget} from '../game-widget';
+import {OverlayActionMenu} from '../overlay-action-menu';
 
 export class FirmWidget extends GameWidget<null> {
     firm: Firm;
@@ -16,6 +17,7 @@ export class FirmWidget extends GameWidget<null> {
     upgradeStatus: Element = Div.simple('', []).build();
     capacityBar: Element = Div.simple('', ['capacity-bar']).build();
 
+    upgradeButton: HTMLElement;
     errorButton: Element = Div.simple('', ['error', 'material-icons']).build();
 
     constructor(firm: Firm, game: Game) {
@@ -23,6 +25,26 @@ export class FirmWidget extends GameWidget<null> {
 
         this.firm = firm;
         this.game = game;
+
+        this.upgradeButton = new ElementBuilder({
+            tag: 'button',
+            styleClasses: ['tertiary'],
+            text: 'Upgrade',
+            onclick: () => {
+                let targetTier = FirmTier.next(this.firm.tier);
+
+                game.openActionMenu(new OverlayActionMenu(
+                    game, `Upgrade ${this.firm.id}`,
+                    FirmTier.cost(targetTier),
+                    () => {
+                        this.firm.setTier(targetTier);
+
+                        this.updateButtons();
+                        this.updateUpgradeStatus();
+                    }
+                ))
+            }
+        }).build() as HTMLElement;
 
         this.domElement.append(
             Div.simple('', ['background']).build(),
@@ -55,11 +77,7 @@ export class FirmWidget extends GameWidget<null> {
                                             styleClasses: ['tertiary'],
                                             text: 'Subsidise'
                                         }).build(),
-                                        new ElementBuilder({
-                                            tag: 'button',
-                                            styleClasses: ['tertiary'],
-                                            text: 'Upgrade'
-                                        }).build(),
+                                        this.upgradeButton,
                                         Div.simple('', ['fill']).build(),
                                         this.errorButton
                                     ]
@@ -113,6 +131,13 @@ export class FirmWidget extends GameWidget<null> {
         (this.capacityBar as HTMLElement).style.width = `${this.firm.lastProduction / this.firm.maxCapacity * 95 + 5}%`;
     }
 
+    updateButtons() {
+        // Hide the upgrade button if no upgrades are available.
+        if (!this.upgradeAvailable()) {
+            this.upgradeButton.style.display = 'none';
+        }
+    }
+
     updateError() {
         (this.errorButton as HTMLElement).style.display = 'none';
     }
@@ -123,5 +148,9 @@ export class FirmWidget extends GameWidget<null> {
     gameTick() {
         this.updateCapacityBar();
         this.updateError();
+    }
+
+    upgradeAvailable() {
+        return FirmTier.next(this.firm.tier) != null && this.firm.tier != this.firm.finalTier;
     }
 }

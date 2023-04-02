@@ -41,6 +41,37 @@ export class Basket extends Map<Good, number> {
         this.set(good, this.get(good) + amount);
     }
 
+    // Returns a new basket with certain elements removed.
+    subtract(other: Basket): Basket {
+        let result = this.copy();
+
+        for (let entry of other) {
+            if (result.has(entry[0])) {
+                result.addGood(entry[0], -entry[1]);
+            } else {
+                result.set(entry[0], -entry[1]);
+            }
+        }
+
+        return result;
+    }
+
+    // Modifies the current basket by subtracting things.
+    subtractMut(other: Basket) {
+        for (let entry of other) {
+            if (this.has(entry[0])) {
+                this.addGood(entry[0], -entry[1]);
+            } else {
+                this.set(entry[0], -entry[1]);
+            }
+        }
+    }
+
+    // Returns true if any item has a negative value.
+    hasNegatives(): boolean {
+        return Array.from(this.values()).some((amount) => amount < 0);
+    }
+
     // Makes a new copy of the current basket.
     copy(): Basket {
         let copy = new Basket();

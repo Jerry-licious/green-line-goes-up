@@ -21,6 +21,7 @@ body {
 /* Source: https://material.io/resources/color/ */
 body {
     --background: #1b1c18;
+    --background-rgb: 27, 28, 24;
     --on-background: #e3e3db;
     --on-background-rgb: 227, 227, 219;
 

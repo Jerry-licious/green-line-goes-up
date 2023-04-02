@@ -21,6 +21,8 @@ export class ItemList extends Widget<null> {
             Div.simple(title, ['title']).build(),
             this.list
         );
+
+        this.updateElement();
     }
 
     removeGood(item: Item) {

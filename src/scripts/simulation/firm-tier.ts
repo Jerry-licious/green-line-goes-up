@@ -1,5 +1,6 @@
 import {Config} from './configs';
 import {Good} from './good';
+import {Basket} from './basket';
 
 // Firms can be upgraded. Every tier of upgrade dramatically increases their productivity.
 export enum FirmTier {
@@ -48,5 +49,18 @@ export namespace FirmTier {
 
     export function efficiencyMultiplier(upgrade: FirmTier) {
         return Math.pow(Config.upgradeMultiplier, tier(upgrade));
+    }
+
+    export function cost(upgrade: FirmTier) {
+        switch (upgrade) {
+            case FirmTier.Manual:
+                return null;
+            case FirmTier.Basic:
+                return Basket.withItems(new Map<Good, number>([[Good.BasicEquipment, 250]]));
+            case FirmTier.Industrial:
+                return Basket.withItems(new Map<Good, number>([[Good.IndustrialEquipment, 250]]));
+            case FirmTier.Advanced:
+                return Basket.withItems(new Map<Good, number>([[Good.AdvancedEquipment, 250]]));
+        }
     }
 }
