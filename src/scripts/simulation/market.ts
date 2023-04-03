@@ -60,11 +60,6 @@ export class Market {
 
         this.currentExchangeQuantity = exchangePrices.length;
 
-        if (this.good == Good.Farming || this.good == Good.Crop || this.good == Good.Meat || this.good == Good.Fruit) {
-            console.log(`${this.good} exchanged: ${exchangePrices.length}`);
-            console.log(this.buyOrders.length, this.sellOrders.length);
-        }
-
         // If there are both buyers and sellers.
         if (pairAmount > 0) {
             // If people are paired, the announced market price will be the average of their exchange prices.
