@@ -34,7 +34,7 @@ export namespace Config {
     export const specialisationFactor = 0.1;
 
     // Floor to prevent "overflowing" expected prices into the negatives.
-    export const lowestPossiblePrice = 0;
+    export const lowestPossiblePrice = 0.01;
 
     // The amount that the production goal gets changed by upon successful or unsuccessful sale.
     export const productionGoalVolatility = 5;

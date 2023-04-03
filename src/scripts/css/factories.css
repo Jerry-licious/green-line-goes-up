@@ -57,7 +57,7 @@
 
     border-radius: var(--factory-border-radius);
 
-    background-image: url(https://upload.wikimedia.org/wikipedia/commons/7/71/Wolfsburg_VW-Werk.jpg);
+    /*background-image: url(https://upload.wikimedia.org/wikipedia/commons/7/71/Wolfsburg_VW-Werk.jpg);*/
     filter: grayscale(80%);
 }
 
@@ -164,6 +164,7 @@
     border-radius: 10px;
 
     background: var(--primary);
+    transition-duration: 0.1s;
 }
 
 .game .factory .actions {

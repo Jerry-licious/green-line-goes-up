@@ -98,3 +98,178 @@ body {
     justify-content: center;
     text-align: center;
 }
+
+.app {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+}
+
+.app button {
+    height: var(--button-height);
+    font-size: calc(var(--button-height) * 0.5);
+
+    border-radius: 10px;
+    border: none;
+
+    animation-duration: 0.3s;
+
+    flex-grow: 0;
+    flex-shrink: 0;
+
+    padding-left: 15px;
+    padding-right: 15px;
+
+    cursor: pointer;
+}
+
+.app button.green-line, .app button.material-icons {
+    font-size: calc(var(--button-height) * 0.75);
+    width: var(--button-height);
+    padding: 0;
+}
+
+.app button.primary {
+    background: var(--primary);
+    color: var(--on-primary);
+}
+.app button.primary:hover {
+    background: var(--primary-hover);
+}
+.app button.primary:active {
+    background: var(--primary-light);
+}
+.app button.primary-container {
+    background: var(--primary-container);
+    color: var(--on-primary-container);
+}
+.app button.primary-container:hover {
+    background: var(--primary-container-hover);
+}
+.app button.primary-container:active {
+    background: var(--primary-container-active);
+}
+.app button.secondary {
+    background: var(--secondary);
+    color: var(--on-secondary);
+}
+.app button.secondary:hover {
+    background: var(--secondary-hover);
+}
+.app button.secondary:active {
+    background: var(--secondary-light);
+}
+.app button.tertiary {
+    background: var(--tertiary);
+    color: var(--on-tertiary);
+}
+.app button.tertiary:hover {
+    background: var(--tertiary-hover);
+}
+.app button.tertiary:active {
+    background: var(--tertiary-active);
+}
+.app button.error {
+    background: var(--error);
+    color: var(--on-error);
+}
+
+.app button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.app .main-menu {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+
+    font-size: 50px;
+
+    gap: 20px;
+
+    background-image: url(../img/arrow.png);
+    background-position: center center;
+    background-size: 100vh;
+    background-repeat: no-repeat;
+}
+
+.app .main-menu .title {
+    font-size: 70px;
+    font-weight: bold;
+
+    text-align: center;
+}
+.app .main-menu .subtitle {
+    font-size: 30px;
+    text-align: center;
+}
+
+.app .main-menu button {
+    width: 240px;
+
+    height: 75px;
+    align-self: center;
+}
+
+.app .tutorial {
+    flex-grow: 1;
+
+    margin: 30px;
+    padding: 20px;
+    border-radius: 20px;
+    background: var(--surface);
+
+    display: flex;
+    flex-direction: row;
+
+    gap: 20px;
+}
+
+.app .tutorial .image {
+    flex-grow: 1;
+}
+.app .tutorial .content {
+    flex-grow: 0;
+    flex-shrink: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    width: 300px;
+    gap: 10px;
+}
+.app .tutorial .content .title {
+    font-size: 30px;
+    font-weight: bold;
+}
+.app .tutorial .content .text {
+    flex-grow: 1;
+    font-size: 16px;
+}
+.app .tutorial .content .actions {
+    display: flex;
+    flex-direction: row;
+
+    font-size: 40px;
+    gap: 10px;
+}
+
+.app .image {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    align-content: center;
+    justify-content: center;
+}
+
+.app .image img {
+    width: 100%;
+}

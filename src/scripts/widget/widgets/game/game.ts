@@ -47,6 +47,7 @@ export class Game extends Widget<null> {
             this.actionOverlayContainer
         );
 
+        this.updateSelection(0);
         this.tick();
 
         window.requestAnimationFrame((t) => this.update(t));

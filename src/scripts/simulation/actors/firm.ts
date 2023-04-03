@@ -107,11 +107,15 @@ export class Firm extends EconomicActor {
         for (let goal of this.buyGoal) {
             totalExpectedCost += this.expectedPrice(goal[0]) * goal[1];
         }
+        if (totalExpectedCost == 0) {
+            totalExpectedCost = 1;
+        }
 
         for (let goal of this.buyGoal) {
             let priceWeight = this.expectedPrice(goal[0]) / totalExpectedCost;
 
-            let buyOrder = new Order(this, goal[0], this.inventory.money * priceWeight);
+            // Avoid selling with negative price.
+            let buyOrder = new Order(this, goal[0], Math.max(this.inventory.money * priceWeight, 0));
             for (let i = 0; i < goal[1]; i++) {
                 simulation.placeBuyOrder(buyOrder);
             }
@@ -135,7 +139,7 @@ export class Firm extends EconomicActor {
             this.inventory.set(output[0], 0);
         }*/
         // The firm tries to execute the recipe for as many times as possible.
-        while (this.recipe.canApply(this.inventory)) {
+        while (this.recipe.canApply(this.inventory) && this.lastProduction < this.maxCapacity) {
             this.recipe.apply(this.inventory);
             this.lastProduction++;
         }
@@ -147,14 +151,7 @@ export class Firm extends EconomicActor {
         this.inventory.addGood(good, -1);
     }
 
-    updatePriceExpectationsBasedOnGoals() {/*
-        for (let goal of this.buyGoal) {
-            // If the goal has not been met (cleared),
-            if (goal[1] > 0) {
-                // Only raise expected prices, since only weight matters anyways.
-                this.changeExpectedPrice(goal[0], Config.priceVolatilityFactor);
-            }
-        }*/
+    updatePriceExpectationsBasedOnGoals() {
         for (let goal of this.sellGoal) {
             // If the goal has not been met (cleared),
             if (goal[1] > 0) {
@@ -165,19 +162,23 @@ export class Firm extends EconomicActor {
                 this.productionOffset += Config.productionGoalVolatility;
             }
         }
-
-        // this.normalisePriceExpectations();
     }
 
-    // Scale down the price expectations to a maximum of 10 so the price volatility can react fast enough.
-    normalisePriceExpectations() {
-        if (Array.from(this.buyGoal.keys())
-            .map((good) => this.expectedPrice(good))
-            .some((price) => price > 20)) {
-            Array.from(this.buyGoal.keys()).forEach((good) => {
-                this.setExpectedPrice(good, this.expectedPrice(good) * 0.5);
-            });
+    // Firms pre-emptively gain money equal to demand for the item, and loses it at the end of the turn.
+    borrowedMoney: number = 0;
+    borrowMoneyFromDemand(simulation: Simulation) {
+        this.borrowedMoney = 0;
+        if (simulation.markets.has(this.recipe.output) && this.lastProduction == 0) {
+            this.borrowedMoney = simulation.markets.get(this.recipe.output).buyOrders
+                .map((order) => order.offerPrice)
+                .reduce((a, b) => a + b, 0);
+
+            this.inventory.money += this.borrowedMoney;
         }
+    }
+
+    returnMoneyFromDemand() {
+        this.inventory.money -= this.borrowedMoney;
     }
 
     // Updates the firm's tier and recipe.

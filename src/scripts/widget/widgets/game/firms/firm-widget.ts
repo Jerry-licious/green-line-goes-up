@@ -5,6 +5,7 @@ import {ElementBuilder} from '../../../builders/element-builder';
 import {Game} from '../game';
 import {GameWidget} from '../game-widget';
 import {OverlayActionMenu} from '../overlay-action-menu';
+import {Basket} from '../../../../simulation/basket';
 
 export class FirmWidget extends GameWidget<null> {
     firm: Firm;
@@ -75,8 +76,19 @@ export class FirmWidget extends GameWidget<null> {
                                         new ElementBuilder({
                                             tag: 'button',
                                             styleClasses: ['tertiary'],
-                                            text: 'Subsidise'
-                                        }).build(),
+                                            text: 'Subsidise',
+                                            onclick: () => {
+                                                this.game.openActionMenu(new OverlayActionMenu(
+                                                    game, "Supply Production Needs",
+                                                    Basket.withItems(this.firm.buyGoal), () => {
+                                                        for (let goal of this.firm.buyGoal) {
+                                                            this.firm.inventory.addGood(goal[0], goal[1]);
+                                                            this.firm.buyGoal.set(goal[0], 0);
+                                                        }
+                                                    }
+                                                ))
+                                            }}
+                                        ).build(),
                                         this.upgradeButton,
                                         Div.simple('', ['fill']).build(),
                                         this.errorButton

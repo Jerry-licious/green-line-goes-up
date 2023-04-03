@@ -42,10 +42,10 @@ export class Simulation extends Widget<number>{
         }
 
 
-        this.resources.push(new Firm("", new Recipe(
+        this.resources.push(new Firm("Crop Farm", new Recipe(
             new Map([[Good.Farming, 1]]), Good.Crop,  5
         ), FirmTier.Manual, FirmTier.Advanced, false, false, 250));
-        this.resources.push(new Firm("", new Recipe(
+        this.resources.push(new Firm("Meat Farm", new Recipe(
             new Map([[Good.Crop, 1], [Good.Farming, 1]]), Good.Meat, 1
         ), FirmTier.Manual, FirmTier.Advanced, false, false, 250));
     }
@@ -90,18 +90,24 @@ export class Simulation extends Widget<number>{
     // Runs one tick of the simulation.
     tick() {
         let actors = this.getAllActors();
+        for (let actor of this.individuals) {
+            actor.placeBuyOrders(this);
+        }
+        this.government.placeBuyOrders(this);
+
+        for (let actor of this.getAllFirms()) {
+            actor.borrowMoneyFromDemand(this);
+            // Then, with the money they earned from the previous day (or the ones they started with), they buy things
+            // from the market.
+            actor.placeBuyOrders(this);
+            actor.returnMoneyFromDemand();
+        }
 
         for (let actor of actors) {
             // At the beginning of each day, each actor places sell orders on their goods.
             actor.placeSellOrders(this);
         }
 
-        for (let actor of actors) {
-            // Then, with the money they earned from the previous day (or the ones they started with), they buy things
-            // from the market.
-            actor.placeBuyOrders(this);
-        }
-        this.government.placeBuyOrders(this);
 
         // Each market then makes the transactions, updating price expectations and so on.
         for (let market of this.markets.values()) {
@@ -168,6 +174,8 @@ export class Simulation extends Widget<number>{
         // As a result, all actors update their perception of price, but actors who participate in the market are
         // more influenced.
         for (let market of this.markets.values()) {
+            let recentExchangePrice = market.recentExchangePrice;
+
             for (let actor of this.individuals) {
                 if (Good.isLabour(market.good)) {
                     actor.changeExpectedPrice(market.good,
@@ -180,10 +188,8 @@ export class Simulation extends Widget<number>{
             // Firms take stronger influence from the market price, but only for labour. This makes them price
             // takers of labour rather than price setters.
             for (let actor of this.getAllFirms()) {
-                let expectationDifference = market.currentExchangePrice - actor.expectedPrice(market.good);
-
                 actor.changeExpectedPrice(market.good,
-                    (market.currentExchangePrice - actor.expectedPrice(market.good)) *
+                    (recentExchangePrice - actor.expectedPrice(market.good)) *
                      Config.priceVolatilityFactor * 2);
             }
             this.government.changeExpectedPrice(market.good,

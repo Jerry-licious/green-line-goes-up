@@ -117,4 +117,11 @@ export class Market {
             this.exchangePriceHistory.shift();
         }
     }
+
+    // Gets the average of the past few exchanges.
+    get recentExchangePrice() {
+        let sampleSize = Math.min(this.exchangePriceHistory.length, 10);
+        return this.exchangePriceHistory.slice(-sampleSize)
+            .reduce((a, b) => a + b, 0) / sampleSize;
+    }
 }

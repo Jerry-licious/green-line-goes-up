@@ -50,6 +50,9 @@ export class FirmBlueprint {
     static farmSetupCost: Basket = Basket.withItems(new Map(
         [[Good.Farming, 1000], [Good.Crop, 1000], [Good.Wood, 1000]]
     ));
+    static forestSetupCost: Basket = Basket.withItems(new Map(
+        [[Good.Forestry, 1000]]
+    ));
     // The cost to create a manual tier firm.
     static workshopSetupCost: Basket = Basket.withItems(new Map<Good, number>(
         [[Good.Assembly, 1000], [Good.Wood, 1000]]
@@ -70,60 +73,60 @@ export class FirmBlueprint {
     static resourcesBlueprints: FirmBlueprint[] = [
         // Buildable resource sites.
         new FirmBlueprint({
-            id: "coal_mine",
+            id: "Coal Mine",
             recipe: new Recipe(
                 new Map([[Good.Mining, 1]]), Good.Coal, 5
             ),
             cost: FirmBlueprint.mineSetupCost
         }),
         new FirmBlueprint({
-            id: "mine",
+            id: "Mine",
             recipe: new Recipe(
                 new Map([[Good.Mining, 1]]), Good.Mineral, 5
             ),
             cost: FirmBlueprint.mineSetupCost
         }),
         new FirmBlueprint({
-            id: "gold_mine",
+            id: "Gold Mine",
             recipe: new Recipe(
                 new Map([[Good.Mining, 1]]), Good.PreciousMetal, 3
             ),
             cost: FirmBlueprint.mineSetupCost
         }),
         new FirmBlueprint({
-            id: "oil_field",
+            id: "Oil Field",
             recipe: new Recipe(
                 new Map([[Good.Mining, 1]]), Good.Oil, 4
             ),
             cost: FirmBlueprint.mineSetupCost
         }),
         new FirmBlueprint({
-            id: "wool_farm",
+            id: "Wool Farm",
             recipe: new Recipe(
                 new Map([[Good.Farming, 1], [Good.Crop, 1]]), Good.Wool, 2
             ),
             cost: FirmBlueprint.farmSetupCost
         }),
         new FirmBlueprint({
-            id: "dairy_farm",
+            id: "Dairy Farm",
             recipe: new Recipe(
                 new Map([[Good.Farming, 1], [Good.Crop, 1]]), Good.Milk, 1
             ),
             cost: FirmBlueprint.farmSetupCost
         }),
         new FirmBlueprint({
-            id: "forest",
+            id: "Forest",
             recipe: new Recipe(
                 new Map([[Good.Forestry, 1]]), Good.Wood, 5
             ),
-            cost: FirmBlueprint.farmSetupCost
+            cost: FirmBlueprint.forestSetupCost
         })
     ]
 
     static factoryBlueprints: FirmBlueprint[] = [
         // Heavy industry
         new FirmBlueprint({
-            id: "equipment_workshop",
+            id: "Equipment Workshop",
             recipe: new Recipe(
                 new Map([[Good.Assembly, 1], [Good.ProcessedWood, 5]]),
                 Good.BasicEquipment, 1
@@ -131,7 +134,7 @@ export class FirmBlueprint {
             cost: FirmBlueprint.workshopSetupCost
         }),
         new FirmBlueprint({
-            id: "equipment_factory",
+            id: "Equipment Factory",
             recipe: new Recipe(
                 new Map([[Good.Assembly, 1], [Good.BasicEquipment, 1], [Good.MachineParts, 5]]),
                 Good.IndustrialEquipment, 1
@@ -140,9 +143,9 @@ export class FirmBlueprint {
             cost: FirmBlueprint.basicSetupCost
         }),
         new FirmBlueprint({
-            id: "machine_factory",
+            id: "Machine Factory",
             recipe: new Recipe(
-                new Map([[Good.Assembly, 1], [Good.IndustrialEquipment, 1], [Good.Circuit, 1], [Good.Motor, 1]]),
+                new Map([[Good.Assembly, 1], [Good.IndustrialEquipment, 1], [Good.Circuit, 1]]),
                 Good.AdvancedEquipment, 1
             ),
             startingTier: FirmTier.Industrial,
@@ -150,7 +153,7 @@ export class FirmBlueprint {
         }),
         // Power Plants
         new FirmBlueprint({
-            id: "coal_plant",
+            id: "Coal Plant",
             recipe: new Recipe(
                 // Coal roughly outputs 10 times the amount of electricity when put into a power plant.
                 new Map([[Good.Assembly, 1], [Good.Coal, 10]]),
@@ -160,7 +163,7 @@ export class FirmBlueprint {
             cost: FirmBlueprint.basicSetupCost
         }),
         new FirmBlueprint({
-            id: "wind_plant",
+            id: "Wind Plant",
             recipe: new Recipe(
                 // Power plants are more cost-efficient with maintenance.
                 new Map([[Good.Technical, 1]]),
@@ -171,7 +174,7 @@ export class FirmBlueprint {
             capacity: 50
         }),
         new FirmBlueprint({
-            id: "solar_plant",
+            id: "Solar Plant",
             recipe: new Recipe(
                 // Power plants are more cost-efficient with maintenance.
                 new Map([[Good.Technical, 1]]),
@@ -183,7 +186,7 @@ export class FirmBlueprint {
         }),
         // Intermediate products
         new FirmBlueprint({
-            id: "carpentry",
+            id: "Carpentry Workshop",
             recipe: new Recipe(
                 new Map([[Good.Assembly, 1], [Good.Wood, 5]]),
                 Good.ProcessedWood, 5
@@ -191,7 +194,7 @@ export class FirmBlueprint {
             cost: FirmBlueprint.workshopSetupCost
         }),
         new FirmBlueprint({
-            id: "chemical_plant",
+            id: "Chemical Plant",
             recipe: new Recipe(
                 new Map([[Good.Assembly, 1], [Good.Oil, 4]]),
                 Good.Chemicals, 4
@@ -200,7 +203,7 @@ export class FirmBlueprint {
             cost: FirmBlueprint.factorySetupCost
         }),
         new FirmBlueprint({
-            id: "forge",
+            id: "Forge",
             recipe: new Recipe(
                 new Map([[Good.Assembly, 1], [Good.Mineral, 5], [Good.Coal, 1]]),
                 Good.Metal, 5
@@ -209,7 +212,7 @@ export class FirmBlueprint {
             cost: FirmBlueprint.basicSetupCost
         }),
         new FirmBlueprint({
-            id: "advanced_forge",
+            id: "Advanced Forge",
             recipe: new Recipe(
                 new Map([[Good.Assembly, 1], [Good.PreciousMineral, 3], [Good.Coal, 1]]),
                 Good.PreciousMetal, 3
@@ -218,7 +221,7 @@ export class FirmBlueprint {
             cost: FirmBlueprint.factorySetupCost
         }),
         new FirmBlueprint({
-            id: "motor_factory",
+            id: "Motor Factory",
             recipe: new Recipe(
                 new Map([[Good.Assembly, 1], [Good.MachineParts, 1], [Good.PreciousMetal, 1]]),
                 Good.Motor, 2
@@ -227,16 +230,16 @@ export class FirmBlueprint {
             cost: FirmBlueprint.factorySetupCost
         }),
         new FirmBlueprint({
-            id: "circuits_factory",
+            id: "Circuits Factory",
             recipe: new Recipe(
-                new Map([[Good.Assembly, 1], [Good.Metal, 1], [Good.PreciousMetal, 1], [Good.Chemicals, 1]]),
+                new Map([[Good.Assembly, 1], [Good.PreciousMetal, 1], [Good.Chemicals, 1]]),
                 Good.Circuit, 1
             ),
             startingTier: FirmTier.Industrial,
             cost: FirmBlueprint.factorySetupCost
         }),
         new FirmBlueprint({
-            id: "machine_parts_factory",
+            id: "Machine Parts Factory",
             recipe: new Recipe(
                 new Map([[Good.Assembly, 1], [Good.Metal, 3]]),
                 Good.MachineParts, 5
@@ -245,7 +248,7 @@ export class FirmBlueprint {
             cost: FirmBlueprint.basicSetupCost
         }),
         new FirmBlueprint({
-            id: "textile_factory",
+            id: "Textile Factory",
             recipe: new Recipe(
                 new Map([[Good.Assembly, 1], [Good.Wool, 2]]),
                 Good.Textile, 2
@@ -254,7 +257,7 @@ export class FirmBlueprint {
             cost: FirmBlueprint.basicSetupCost
         }),
         new FirmBlueprint({
-            id: "flour_mill",
+            id: "Flour Mill",
             recipe: new Recipe(
                 new Map([[Good.Assembly, 1], [Good.Crop, 3]]),
                 Good.Flour, 3
@@ -264,7 +267,7 @@ export class FirmBlueprint {
         }),
         // Consumer goods factories.
         new FirmBlueprint({
-            id: "clothes_factory",
+            id: "Clothes Factory",
             recipe: new Recipe(
                 new Map([[Good.Assembly, 1], [Good.Textile, 2]]),
                 Good.Clothes, 2
@@ -273,7 +276,7 @@ export class FirmBlueprint {
             cost: FirmBlueprint.basicSetupCost
         }),
         new FirmBlueprint({
-            id: "meat_processing_plant",
+            id: "Meat Processing Plant",
             recipe: new Recipe(
                 new Map([[Good.Assembly, 1], [Good.Meat, 1], [Good.Chemicals, 1]]),
                 Good.ProcessedMeat, 3
@@ -282,7 +285,7 @@ export class FirmBlueprint {
             cost: FirmBlueprint.factorySetupCost
         }),
         new FirmBlueprint({
-            id: "crop_processing_plant",
+            id: "Crop Processing Plant",
             recipe: new Recipe(
                 new Map([[Good.Assembly, 1], [Good.Crop, 1], [Good.Chemicals, 1]]),
                 Good.ProcessedVegetables, 3
@@ -291,7 +294,7 @@ export class FirmBlueprint {
             cost: FirmBlueprint.factorySetupCost
         }),
         new FirmBlueprint({
-            id: "dairy_factory",
+            id: "Dairy Factory",
             recipe: new Recipe(
                 new Map([[Good.Assembly, 1], [Good.Milk, 1]]),
                 Good.Dairy, 3
@@ -300,7 +303,7 @@ export class FirmBlueprint {
             cost: FirmBlueprint.workshopSetupCost
         }),
         new FirmBlueprint({
-            id: "bakery",
+            id: "Bakery",
             recipe: new Recipe(
                 new Map([[Good.Assembly, 1], [Good.Flour, 1]]),
                 Good.Baked, 2
@@ -309,7 +312,7 @@ export class FirmBlueprint {
             cost: FirmBlueprint.workshopSetupCost
         }),
         new FirmBlueprint({
-            id: "restaurant",
+            id: "Restaurant",
             recipe: new Recipe(
                 new Map([[Good.Artisan, 1], [Good.Meat, 1], [Good.Crop, 1]]),
                 Good.LuxuryFood, 1
@@ -319,7 +322,7 @@ export class FirmBlueprint {
             cost: FirmBlueprint.workshopSetupCost
         }),
         new FirmBlueprint({
-            id: "furniture_factory",
+            id: "Furniture Factory",
             recipe: new Recipe(
                 new Map([[Good.Assembly, 1], [Good.ProcessedWood, 1]]),
                 Good.Furniture, 1
@@ -328,7 +331,7 @@ export class FirmBlueprint {
             cost: FirmBlueprint.basicSetupCost
         }),
         new FirmBlueprint({
-            id: "luxury_furniture_workshop",
+            id: "Luxury Furniture Workshop",
             recipe: new Recipe(
                 new Map([[Good.Artisan, 1], [Good.ProcessedWood, 1], [Good.PreciousMetal, 1]]),
                 Good.LuxuryFurniture, 1
@@ -338,7 +341,7 @@ export class FirmBlueprint {
             cost: FirmBlueprint.workshopSetupCost
         }),
         new FirmBlueprint({
-            id: "appliance_factory",
+            id: "Appliance Factory",
             recipe: new Recipe(
                 new Map([[Good.Assembly, 1], [Good.MachineParts, 2]]),
                 Good.Appliance, 1
@@ -347,7 +350,7 @@ export class FirmBlueprint {
             cost: FirmBlueprint.factorySetupCost
         }),
         new FirmBlueprint({
-            id: "smart_appliance_factory",
+            id: "Smart Appliance Factory",
             recipe: new Recipe(
                 new Map([[Good.Assembly, 1], [Good.Appliance, 1], [Good.Circuit, 1]]),
                 Good.SmartAppliance, 1
@@ -356,7 +359,7 @@ export class FirmBlueprint {
             cost: FirmBlueprint.advancedFactorySetupCost
         }),
         new FirmBlueprint({
-            id: "electronics_factory",
+            id: "Electronics Factory",
             recipe: new Recipe(
                 new Map([[Good.Assembly, 1], [Good.Circuit, 2]]),
                 Good.Electronics, 1
@@ -365,9 +368,9 @@ export class FirmBlueprint {
             cost: FirmBlueprint.advancedFactorySetupCost
         }),
         new FirmBlueprint({
-            id: "automobile_factory",
+            id: "Automobile Factory",
             recipe: new Recipe(
-                new Map([[Good.Assembly, 1], [Good.Circuit, 2], [Good.MachineParts, 2], [Good.Motor, 2]]),
+                new Map([[Good.Assembly, 1], [Good.Circuit, 2], [Good.Motor, 2]]),
                 Good.Automobiles, 1
             ),
             startingTier: FirmTier.Advanced,
