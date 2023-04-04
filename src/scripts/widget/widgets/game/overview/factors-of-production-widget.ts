@@ -12,7 +12,6 @@ export class FactorsOfProductionWidget extends GameWidget<null> {
     constructor(game: Game) {
         super(game, 'div', 'factors');
 
-        console.log("HELLO?")
         this.domElement.append(
             Div.simple('Factors of Production', ['title']).build(),
             new Div({

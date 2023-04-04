@@ -50,6 +50,8 @@ export class Game extends Widget<null> {
         this.updateSelection(0);
         this.tick();
 
+        console.log(this.simulation);
+
         window.requestAnimationFrame((t) => this.update(t));
     }
 

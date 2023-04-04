@@ -6,3 +6,8 @@ export function gaussianRandom(mean: number, std: number): number {
     let z = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
     return z * std + mean;
 }
+
+
+export function clamp(x: number, min: number, max: number): number {
+    return Math.min(Math.max(x, min), max);
+}

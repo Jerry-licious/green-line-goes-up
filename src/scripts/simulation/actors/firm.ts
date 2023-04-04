@@ -6,10 +6,8 @@ import {Recipe} from './recipe';
 import {Config} from '../configs';
 import {Order} from '../order';
 import {FirmTier} from '../firm-tier';
+import {clamp} from '../../util/random';
 
-function clamp(x: number, min: number, max: number): number {
-    return Math.min(Math.max(x, min), max);
-}
 
 // A firm is a type of actor that takes in some goods and output different goods.
 export class Firm extends EconomicActor {

@@ -67,7 +67,7 @@ export class MarketOrderMenu extends GameWidget<null> {
 
 
         this.orderButton.addEventListener('click', () => {
-            this.game.simulation.government.addBuyGoal(this.market.good, this.intendedAmount);
+            this.game.simulation.government.addOrderGoal(this.market.good, this.intendedAmount);
 
             (this.amount as HTMLInputElement).value = '0';
 
@@ -97,8 +97,8 @@ export class MarketOrderMenu extends GameWidget<null> {
 
     gameTick(): void {
         this.inventory.innerHTML = this.game.simulation.government.inventory.get(this.market.good).toString();
-        if (this.game.simulation.government.buyGoal.has(this.market.good)) {
-            this.pendingOrders.innerHTML = this.game.simulation.government.buyGoal.get(this.market.good).toString();
+        if (this.game.simulation.government.orderGoal.has(this.market.good)) {
+            this.pendingOrders.innerHTML = this.game.simulation.government.orderGoal.get(this.market.good).toString();
         } else {
             this.pendingOrders.innerHTML = '0';
         }

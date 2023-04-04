@@ -56,4 +56,6 @@ export namespace Config {
     }
 
     export const governmentIncomeModifier = 0.2;
+    // The most amount of one type of good the government may buy in a given cycle.
+    export const governmentBuyGoalIncrement = 30;
 }
