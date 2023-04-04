@@ -21,6 +21,9 @@
     padding-top: 10px;
     padding-bottom: 10px;
     gap: 10px;
+
+    max-height: 0;
+    overflow-y: auto;
 }
 
 .game .market {
