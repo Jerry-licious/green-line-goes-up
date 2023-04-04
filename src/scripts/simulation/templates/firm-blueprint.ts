@@ -45,29 +45,29 @@ export class FirmBlueprint {
     }
 
     static mineSetupCost: Basket = Basket.withItems(new Map(
-        [[Good.Mining, 1000]]
+        [[Good.Mining, 100]]
     ));
     static farmSetupCost: Basket = Basket.withItems(new Map(
-        [[Good.Farming, 1000], [Good.Crop, 1000], [Good.Wood, 1000]]
+        [[Good.Farming, 100], [Good.Crop, 100], [Good.Wood, 100]]
     ));
     static forestSetupCost: Basket = Basket.withItems(new Map(
-        [[Good.Forestry, 1000]]
+        [[Good.Forestry, 100]]
     ));
     // The cost to create a manual tier firm.
     static workshopSetupCost: Basket = Basket.withItems(new Map<Good, number>(
-        [[Good.Assembly, 1000], [Good.Wood, 1000]]
+        [[Good.Assembly, 100], [Good.Wood, 100]]
     ));
     // The cost to create a basic tier firm.
     static basicSetupCost: Basket = Basket.withItems(new Map<Good, number>(
-        [[Good.BasicEquipment, 250], [Good.Assembly, 1000], [Good.Wood, 1000]]
+        [[Good.BasicEquipment, 250], [Good.Assembly, 100], [Good.Wood, 100]]
     ));
     // The cost to create an industrial tier firm.
     static factorySetupCost: Basket = Basket.withItems(new Map<Good, number>(
-        [[Good.IndustrialEquipment, 250], [Good.Assembly, 1000], [Good.Wood, 2000]]
+        [[Good.IndustrialEquipment, 250], [Good.Assembly, 100], [Good.Wood, 200]]
     ));
     // The cost to create an industrial tier firm.
     static advancedFactorySetupCost: Basket = Basket.withItems(new Map<Good, number>(
-        [[Good.AdvancedEquipment, 250], [Good.Assembly, 1000], [Good.Wood, 3000], [Good.Rocks, 3000]]
+        [[Good.AdvancedEquipment, 250], [Good.Assembly, 100], [Good.Wood, 300], [Good.Rocks, 300]]
     ));
 
     static resourcesBlueprints: FirmBlueprint[] = [
