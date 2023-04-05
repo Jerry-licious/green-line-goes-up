@@ -30,7 +30,7 @@ export class Firm extends EconomicActor {
     finalTier: FirmTier;
 
     // Additional production attempts based on how successful the firm has been doing.
-    productionOffset: number = this.maxCapacity / 2;
+    productionGoal: number = this.maxCapacity / 2;
 
     constructor(id: string, recipe: Recipe, startingTier: FirmTier, finalTier: FirmTier,
                 consumesCoal: boolean, consumesElectricity: boolean, capacity: number) {
@@ -60,19 +60,8 @@ export class Firm extends EconomicActor {
         this.inventory.set(this.recipe.output, this.recipe.outputQuantity * this.maxCapacity);
     }
 
-    // Calculates the cost of buying materials required for one recipe.
-    get recipeCost(): number {
-        let totalCost = 0;
-        for (let input of this.recipe.inputs) {
-            totalCost += this.expectedPrice(input[0]) * input[1];
-        }
-        return totalCost;
-    }
-
-    // A firm always tries to have a full stockpile, but nothing more.
-    calculateProductionGoal(): number {
-        return clamp(/*this.maxCapacity - this.inventory.get(this.recipe.output) / this.recipe.outputQuantity +*/
-         this.productionOffset, 0, this.maxCapacity);
+    getProductionGoal(): number {
+        return Math.floor(clamp(this.productionGoal, 0, this.maxCapacity));
     }
 
     // At the beginning of each day, a firm tries to buy as many things as possible for them to fill their recipe.
@@ -88,7 +77,7 @@ export class Firm extends EconomicActor {
             return;
         }
 
-        let productionGoal = this.calculateProductionGoal();
+        let productionGoal = this.getProductionGoal();
 
         for (let input of this.recipe.inputs) {
             // Always buy to function at max capacity, but no need to buy extra if there are already stuff in the
@@ -132,11 +121,7 @@ export class Firm extends EconomicActor {
 
     consumeGoods(): void {
         this.lastProduction = 0;
-        // Clear off anything leftover?
-        /*
-        for (let output of this.recipe.outputs) {
-            this.inventory.set(output[0], 0);
-        }*/
+
         // The firm tries to execute the recipe for as many times as possible.
         while (this.recipe.canApply(this.inventory) && this.lastProduction < this.maxCapacity) {
             this.recipe.apply(this.inventory);
@@ -156,50 +141,20 @@ export class Firm extends EconomicActor {
             if (goal[1] > 0) {
                 // Try to raise the price next time.
                 this.changeExpectedPrice(goal[0], Config.priceVolatilityFactor);
-            } else {
-                // If the goal has been cleared, try to lower the price for a better deal.
-                // this.changeExpectedPrice(goal[0], -Config.priceVolatilityFactor);
             }
         }
-        // If any goal was not met
+        // Judge the amount of production based on if the firm is able to afford its production cost.
         if (Array.from(this.buyGoal.values()).some((goal) => goal > 0)) {
             // Try to produce less to save money.
             // Failure puts more weight, because regret is a powerful emotion!
-            this.productionOffset -= Config.productionGoalVolatility;
+            this.productionGoal -= Config.productionGoalVolatility;
         } else {
-            this.productionOffset += Config.productionGoalVolatility / 2;
+            this.productionGoal += Config.productionGoalVolatility / 2;
         }
 
-        for (let goal of this.sellGoal) {
-            // If the goal has not been met (cleared),
-            if (goal[1] > 0) {
-                // Try to produce less to save money.
-                // this.productionOffset -= Config.productionGoalVolatility / 2;
-            } else {
-                // If the goal has been cleared, try to make more next time!
-                // this.productionOffset += Config.productionGoalVolatility / 2;
-            }
-        }
-
-        // Avoid "stockpiling" production expectations.
-        this.productionOffset = clamp(this.productionOffset, 10, this.maxCapacity);
-    }
-
-    // Firms pre-emptively gain money equal to demand for the item, and loses it at the end of the turn.
-    borrowedMoney: number = 0;
-    borrowMoneyFromDemand(simulation: Simulation) {
-        this.borrowedMoney = 0;
-        if (simulation.markets.has(this.recipe.output) && this.lastProduction == 0) {
-            this.borrowedMoney = simulation.markets.get(this.recipe.output).buyOrders
-                .map((order) => order.offerPrice)
-                .reduce((a, b) => a + b, 0);
-
-            this.inventory.money += this.borrowedMoney;
-        }
-    }
-
-    returnMoneyFromDemand() {
-        this.inventory.money -= this.borrowedMoney;
+        // Clamp the production goal to capacity, avoid having a goal with too low of a number to avoid paying an
+        // individual a bunch of money for no reason.
+        this.productionGoal = clamp(this.productionGoal, 10, this.maxCapacity);
     }
 
     // Updates the firm's tier and recipe.

@@ -46,7 +46,7 @@ export class Tutorial extends Widget<number> {
             styleClasses: ['primary', 'material-icons'],
             text: 'navigate_before',
             onclick: () => {
-                this.updateElement(this.lastState - 1);
+                this.render(this.lastState - 1);
             }
         }).build() as HTMLButtonElement;
         this.nextButton = new ElementBuilder({
@@ -54,7 +54,7 @@ export class Tutorial extends Widget<number> {
             styleClasses: ['primary', 'material-icons'],
             text: 'navigate_next',
             onclick: () => {
-                this.updateElement(this.lastState + 1);
+                this.render(this.lastState + 1);
             }
         }).build() as HTMLButtonElement;
 
@@ -88,7 +88,7 @@ export class Tutorial extends Widget<number> {
             }).build()
         );
 
-        this.updateElement(0);
+        this.render(0);
     }
 
     updateElement(state: number): void {

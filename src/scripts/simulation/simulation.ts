@@ -174,8 +174,6 @@ export class Simulation extends Widget<number>{
         // As a result, all actors update their perception of price, but actors who participate in the market are
         // more influenced.
         for (let market of this.markets.values()) {
-            let recentExchangePrice = market.recentExchangePrice;
-
             for (let actor of this.individuals) {
                 if (Good.isLabour(market.good)) {
                     actor.changeExpectedPrice(market.good,

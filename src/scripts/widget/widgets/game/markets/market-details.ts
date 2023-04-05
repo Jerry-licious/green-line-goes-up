@@ -45,6 +45,5 @@ export class MarketDetails extends GameWidget<null> {
         this.orderMenu.gameTick();
     }
 
-    updateElement(state: null | undefined): void {
-    }
+    updateElement(state: null | undefined): void {}
 }

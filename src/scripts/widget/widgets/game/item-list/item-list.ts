@@ -1,4 +1,3 @@
-import {Basket} from '../../../../simulation/basket';
 import {Widget} from '../../widget';
 import {Div} from '../../../builders/common-elements';
 import {Item} from './item';
@@ -54,7 +53,7 @@ export class ItemList extends Widget<null> {
         }
 
         for (let item of this.items) {
-            item.updateElement(this.basket.get(item.good));
+            item.render(this.basket.get(item.good));
         }
     }
 }

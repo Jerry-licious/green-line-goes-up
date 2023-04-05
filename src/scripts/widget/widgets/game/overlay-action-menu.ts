@@ -1,4 +1,3 @@
-import {Widget} from '../widget';
 import {Basket} from '../../../simulation/basket';
 import {GameWidget} from './game-widget';
 import {Game} from './game';
@@ -18,7 +17,7 @@ export class OverlayActionMenu extends GameWidget<null> {
                 text: 'done',
                 onclick: () => {
                     action();
-                    game.simulation.government.inventory.subtractMut(cost);
+                    game.simulation.government.inventory.removeItemsFrom(cost);
                     game.dismissActionMenu();
                 }
             }).build();

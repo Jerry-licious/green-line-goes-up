@@ -57,7 +57,7 @@ export class Basket extends Map<Good, number> {
     }
 
     // Modifies the current basket by subtracting things.
-    subtractMut(other: Basket) {
+    removeItemsFrom(other: Basket) {
         for (let entry of other) {
             if (this.has(entry[0])) {
                 this.addGood(entry[0], -entry[1]);

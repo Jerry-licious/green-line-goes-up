@@ -18,7 +18,7 @@ export class TimeControl extends GameWidget<number> {
 
         // Start with the game paused.
         this.lastState = 0;
-        this.buttons[0].updateElement(true);
+        this.buttons[0].render(true);
 
         this.domElement.append(
             this.timeDisplay,
@@ -36,7 +36,7 @@ export class TimeControl extends GameWidget<number> {
     updateElement(state: number) {
         for (let i = 0; i < this.buttons.length; i++) {
             // Set the button to be selected if it matches the index.
-            this.buttons[i].updateElement(i == state);
+            this.buttons[i].render(i == state);
         }
 
         this.game.updateTimeControl(state);

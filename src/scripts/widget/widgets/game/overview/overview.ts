@@ -45,8 +45,8 @@ export class Overview extends GameWidget<null> {
     }
 
     gameTick(): void {
-        this.inventory.updateElement();
-        this.orders.updateElement();
+        this.inventory.render();
+        this.orders.render();
         this.chart.update();
         this.factors.gameTick();
     }

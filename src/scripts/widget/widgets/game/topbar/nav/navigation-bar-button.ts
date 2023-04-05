@@ -1,5 +1,4 @@
 import {Widget} from '../../../widget';
-import {ElementBuilder} from '../../../../builders/element-builder';
 import {Div} from '../../../../builders/common-elements';
 import {NavigationBar} from './navigation-bar';
 
@@ -29,7 +28,7 @@ export class NavigationBarButton extends Widget<boolean> {
         // On-click, notify the rail of the change.
         this.domElement.addEventListener('click', function () {
             // Have the rail update its configuration.
-            rail.updateElement(index);
+            rail.render(index);
         });
     }
 

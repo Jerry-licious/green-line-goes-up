@@ -41,7 +41,6 @@ export class Market {
             let buyOrder = this.buyOrders[i], sellOrder = this.sellOrders[i];
             // If the buyer is willing to pay a price higher than the seller's price, a transaction happens.
 
-            // TODO: Transaction
             // Assume that they don't split any differences and buyer just pays.
             let exchangePrice = buyOrder.offerPrice;
             // Buyer gets the thing and loses the money.
@@ -96,7 +95,6 @@ export class Market {
 
         this.recordData();
 
-        // TODO: Keep some kind of record after a round of market exchange.
         this.buyOrders = [];
         this.sellOrders = [];
     }
@@ -111,12 +109,5 @@ export class Market {
         if (this.exchangePriceHistory.length > dataMemory) {
             this.exchangePriceHistory.shift();
         }
-    }
-
-    // Gets the average of the past few exchanges.
-    get recentExchangePrice() {
-        let sampleSize = Math.min(this.exchangePriceHistory.length, 10);
-        return this.exchangePriceHistory.slice(-sampleSize)
-            .reduce((a, b) => a + b, 0) / sampleSize;
     }
 }

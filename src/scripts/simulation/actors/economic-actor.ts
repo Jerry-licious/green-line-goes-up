@@ -17,7 +17,7 @@ export abstract class EconomicActor {
     // The amount of goods/services in an actor's possession.
     inventory: Basket;
 
-    constructor() {
+    protected constructor() {
         // Initialise an empty inventory.
         this.inventory = new Basket();
     }

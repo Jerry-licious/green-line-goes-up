@@ -193,7 +193,6 @@ export class Individual extends EconomicActor {
     consumeGoods() {
         this.lastUtility = this.utilityOf(this.inventory);
 
-        // TODO: Track utility?
         for (let good of this.inventory.keys()) {
             this.inventory.set(good, 0);
         }

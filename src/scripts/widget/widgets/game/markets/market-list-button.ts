@@ -49,7 +49,7 @@ export class MarketListButton extends GameWidget<boolean> {
         )
 
         this.domElement.addEventListener('click', function() {
-            list.updateElement(index);
+            list.render(index);
         });
     }
 

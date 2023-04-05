@@ -52,12 +52,12 @@ export class FirmsContainer extends GameWidget<null>{
             });
     }
 
-    updateElement(state: null | undefined): void {}
-
     gameTick() {
         this.updateWidgetList();
         for (let widget of this.firmWidgets) {
             widget.gameTick();
         }
     }
+
+    updateElement(state: null | undefined): void {}
 }

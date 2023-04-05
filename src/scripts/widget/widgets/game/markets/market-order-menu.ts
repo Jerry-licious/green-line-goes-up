@@ -104,6 +104,5 @@ export class MarketOrderMenu extends GameWidget<null> {
         }
     }
 
-    updateElement(state: number | undefined): void {
-    }
+    updateElement(state: number | undefined): void {}
 }

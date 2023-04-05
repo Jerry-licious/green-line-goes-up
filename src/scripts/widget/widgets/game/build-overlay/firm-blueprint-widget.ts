@@ -49,10 +49,7 @@ export class FirmBlueprintWidget extends GameWidget<null> {
                                                     game,
                                                     `Build ${blueprint.firmID}`,
                                                     blueprint.cost,
-                                                    () => {
-                                                        overlay.target.push(blueprint.createFirm());
-                                                        overlay.removeBlueprint(this);
-                                                    }
+                                                    () => { this.buildFirm() }
                                                 ));
                                             }
                                         }).build()
@@ -68,6 +65,11 @@ export class FirmBlueprintWidget extends GameWidget<null> {
                 }).build()]
             }).build()
         );
+    }
+
+    buildFirm() {
+        this.overlay.target.push(this.blueprint.createFirm());
+        this.overlay.removeBlueprint(this);
     }
 
     gameTick() {}

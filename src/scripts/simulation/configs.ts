@@ -39,9 +39,6 @@ export namespace Config {
     // The amount that the production goal gets changed by upon successful or unsuccessful sale.
     export const productionGoalVolatility = 5;
 
-    // The number of days for which the firm remembers its sales records.
-    export const firmTrackDays = 5;
-
     // Every tier of upgrade increases the amount of product produced, and reduces the amount of labour consumed.
     export const upgradeMultiplier = 1.64;
 

@@ -81,11 +81,7 @@ export class FirmWidget extends GameWidget<null> {
                                                 this.game.openActionMenu(new OverlayActionMenu(
                                                     game, "Supply Production Needs",
                                                     Basket.withItems(this.firm.buyGoal), () => {
-                                                        for (let goal of this.firm.buyGoal) {
-                                                            this.firm.inventory.addGood(goal[0], goal[1]);
-                                                            this.firm.buyGoal.set(goal[0], 0);
-                                                        }
-                                                        this.firm.consumeGoods();
+                                                        this.subsidiseFirm();
                                                     }
                                                 ))
                                             }}
@@ -108,6 +104,15 @@ export class FirmWidget extends GameWidget<null> {
         this.updateOutputs();
         this.updateCapacityBar();
         this.updateError();
+    }
+
+    subsidiseFirm() {
+        for (let goal of this.firm.buyGoal) {
+            this.firm.inventory.addGood(goal[0], goal[1]);
+            this.firm.buyGoal.set(goal[0], 0);
+        }
+        // Force the firm to produce before the next day begins so it can immediately start selling.
+        this.firm.consumeGoods();
     }
 
     updateUpgradeStatus() {
@@ -155,9 +160,6 @@ export class FirmWidget extends GameWidget<null> {
         (this.errorButton as HTMLElement).style.display = 'none';
     }
 
-    updateElement(state: null | undefined): void {
-    }
-
     gameTick() {
         this.updateCapacityBar();
         this.updateError();
@@ -166,4 +168,6 @@ export class FirmWidget extends GameWidget<null> {
     upgradeAvailable() {
         return FirmTier.next(this.firm.tier) != null && this.firm.tier != this.firm.finalTier;
     }
+
+    updateElement(state: null | undefined): void {}
 }
