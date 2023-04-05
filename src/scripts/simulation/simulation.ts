@@ -91,16 +91,16 @@ export class Simulation extends Widget<number>{
     tick() {
         let actors = this.getAllActors();
         for (let actor of this.individuals) {
+            // """Communism"""
+            // actor.inventory.money = Config.initialMoneyPerIndividual;
             actor.placeBuyOrders(this);
         }
         this.government.placeBuyOrders(this);
 
         for (let actor of this.getAllFirms()) {
-            actor.borrowMoneyFromDemand(this);
             // Then, with the money they earned from the previous day (or the ones they started with), they buy things
             // from the market.
             actor.placeBuyOrders(this);
-            actor.returnMoneyFromDemand();
         }
 
         for (let actor of actors) {
@@ -187,11 +187,12 @@ export class Simulation extends Widget<number>{
             }
             // Firms take stronger influence from the market price, but only for labour. This makes them price
             // takers of labour rather than price setters.
+            /*
             for (let actor of this.getAllFirms()) {
                 actor.changeExpectedPrice(market.good,
-                    (recentExchangePrice - actor.expectedPrice(market.good)) *
-                     Config.priceVolatilityFactor * 2);
-            }
+                    Math.sign(market.currentExchangePrice - actor.expectedPrice(market.good)) *
+                     Config.gossipInfluence);
+            }*/
             this.government.changeExpectedPrice(market.good,
                 Math.sign(market.currentExchangePrice - this.government.expectedPrice(market.good)) * Config.gossipInfluence);
         }

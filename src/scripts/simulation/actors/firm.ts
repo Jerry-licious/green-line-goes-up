@@ -30,7 +30,7 @@ export class Firm extends EconomicActor {
     finalTier: FirmTier;
 
     // Additional production attempts based on how successful the firm has been doing.
-    productionOffset: number = 0;
+    productionOffset: number = this.maxCapacity / 2;
 
     constructor(id: string, recipe: Recipe, startingTier: FirmTier, finalTier: FirmTier,
                 consumesCoal: boolean, consumesElectricity: boolean, capacity: number) {
@@ -71,7 +71,8 @@ export class Firm extends EconomicActor {
 
     // A firm always tries to have a full stockpile, but nothing more.
     calculateProductionGoal(): number {
-        return clamp(this.maxCapacity - this.inventory.get(this.recipe.output) / this.recipe.outputQuantity + this.productionOffset, 0, this.maxCapacity);
+        return clamp(/*this.maxCapacity - this.inventory.get(this.recipe.output) / this.recipe.outputQuantity +*/
+         this.productionOffset, 0, this.maxCapacity);
     }
 
     // At the beginning of each day, a firm tries to buy as many things as possible for them to fill their recipe.
@@ -150,16 +151,38 @@ export class Firm extends EconomicActor {
     }
 
     updatePriceExpectationsBasedOnGoals() {
+        for (let goal of this.buyGoal) {
+            // If the goal has not been met (cleared),
+            if (goal[1] > 0) {
+                // Try to raise the price next time.
+                this.changeExpectedPrice(goal[0], Config.priceVolatilityFactor);
+            } else {
+                // If the goal has been cleared, try to lower the price for a better deal.
+                // this.changeExpectedPrice(goal[0], -Config.priceVolatilityFactor);
+            }
+        }
+        // If any goal was not met
+        if (Array.from(this.buyGoal.values()).some((goal) => goal > 0)) {
+            // Try to produce less to save money.
+            // Failure puts more weight, because regret is a powerful emotion!
+            this.productionOffset -= Config.productionGoalVolatility;
+        } else {
+            this.productionOffset += Config.productionGoalVolatility / 2;
+        }
+
         for (let goal of this.sellGoal) {
             // If the goal has not been met (cleared),
             if (goal[1] > 0) {
                 // Try to produce less to save money.
-                this.productionOffset -= Config.productionGoalVolatility;
+                // this.productionOffset -= Config.productionGoalVolatility / 2;
             } else {
                 // If the goal has been cleared, try to make more next time!
-                this.productionOffset += Config.productionGoalVolatility;
+                // this.productionOffset += Config.productionGoalVolatility / 2;
             }
         }
+
+        // Avoid "stockpiling" production expectations.
+        this.productionOffset = clamp(this.productionOffset, 0, this.maxCapacity);
     }
 
     // Firms pre-emptively gain money equal to demand for the item, and loses it at the end of the turn.

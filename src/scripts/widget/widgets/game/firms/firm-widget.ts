@@ -85,6 +85,7 @@ export class FirmWidget extends GameWidget<null> {
                                                             this.firm.inventory.addGood(goal[0], goal[1]);
                                                             this.firm.buyGoal.set(goal[0], 0);
                                                         }
+                                                        this.firm.consumeGoods();
                                                     }
                                                 ))
                                             }}
