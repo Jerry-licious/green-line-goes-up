@@ -19,7 +19,12 @@ export class FirmWidget extends GameWidget<null> {
     capacityBar: Element = Div.simple('', ['capacity-bar']).build();
 
     upgradeButton: HTMLElement;
-    errorButton: Element = Div.simple('', ['error', 'material-icons']).build();
+    errorMessage: Element = Div.simple('', ['tooltip']).build();
+    errorButton: HTMLElement = new Div({
+        text: 'error',
+        styleClasses: ['error', 'material-icons'],
+        children: [this.errorMessage]
+    }).build() as HTMLElement;
 
     constructor(firm: Firm, game: Game) {
         super(game, 'div', 'factory');
@@ -156,8 +161,33 @@ export class FirmWidget extends GameWidget<null> {
         }
     }
 
+    getErrors() {
+        let errors = [];
+
+        let output = this.firm.recipe.output;
+        if  (this.game.simulation.markets.has(output)) {
+            let market = this.game.simulation.markets.get(output);
+            if (market.currentQuantityDemanded == 0) {
+                errors.push('No Demand');
+            }
+        }
+
+        if (!Basket.withItems(this.firm.buyGoal).isEmpty() && this.firm.lastProduction == 0) {
+            errors.push('Lack of Input');
+        }
+
+        return errors;
+    }
+
     updateError() {
-        (this.errorButton as HTMLElement).style.display = 'none';
+        let errors = this.getErrors();
+
+        if (errors.length > 0) {
+            this.errorButton.style.display = 'flex';
+            this.errorMessage.innerHTML = errors.join(', ');
+        } else {
+            this.errorButton.style.display = 'none';
+        }
     }
 
     gameTick() {

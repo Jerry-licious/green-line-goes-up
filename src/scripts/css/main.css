@@ -171,8 +171,8 @@ body {
     background: var(--tertiary-active);
 }
 .app button.error {
-    background: var(--error);
-    color: var(--on-error);
+    background: var(--error-container);
+    color: var(--on-error-container);
 }
 
 .app button:disabled {

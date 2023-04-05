@@ -174,3 +174,59 @@
 
     gap: 10px;
 }
+
+.game .factory .actions .error {
+    height: var(--button-height);
+    width: var(--button-height);
+    font-size: calc(var(--button-height) * 0.75);
+
+    background: var(--error-container);
+    color: var(--on-error-container);
+
+    border-radius: 10px;
+    border: none;
+
+    animation-duration: 0.3s;
+
+    flex-grow: 0;
+    flex-shrink: 0;
+
+    /* Center text */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+
+    cursor: help;
+
+    position: relative;
+}
+
+.game .factory .actions .error .tooltip {
+    position: absolute;
+
+    top: var(--button-height);
+    right: 0;
+    margin-top: 10px;
+
+    align-self: center;
+
+    background-color: var(--surface-highest);
+    color: whitesmoke;
+
+    font-family: Roboto;
+    font-size: 16px;
+
+    padding: 10px;
+    border-radius: 10px;
+
+    transition: opacity 0.2s;
+
+    visibility: hidden;
+    opacity: 0;
+}
+
+.game .factory .actions .error:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}

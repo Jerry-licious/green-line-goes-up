@@ -72,6 +72,10 @@ export class Basket extends Map<Good, number> {
         return Array.from(this.values()).some((amount) => amount < 0);
     }
 
+    isEmpty(): boolean {
+        return Array.from(this.values()).every((amount) => amount == 0);
+    }
+
     // Makes a new copy of the current basket.
     copy(): Basket {
         let copy = new Basket();

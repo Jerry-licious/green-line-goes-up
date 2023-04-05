@@ -14,6 +14,9 @@ export class Market {
     exchangeQuantityHistory: number[] = [];
     exchangePriceHistory: number[] = [];
 
+    currentQuantitySupplied: number = 0;
+    currentQuantityDemanded: number = 0;
+
     constructor(good: Good) {
         this.good = good;
     }
@@ -109,5 +112,8 @@ export class Market {
         if (this.exchangePriceHistory.length > dataMemory) {
             this.exchangePriceHistory.shift();
         }
+
+        this.currentQuantityDemanded = this.buyOrders.length;
+        this.currentQuantitySupplied = this.sellOrders.length;
     }
 }
