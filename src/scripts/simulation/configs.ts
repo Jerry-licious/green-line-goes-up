@@ -43,7 +43,7 @@ export namespace Config {
     export const firmTrackDays = 5;
 
     // Every tier of upgrade increases the amount of product produced, and reduces the amount of labour consumed.
-    export const upgradeMultiplier = 1.58;
+    export const upgradeMultiplier = 1.64;
 
     export const dataMemory = 300;
 
