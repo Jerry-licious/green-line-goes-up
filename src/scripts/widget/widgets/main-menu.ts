@@ -13,9 +13,17 @@ export class MainMenu extends Widget<null> {
             new ElementBuilder({
                 tag: 'button',
                 styleClasses: ['primary'],
+                text: 'Concepts',
+                onclick: () => {
+                    app.openConceptsPanel();
+                }
+            }).build(),
+            new ElementBuilder({
+                tag: 'button',
+                styleClasses: ['primary'],
                 text: 'Tutorial',
                 onclick: () => {
-                    app.openTutorial();
+                    app.openTutorialPanel();
                 }
             }).build(),
             new ElementBuilder({

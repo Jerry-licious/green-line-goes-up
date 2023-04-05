@@ -211,7 +211,7 @@ body {
 }
 
 .app .main-menu button {
-    width: 240px;
+    width: 280px;
 
     height: 75px;
     align-self: center;
@@ -245,12 +245,12 @@ body {
     gap: 10px;
 }
 .app .tutorial .content .title {
-    font-size: 30px;
+    font-size: 36px;
     font-weight: bold;
 }
 .app .tutorial .content .text {
     flex-grow: 1;
-    font-size: 16px;
+    font-size: 20px;
 }
 .app .tutorial .content .actions {
     display: flex;
