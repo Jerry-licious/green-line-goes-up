@@ -89,44 +89,35 @@ export class Individual extends EconomicActor {
     // The actor evaluates different consumption possibilities and creates a new basket that provides the highest
     // amount of utility.
     decideSpendingBasket(simulation: Simulation): Basket {
-        let currentPurchase = {
-            basket: this.inventory,
-            marginalMoneyEfficiency: this.utilityOf(this.inventory)
-        }
-        let bestNextPurchase = currentPurchase;
+        let currentPurchase = this.inventory.copy();
+        let purchasableGoods = simulation.goodsSold.filter((good) => this.willingAndAbleToBuy(simulation, currentPurchase, good));
 
         // Repeatedly consider if new goods can be bought.
-        while (simulation.goodsSold.some((good) => this.willingAndAbleToBuy(simulation, currentPurchase.basket, good))) {
+        while (purchasableGoods.length > 0) {
             // Update the new basket.
             // Filter only goods that the person can afford.
-            bestNextPurchase = simulation.goodsSold.filter((good) => this.willingAndAbleToBuy(simulation, currentPurchase.basket, good))
-                .map((good) => {
-                    // Make a copy of the current basket
-                    let newBasketIfBought = currentPurchase.basket.copy();
-
-                    // Simulate spending the money and buying the good.
-                    newBasketIfBought.addGood(good);
-                    newBasketIfBought.money -= this.expectedPrice(good);
-
+            let bestNextGood = purchasableGoods.map((good) => {
                     return {
-                        basket: newBasketIfBought,
-                        marginalMoneyEfficiency: (this.utilityOf(newBasketIfBought) - this.utilityOf(currentPurchase.basket))
-                            / this.expectedPrice(good)
+                        good,
+                        marginalMoneyEfficiency: 1 / currentPurchase.get(good) / this.expectedPrice(good)
                     }
                 })  // Return the basket with the largest utility
                 .reduce((previous, current) =>
-                    previous.marginalMoneyEfficiency > current.marginalMoneyEfficiency ? previous : current);
+                    previous.marginalMoneyEfficiency > current.marginalMoneyEfficiency ? previous : current).good;
 
-            // Update the current basket to the previous basket.
-            currentPurchase = bestNextPurchase;
+
+            currentPurchase.addGood(bestNextGood, 1);
+            currentPurchase.money -= this.expectedPrice(bestNextGood);
+
+            purchasableGoods = simulation.goodsSold.filter((good) => this.willingAndAbleToBuy(simulation, currentPurchase, good));
         }
 
         // Sort for the goods that provide the most utility.
-        let preferences = Array.from(currentPurchase.basket.keys()).map(
+        let preferences = Array.from(currentPurchase.keys()).map(
             (good) => {
                 return {
                     good,
-                    utility: utilityFunction(currentPurchase.basket.get(good)) * this.personalValues.get(good)
+                    utility: utilityFunction(currentPurchase.get(good)) * this.personalValues.get(good)
                 }
             })
             .sort((a, b) => b.utility - a.utility)
@@ -137,7 +128,7 @@ export class Individual extends EconomicActor {
         this.preferences = preferences.slice(0, Math.min(3, preferences.length));
 
         // Returns the final basket.
-        return currentPurchase.basket;
+        return currentPurchase;
     }
 
     setSellGoals(simulation: Simulation) {
