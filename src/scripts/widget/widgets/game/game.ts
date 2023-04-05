@@ -85,6 +85,7 @@ export class Game extends Widget<null> {
         this.overview.gameTick();
         this.topBar.gameTick();
         this.resources.gameTick();
+        this.factories.gameTick();
         this.population.gameTick();
         this.markets.gameTick();
         this.technology.gameTick();

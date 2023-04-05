@@ -182,7 +182,7 @@ export class Firm extends EconomicActor {
         }
 
         // Avoid "stockpiling" production expectations.
-        this.productionOffset = clamp(this.productionOffset, 0, this.maxCapacity);
+        this.productionOffset = clamp(this.productionOffset, 10, this.maxCapacity);
     }
 
     // Firms pre-emptively gain money equal to demand for the item, and loses it at the end of the turn.
