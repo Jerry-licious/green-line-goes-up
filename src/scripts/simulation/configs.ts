@@ -52,7 +52,8 @@ export namespace Config {
         }
     }
 
-    export const governmentIncomeModifier = 0.2;
+    // The government gains a portion of the country's real GDP per capita as money.
+    export const governmentIncomeModifier = 0.04;
     // The most amount of one type of good the government may buy in a given cycle.
     export const governmentBuyGoalIncrement = 30;
 }
