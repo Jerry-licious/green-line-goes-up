@@ -96,9 +96,9 @@ export class MarketOrderMenu extends GameWidget<null> {
 
 
     gameTick(): void {
-        this.inventory.innerHTML = this.game.simulation.government.inventory.get(this.market.good).toString();
+        this.inventory.innerHTML = (Math.round(this.game.simulation.government.inventory.get(this.market.good) * 100) / 100).toString();
         if (this.game.simulation.government.orderGoal.has(this.market.good)) {
-            this.pendingOrders.innerHTML = this.game.simulation.government.orderGoal.get(this.market.good).toString();
+            this.pendingOrders.innerHTML = (Math.round(this.game.simulation.government.orderGoal.get(this.market.good) * 100) / 100).toString();
         } else {
             this.pendingOrders.innerHTML = '0';
         }

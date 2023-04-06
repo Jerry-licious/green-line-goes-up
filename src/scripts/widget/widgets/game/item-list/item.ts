@@ -35,7 +35,7 @@ export class Item extends Widget<number> {
     }
 
     updateElement(state: number) {
-        this.amountElement.innerHTML = state.toString();
+        this.amountElement.innerHTML = (Math.round(state * 100) / 100).toString();
 
         // Display an error.
         if (state >= 0 && this.domElement.classList.contains('error')) {
