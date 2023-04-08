@@ -47,6 +47,8 @@ export class FirmWidget extends GameWidget<null> {
 
                         this.updateButtons();
                         this.updateUpgradeStatus();
+
+                        this.updateInputs();
                     },
                     this.getUpgradeWarning()
                 ))
