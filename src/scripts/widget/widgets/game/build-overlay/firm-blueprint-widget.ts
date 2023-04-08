@@ -5,6 +5,8 @@ import {Div, GameIcon} from '../../../builders/common-elements';
 import {ElementBuilder} from '../../../builders/element-builder';
 import {OverlayActionMenu} from '../overlay-action-menu';
 import {FirmConstructionMenu} from './firm-construction-menu';
+import {FirmTier} from '../../../../simulation/firm-tier';
+import {Good} from '../../../../simulation/good';
 
 export class FirmBlueprintWidget extends GameWidget<null> {
     blueprint: FirmBlueprint;
@@ -25,8 +27,14 @@ export class FirmBlueprintWidget extends GameWidget<null> {
                     children: [
                         new Div({
                             styleClasses: ['io'],
-                            children: Array.from(blueprint.recipe.inputs.keys())
-                                .map((good) => new GameIcon(good).build())
+                            children: [...Array.from(blueprint.recipe.inputs.keys())
+                                .map((good) => new GameIcon(good).build()),
+                                // Include a coal icon if the firm starts off at industrial tier and consumes coal.
+                                ... blueprint.startingTier == FirmTier.Industrial && blueprint.consumesCoal ?
+                                    [new GameIcon(Good.Coal).build()] : [],
+                                // Include an electricity icon if it starts off advanced and consumes electricity,
+                                ... blueprint.startingTier == FirmTier.Advanced && blueprint.consumesElectricity?
+                                    [new GameIcon(Good.Electricity).build()] : []]
                         }).build(),
                         new Div({
                             styleClasses: ['fill', 'info'],
