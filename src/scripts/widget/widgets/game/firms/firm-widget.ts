@@ -47,7 +47,8 @@ export class FirmWidget extends GameWidget<null> {
 
                         this.updateButtons();
                         this.updateUpgradeStatus();
-                    }
+                    },
+                    this.getUpgradeWarning()
                 ))
             }
         }).build() as HTMLElement;
@@ -197,6 +198,19 @@ export class FirmWidget extends GameWidget<null> {
 
     upgradeAvailable() {
         return FirmTier.next(this.firm.tier) != null && this.firm.tier != this.firm.finalTier;
+    }
+
+    getUpgradeWarning(): string {
+        let nextTier = FirmTier.next(this.firm.tier);
+
+        if (this.firm.consumesCoal && nextTier == FirmTier.Industrial) {
+            return 'Warning: Upgrading this firm to industrial tier will make it require coal for power.'
+        }
+        if (this.firm.consumesElectricity && nextTier == FirmTier.Advanced){
+            return 'Warning: Upgrading this firm to advanced tier will make it require a LOT of electricity for power.'
+        }
+
+        return '';
     }
 
     updateElement(state: null | undefined): void {}

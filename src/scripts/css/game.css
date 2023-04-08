@@ -168,6 +168,17 @@
     justify-content: center;
 }
 
+.game .spend-overlay .warning {
+    font-size: 16px;
+    color: var(--error);
+
+    /* Horizontal flexbox */
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+}
+
 .game .spend-overlay .spend-info {
     /* Horizontal flexbox */
     display: flex;

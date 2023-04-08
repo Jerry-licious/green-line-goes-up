@@ -6,7 +6,7 @@ import {ElementBuilder} from '../../builders/element-builder';
 import {ItemList} from './item-list/item-list';
 
 export class OverlayActionMenu extends GameWidget<null> {
-    constructor(game: Game, message: string, cost: Basket, action: () => void) {
+    constructor(game: Game, message: string, cost: Basket, action: () => void, warning?: string) {
         super(game, 'div', 'spend');
 
         // List of goods required.
@@ -14,9 +14,6 @@ export class OverlayActionMenu extends GameWidget<null> {
 
         let inventory = game.simulation.government.inventory.copyWithItemsOfInterest(costGoods);
         let basketAfterAction = inventory.subtract(cost).copyWithItemsOfInterest(costGoods);
-
-        console.log(inventory);
-        console.log(basketAfterAction);
 
         let doneButton = new ElementBuilder({
                 tag: 'button',
@@ -34,6 +31,7 @@ export class OverlayActionMenu extends GameWidget<null> {
 
         this.domElement.append(
             Div.simple(message, ['message']).build(),
+            ... warning ? [Div.simple(warning, ['warning']).build()] : [],
             new Div({
                 styleClasses: ['spend-info'],
                 children: [
