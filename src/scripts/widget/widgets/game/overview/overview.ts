@@ -17,8 +17,8 @@ export class Overview extends GameWidget<null> {
     constructor(game: Game) {
         super(game, 'div', 'overview');
 
-        this.inventory = new ItemList(game.simulation.government.inventory, 'Inventory', false);
-        this.orders = new ItemList(game.simulation.government.orderGoal, 'Orders', true);
+        this.inventory = new ItemList(game.simulation.government.inventory, 'Inventory', false, false);
+        this.orders = new ItemList(game.simulation.government.orderGoal, 'Orders', false, true);
         this.factors = new FactorsOfProductionWidget(game);
 
         this.domElement.append(

@@ -46,7 +46,7 @@ export class Firm extends EconomicActor {
 
         this.inventory = Basket.firmInitialInventory();
         this.baseRecipe = recipe;
-        this.recipe = recipe;
+        this.setTier(startingTier);
 
         this.startingTier = startingTier;
         this.tier = startingTier;

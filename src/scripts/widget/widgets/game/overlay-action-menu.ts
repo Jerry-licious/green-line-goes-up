@@ -9,7 +9,14 @@ export class OverlayActionMenu extends GameWidget<null> {
     constructor(game: Game, message: string, cost: Basket, action: () => void) {
         super(game, 'div', 'spend');
 
-        let basketAfterAction = game.simulation.government.inventory.subtract(cost);
+        // List of goods required.
+        let costGoods = cost.listOfItems();
+
+        let inventory = game.simulation.government.inventory.copyWithItemsOfInterest(costGoods);
+        let basketAfterAction = inventory.subtract(cost).copyWithItemsOfInterest(costGoods);
+
+        console.log(inventory);
+        console.log(basketAfterAction);
 
         let doneButton = new ElementBuilder({
                 tag: 'button',
@@ -30,8 +37,8 @@ export class OverlayActionMenu extends GameWidget<null> {
             new Div({
                 styleClasses: ['spend-info'],
                 children: [
-                    new ItemList(game.simulation.government.inventory, 'Inventory', false).domElement,
-                    new ItemList(basketAfterAction, 'After', false).domElement,
+                    new ItemList(inventory, 'Inventory', true, false).domElement,
+                    new ItemList(basketAfterAction, 'After', true, false).domElement,
                 ]
             }).build(),
             new Div({

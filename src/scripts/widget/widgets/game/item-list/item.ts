@@ -15,7 +15,7 @@ export class Item extends Widget<number> {
         this.good = good;
         this.list = list;
 
-        this.amountElement = Div.simple(amount.toString(), ['amount']).build();
+        this.amountElement = Div.simple((Math.round(amount * 100) / 100).toString(), ['amount']).build();
 
         this.domElement.append(
             new GameIcon(good).build(),

@@ -19,7 +19,7 @@ export abstract class EconomicActor {
 
     protected constructor() {
         // Initialise an empty inventory.
-        this.inventory = new Basket();
+        this.inventory = Basket.withEntries();
     }
 
     abstract setBuyGoals(simulation: Simulation): void;

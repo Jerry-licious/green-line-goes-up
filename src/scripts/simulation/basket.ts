@@ -9,10 +9,16 @@ export class Basket extends Map<Good, number> {
 
     constructor() {
         super();
+    }
+
+    // Returns a basket with all of its entries filled.
+    static withEntries(): Basket {
+        let basket = new Basket();
         // Initialise the basket to be empty.
         for (let good of Good.values) {
-            this.set(good, 0);
+            basket.set(good, 0);
         }
+        return basket;
     }
 
     static withItems(items: Map<Good, number>): Basket {
@@ -25,13 +31,13 @@ export class Basket extends Map<Good, number> {
 
     // Creates the initial inventory for an individual.
     static individualInitialInventory(): Basket {
-        let inventory = new Basket();
+        let inventory = Basket.withEntries();
         inventory.money = Config.initialMoneyPerIndividual;
         return inventory;
     }
     // Creates the initial inventory for a firm.
     static firmInitialInventory(): Basket {
-        let inventory = new Basket();
+        let inventory = Basket.withEntries();
         inventory.money = Config.initialMoneyPerFirm;
         return inventory;
     }
@@ -80,9 +86,26 @@ export class Basket extends Map<Good, number> {
     copy(): Basket {
         let copy = new Basket();
         copy.money = this.money;
-        for (let good of Good.values) {
-            copy.set(good, this.get(good));
+        for (let entry of this.entries()) {
+            copy.set(entry[0], entry[1]);
         }
         return copy;
+    }
+
+    // Makes a new copy, but only with items in the list.
+    copyWithItemsOfInterest(items: Good[]): Basket {
+        let copy = new Basket();
+        copy.money = this.money;
+
+        for (let good of items) {
+            copy.set(good, this.has(good) ? this.get(good) : 0);
+        }
+
+        return copy;
+    }
+
+    // Returns a list of all goods in the basket that are non-0;
+    listOfItems(): Good[] {
+        return Array.from(this.keys()).filter((good) => this.get(good) != 0);
     }
 }
