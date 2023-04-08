@@ -149,6 +149,7 @@ export class FirmBlueprint {
                 new Map([[Good.Assembly, 1], [Good.ProcessedWood, 5]]),
                 Good.BasicEquipment, 1
             ),
+            consumesCoal: true,
             cost: FirmBlueprint.workshopSetupCost
         }),
         new FirmBlueprint({
@@ -157,6 +158,7 @@ export class FirmBlueprint {
                 new Map([[Good.Assembly, 1], [Good.BasicEquipment, 1], [Good.MachineParts, 5]]),
                 Good.IndustrialEquipment, 1
             ),
+            consumesCoal: true,
             startingTier: FirmTier.Basic,
             cost: FirmBlueprint.basicSetupCost
         }),
@@ -166,6 +168,7 @@ export class FirmBlueprint {
                 new Map([[Good.Assembly, 1], [Good.IndustrialEquipment, 1], [Good.Circuit, 1]]),
                 Good.AdvancedEquipment, 1
             ),
+            consumesCoal: true,
             startingTier: FirmTier.Industrial,
             cost: FirmBlueprint.factorySetupCost
         }),
@@ -177,6 +180,8 @@ export class FirmBlueprint {
                 new Map([[Good.Assembly, 1], [Good.Coal, 10]]),
                 Good.Electricity, 50
             ),
+            // Power plants do not consume electricity.
+            consumesElectricity: false,
             startingTier: FirmTier.Basic,
             cost: FirmBlueprint.basicSetupCost
         }),
@@ -187,6 +192,7 @@ export class FirmBlueprint {
                 new Map([[Good.Technical, 1]]),
                 Good.Electricity, 80
             ),
+            consumesElectricity: false,
             // Technical labour is specialised, and will not be replaced with assembly.
             convertToAssembly: false,
             startingTier: FirmTier.Industrial,
@@ -201,6 +207,7 @@ export class FirmBlueprint {
                 Good.Electricity, 80
             ),
             // Technical labour is specialised, and will not be replaced with assembly.
+            consumesElectricity: false,
             convertToAssembly: false,
             startingTier: FirmTier.Advanced,
             cost: FirmBlueprint.advancedFactorySetupCost,
@@ -213,6 +220,7 @@ export class FirmBlueprint {
                 new Map([[Good.Assembly, 1], [Good.Wood, 5]]),
                 Good.ProcessedWood, 5
             ),
+            consumesCoal: true,
             cost: FirmBlueprint.workshopSetupCost
         }),
         new FirmBlueprint({
@@ -248,6 +256,7 @@ export class FirmBlueprint {
                 new Map([[Good.Assembly, 1], [Good.MachineParts, 1], [Good.PreciousMetal, 1]]),
                 Good.Motor, 2
             ),
+            consumesCoal: true,
             startingTier: FirmTier.Industrial,
             cost: FirmBlueprint.factorySetupCost
         }),
@@ -257,6 +266,7 @@ export class FirmBlueprint {
                 new Map([[Good.Assembly, 1], [Good.PreciousMetal, 1], [Good.Chemicals, 1]]),
                 Good.Circuit, 1
             ),
+            consumesCoal: true,
             startingTier: FirmTier.Industrial,
             cost: FirmBlueprint.factorySetupCost
         }),
@@ -266,6 +276,7 @@ export class FirmBlueprint {
                 new Map([[Good.Assembly, 1], [Good.Metal, 3]]),
                 Good.MachineParts, 5
             ),
+            consumesCoal: true,
             startingTier: FirmTier.Basic,
             cost: FirmBlueprint.basicSetupCost
         }),
@@ -276,6 +287,7 @@ export class FirmBlueprint {
                 new Map([[Good.Artisan, 1], [Good.Wool, 2]]),
                 Good.Textile, 2
             ),
+            consumesCoal: true,
             startingTier: FirmTier.Basic,
             cost: FirmBlueprint.basicSetupCost
         }),
@@ -295,6 +307,7 @@ export class FirmBlueprint {
                 new Map([[Good.Artisan, 1], [Good.Textile, 2]]),
                 Good.Clothes, 2
             ),
+            consumesCoal: true,
             startingTier: FirmTier.Basic,
             cost: FirmBlueprint.basicSetupCost
         }),
@@ -331,6 +344,7 @@ export class FirmBlueprint {
                 new Map([[Good.Artisan, 1], [Good.Flour, 1]]),
                 Good.Baked, 2
             ),
+            consumesCoal: true,
             startingTier: FirmTier.Manual,
             cost: FirmBlueprint.workshopSetupCost
         }),
@@ -352,6 +366,7 @@ export class FirmBlueprint {
                 new Map([[Good.Artisan, 1], [Good.ProcessedWood, 1]]),
                 Good.Furniture, 1
             ),
+            consumesCoal: true,
             finalTier: FirmTier.Basic,
             cost: FirmBlueprint.basicSetupCost
         }),
@@ -371,6 +386,7 @@ export class FirmBlueprint {
                 new Map([[Good.Assembly, 1], [Good.MachineParts, 2]]),
                 Good.Appliance, 1
             ),
+            consumesCoal: true,
             startingTier: FirmTier.Industrial,
             cost: FirmBlueprint.factorySetupCost
         }),
