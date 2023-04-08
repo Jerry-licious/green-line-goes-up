@@ -22,7 +22,7 @@
     --top-bar-button-height: 30px;
 
     --factory-width: 400px;
-    --factory-height: 180px;
+    --factory-height: 200px;
     --factory-border-radius: 20px;
     --factory-icon-size: 35px;
     --factory-title-size: 24px;
@@ -275,7 +275,7 @@
 }
 
 .game .construct .factory {
-    height: calc(var(--factory-height) * 0.9);
+    height: calc(var(--factory-height));
 }
 
 .game .construct .factory .top {
