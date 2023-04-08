@@ -67,7 +67,7 @@ export class FirmBlueprint {
     ));
     // The cost to create an industrial tier firm.
     static advancedFactorySetupCost: Basket = Basket.withItems(new Map<Good, number>(
-        [[Good.AdvancedEquipment, 250], [Good.Assembly, 100], [Good.Wood, 300], [Good.Rocks, 300]]
+        [[Good.AdvancedEquipment, 250], [Good.Assembly, 100], [Good.Wood, 300]]
     ));
 
     static resourcesBlueprints: FirmBlueprint[] = [
