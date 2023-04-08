@@ -25,6 +25,10 @@ export class Firm extends EconomicActor {
     // If this firm is advanced, does it consume electricity?
     consumesElectricity: boolean;
 
+    // If the firm will start to require assembly labour instead of its original labour when it arrives at
+    // industrial tier.
+    convertToAssembly: boolean;
+
     startingTier: FirmTier;
     tier: FirmTier;
     finalTier: FirmTier;
@@ -33,7 +37,7 @@ export class Firm extends EconomicActor {
     productionGoal: number = this.maxCapacity / 2;
 
     constructor(id: string, recipe: Recipe, startingTier: FirmTier, finalTier: FirmTier,
-                consumesCoal: boolean, consumesElectricity: boolean, capacity: number) {
+                consumesCoal: boolean, consumesElectricity: boolean, convertToAssembly: boolean, capacity: number) {
         super();
 
         for (let good of Good.values) {
@@ -54,6 +58,7 @@ export class Firm extends EconomicActor {
 
         this.consumesCoal = consumesCoal;
         this.consumesElectricity = consumesElectricity;
+        this.convertToAssembly = convertToAssembly;
 
         this.maxCapacity = capacity;
 
@@ -169,13 +174,27 @@ export class Firm extends EconomicActor {
         }
         this.recipe.outputQuantity *= FirmTier.efficiencyMultiplier(tier);
 
-        // If the factory is at industrial tier and consumes coal, then add it to the set of inputs.
-        if (this.tier == FirmTier.Industrial && this.consumesCoal) {
-            this.recipe.inputs.set(Good.Coal, FirmTier.efficiencyMultiplier(this.tier));
+        if (this.tier == FirmTier.Industrial) {
+            // If the factory is at industrial tier and consumes coal, then add it to the set of inputs.
+            if (this.consumesCoal) {
+                this.recipe.inputs.set(Good.Coal, FirmTier.efficiencyMultiplier(this.tier));
+            }
         }
         // If the factory is at advanced tier and consumes electricity, then add it to the set of inputs.
         if (this.tier == FirmTier.Advanced && this.consumesElectricity) {
             this.recipe.inputs.set(Good.Electricity, FirmTier.efficiencyMultiplier(this.tier));
+        }
+
+        // Replace labour inputs.
+        if (this.convertToAssembly && (this.tier == FirmTier.Industrial || this.tier == FirmTier.Advanced)) {
+            // The amount of labour this firm requires.
+            let labour = Array.from(this.recipe.inputs.entries())
+                .find((entry) => Good.isLabour(entry[0]));
+
+            if (labour) {
+                this.recipe.inputs.delete(labour[0]);
+                this.recipe.inputs.set(Good.Assembly, labour[1] / FirmTier.efficiencyMultiplier(tier));
+            }
         }
     }
 }

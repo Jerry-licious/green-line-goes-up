@@ -6,6 +6,7 @@ import {Game} from '../game';
 import {GameWidget} from '../game-widget';
 import {OverlayActionMenu} from '../overlay-action-menu';
 import {Basket} from '../../../../simulation/basket';
+import {Good} from '../../../../simulation/good';
 
 export class FirmWidget extends GameWidget<null> {
     firm: Firm;
@@ -179,6 +180,12 @@ export class FirmWidget extends GameWidget<null> {
             errors.push('Lack of Input');
         }
 
+        let unSoldInputs = Array.from(this.firm.recipe.inputs.keys())
+            .filter((input) => !this.game.simulation.markets.has(input));
+        if (unSoldInputs.length > 0) {
+            errors.push(`Inputs not on market: ${unSoldInputs.map((good) => Good.name(good)).join(', ')}`)
+        }
+
         return errors;
     }
 
@@ -187,7 +194,7 @@ export class FirmWidget extends GameWidget<null> {
 
         if (errors.length > 0) {
             this.errorButton.style.display = 'flex';
-            this.errorMessage.innerHTML = errors.join(', ');
+            this.errorMessage.innerHTML = errors.join('<br/>');
         } else {
             this.errorButton.style.display = 'none';
         }

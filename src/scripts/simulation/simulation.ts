@@ -44,10 +44,10 @@ export class Simulation extends Widget<number>{
 
         this.resources.push(new Firm("Crop Farm", new Recipe(
             new Map([[Good.Farming, 1]]), Good.Crop,  5
-        ), FirmTier.Manual, FirmTier.Advanced, false, false, 250));
+        ), FirmTier.Manual, FirmTier.Advanced, false, false, false,250));
         this.resources.push(new Firm("Meat Farm", new Recipe(
             new Map([[Good.Crop, 1], [Good.Farming, 1]]), Good.Meat, 1
-        ), FirmTier.Manual, FirmTier.Advanced, false, false, 250));
+        ), FirmTier.Manual, FirmTier.Advanced, false, false, false,250));
     }
 
     // A list of goods exchanged on the market.

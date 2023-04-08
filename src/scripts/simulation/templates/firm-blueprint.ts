@@ -16,16 +16,19 @@ export class FirmBlueprint {
     cost: Basket;
     consumesCoal: boolean;
     consumesElectricity: boolean;
+    convertToAssembly: boolean;
     capacity: number;
 
     constructor({id, startingTier = FirmTier.Manual, finalTier = FirmTier.Advanced, recipe,
-                    consumesCoal = false, consumesElectricity = true, cost, capacity = 250}: {
+                    consumesCoal = false, consumesElectricity = true, convertToAssembly = true,
+                    cost, capacity = 250}: {
         id: string,
         startingTier?: FirmTier,
         finalTier?: FirmTier,
         recipe: Recipe,
         consumesCoal?: boolean,
         consumesElectricity?: boolean,
+        convertToAssembly?: boolean,
         cost: Basket,
         capacity?: number
     }) {
@@ -35,13 +38,14 @@ export class FirmBlueprint {
         this.recipe = recipe;
         this.consumesCoal = consumesCoal;
         this.consumesElectricity = consumesElectricity;
+        this.convertToAssembly = convertToAssembly;
         this.cost = cost;
         this.capacity = capacity;
     }
 
     createFirm(): Firm {
         return new Firm(this.firmID, this.recipe.copy(), this.startingTier, this.finalTier, this.consumesCoal,
-            this.consumesElectricity, this.capacity);
+            this.consumesElectricity, this.convertToAssembly, this.capacity);
     }
 
     static mineSetupCost: Basket = Basket.withItems(new Map(
@@ -77,6 +81,8 @@ export class FirmBlueprint {
             recipe: new Recipe(
                 new Map([[Good.Mining, 1]]), Good.Coal, 5
             ),
+            // Mines require mining labour to the very end.
+            convertToAssembly: false,
             cost: FirmBlueprint.mineSetupCost
         }),
         new FirmBlueprint({
@@ -84,6 +90,8 @@ export class FirmBlueprint {
             recipe: new Recipe(
                 new Map([[Good.Mining, 1]]), Good.Mineral, 5
             ),
+            // Mines require mining labour to the very end.
+            convertToAssembly: false,
             cost: FirmBlueprint.mineSetupCost
         }),
         new FirmBlueprint({
@@ -91,6 +99,8 @@ export class FirmBlueprint {
             recipe: new Recipe(
                 new Map([[Good.Mining, 1]]), Good.PreciousMetal, 3
             ),
+            // Mines require mining labour to the very end.
+            convertToAssembly: false,
             cost: FirmBlueprint.mineSetupCost
         }),
         new FirmBlueprint({
@@ -98,6 +108,8 @@ export class FirmBlueprint {
             recipe: new Recipe(
                 new Map([[Good.Mining, 1]]), Good.Oil, 4
             ),
+            // Mines require mining labour to the very end.
+            convertToAssembly: false,
             cost: FirmBlueprint.mineSetupCost
         }),
         new FirmBlueprint({
@@ -105,6 +117,8 @@ export class FirmBlueprint {
             recipe: new Recipe(
                 new Map([[Good.Farming, 1], [Good.Crop, 1]]), Good.Wool, 2
             ),
+            // Farms require farming labour to the very end.
+            convertToAssembly: false,
             cost: FirmBlueprint.farmSetupCost
         }),
         new FirmBlueprint({
@@ -112,6 +126,8 @@ export class FirmBlueprint {
             recipe: new Recipe(
                 new Map([[Good.Farming, 1], [Good.Crop, 1]]), Good.Milk, 1
             ),
+            // Farms require farming labour to the very end.
+            convertToAssembly: false,
             cost: FirmBlueprint.farmSetupCost
         }),
         new FirmBlueprint({
@@ -119,6 +135,8 @@ export class FirmBlueprint {
             recipe: new Recipe(
                 new Map([[Good.Forestry, 1]]), Good.Wood, 5
             ),
+            // Forests require forestry labour to the very end.
+            convertToAssembly: false,
             cost: FirmBlueprint.forestSetupCost
         })
     ]
@@ -169,6 +187,8 @@ export class FirmBlueprint {
                 new Map([[Good.Technical, 1]]),
                 Good.Electricity, 80
             ),
+            // Technical labour is specialised, and will not be replaced with assembly.
+            convertToAssembly: false,
             startingTier: FirmTier.Industrial,
             cost: FirmBlueprint.factorySetupCost,
             capacity: 50
@@ -180,6 +200,8 @@ export class FirmBlueprint {
                 new Map([[Good.Technical, 1]]),
                 Good.Electricity, 80
             ),
+            // Technical labour is specialised, and will not be replaced with assembly.
+            convertToAssembly: false,
             startingTier: FirmTier.Advanced,
             cost: FirmBlueprint.advancedFactorySetupCost,
             capacity: 50
@@ -250,7 +272,8 @@ export class FirmBlueprint {
         new FirmBlueprint({
             id: "Textile Factory",
             recipe: new Recipe(
-                new Map([[Good.Assembly, 1], [Good.Wool, 2]]),
+                // Textiles start as artisan work, then gets replaced with assembly.
+                new Map([[Good.Artisan, 1], [Good.Wool, 2]]),
                 Good.Textile, 2
             ),
             startingTier: FirmTier.Basic,
@@ -259,7 +282,7 @@ export class FirmBlueprint {
         new FirmBlueprint({
             id: "Flour Mill",
             recipe: new Recipe(
-                new Map([[Good.Assembly, 1], [Good.Crop, 3]]),
+                new Map([[Good.Artisan, 1], [Good.Crop, 3]]),
                 Good.Flour, 3
             ),
             startingTier: FirmTier.Basic,
@@ -269,7 +292,7 @@ export class FirmBlueprint {
         new FirmBlueprint({
             id: "Clothes Factory",
             recipe: new Recipe(
-                new Map([[Good.Assembly, 1], [Good.Textile, 2]]),
+                new Map([[Good.Artisan, 1], [Good.Textile, 2]]),
                 Good.Clothes, 2
             ),
             startingTier: FirmTier.Basic,
@@ -278,7 +301,7 @@ export class FirmBlueprint {
         new FirmBlueprint({
             id: "Meat Processing Plant",
             recipe: new Recipe(
-                new Map([[Good.Assembly, 1], [Good.Meat, 1], [Good.Chemicals, 1]]),
+                new Map([[Good.Artisan, 1], [Good.Meat, 1], [Good.Chemicals, 1]]),
                 Good.ProcessedMeat, 3
             ),
             startingTier: FirmTier.Industrial,
@@ -287,7 +310,7 @@ export class FirmBlueprint {
         new FirmBlueprint({
             id: "Crop Processing Plant",
             recipe: new Recipe(
-                new Map([[Good.Assembly, 1], [Good.Crop, 1], [Good.Chemicals, 1]]),
+                new Map([[Good.Artisan, 1], [Good.Crop, 1], [Good.Chemicals, 1]]),
                 Good.ProcessedVegetables, 3
             ),
             startingTier: FirmTier.Industrial,
@@ -296,7 +319,7 @@ export class FirmBlueprint {
         new FirmBlueprint({
             id: "Dairy Factory",
             recipe: new Recipe(
-                new Map([[Good.Assembly, 1], [Good.Milk, 1]]),
+                new Map([[Good.Artisan, 1], [Good.Milk, 1]]),
                 Good.Dairy, 3
             ),
             startingTier: FirmTier.Manual,
@@ -305,7 +328,7 @@ export class FirmBlueprint {
         new FirmBlueprint({
             id: "Bakery",
             recipe: new Recipe(
-                new Map([[Good.Assembly, 1], [Good.Flour, 1]]),
+                new Map([[Good.Artisan, 1], [Good.Flour, 1]]),
                 Good.Baked, 2
             ),
             startingTier: FirmTier.Manual,
@@ -317,6 +340,8 @@ export class FirmBlueprint {
                 new Map([[Good.Artisan, 1], [Good.Meat, 1], [Good.Crop, 1]]),
                 Good.LuxuryFood, 1
             ),
+            // Machines won't replace our cooks.
+            convertToAssembly: false,
             startingTier: FirmTier.Manual,
             finalTier: FirmTier.Manual,
             cost: FirmBlueprint.workshopSetupCost
@@ -324,7 +349,7 @@ export class FirmBlueprint {
         new FirmBlueprint({
             id: "Furniture Factory",
             recipe: new Recipe(
-                new Map([[Good.Assembly, 1], [Good.ProcessedWood, 1]]),
+                new Map([[Good.Artisan, 1], [Good.ProcessedWood, 1]]),
                 Good.Furniture, 1
             ),
             finalTier: FirmTier.Basic,
