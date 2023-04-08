@@ -1,7 +1,7 @@
 {
   "name": "green-line-goes-up",
-  "version": "0.0.1",
-  "description": "[TODO]",
+  "version": "0.1.0",
+  "description": "Economic Simulator Game",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --port 9000 --inline --progress --profile --colors --watch --content-base src/ --mode development",
@@ -13,13 +13,9 @@
     "build.all": "npm run build.prod && npm run build.esnext",
     "test": "karma start karma.config.js"
   },
-  "keywords": [
-    "webpack",
-    "webpack4",
-    "typescript"
-  ],
-  "author": "Juri Strumpflohner",
-  "license": "ISC",
+  "keywords": [ "economy", "simulation" ],
+  "author": "Bokuan Li",
+  "license": "MIT",
   "dependencies": {
     "chartist": "^1.3.0"
   },
